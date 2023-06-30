@@ -1,6 +1,7 @@
 import LogoIcon from './common/logo.svg'
 
 import PlusIcon from './PlusIcon.vue'
+import ArrowDownIcon from './ArrowDownIcon.vue'
 import ClearIcon from './ClearIcon.vue'
 
 // MAIN-PAGES ICON
@@ -17,6 +18,7 @@ export {
   LogoIcon,
   PlusIcon,
   ClearIcon,
+  ArrowDownIcon,
   DataDownloadIcon,
   EFileIcon,
   InvoiceApprovalIcon,

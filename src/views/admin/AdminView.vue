@@ -1,46 +1,125 @@
 <script setup lang="ts">
 import { useAuthStore } from '@/stores/auth'
-import { ref } from 'vue'
+import NestedMenu from './NestedMenu.vue'
 
 const { logout } = useAuthStore()
+const dataNestedMenu: any = {
+  name: 'Admin menu',
+  data: [
+    {
+      name: 'User registration/Edit',
+      child: {
+        name: '',
+        data: [
+          {
+            name: 'New user registration',
+            to: '/admin/user-register'
+          },
+          {
+            name: 'User search',
+            to: '/admin'
+          }
+        ]
+      }
+    },
+    {
+      name: 'Common setting registration',
+      child: {
+        name: '',
+        data: [
+          {
+            name: 'List of power companies',
+            child: {
+              name: '',
+              data: [
+                {
+                  name: 'List of power companies',
+                  to: '/admin/user-register'
+                },
+                {
+                  name: 'Electrical equipment list',
+                  to: '/admin/user-register'
+                },
+                {
+                  name: 'List of gas appliances',
+                  to: '/admin/user-register'
+                }
+              ]
+            }
+          },
+          {
+            name: 'Electrical equipment list',
+            to: '/admin/user-register'
+          },
+          {
+            name: 'List of gas appliances',
+            to: '/admin/user-register'
+          }
+        ]
+      }
+    }
+  ]
+}
 </script>
 
 <template>
-  <div class="toolbar">
+  <div class="admin-view">
     <div class="toolbar-header">
       <el-button @click="logout">Logout</el-button>
     </div>
-    <div class="toolbar-container">
-      <el-button class="button-toolbar">User register</el-button>
-      <el-button class="button-toolbar">ADMIN</el-button>
+    <div class="view">
+      <div class="menu-admin">
+        <NestedMenu :data="dataNestedMenu" />
+      </div>
+      <div class="content">
+        <div class="breadcrumb">{{ $router.currentRoute.value.name }}</div>
+        <RouterView />
+      </div>
     </div>
   </div>
 </template>
 
 <style lang="scss" scoped>
-.toolbar {
-  background-color: white;
-  border-radius: 5px;
-  width: 50vw;
-  height: 50vh;
-  position: relative;
-}
-.toolbar-header {
-  position: absolute;
-  top: 20px;
-  right: 8px;
-}
-.toolbar-container {
-  width: 100%;
+.admin-view {
   height: 100%;
   display: flex;
-  justify-content: center;
-  align-items: center;
   flex-direction: column;
-  gap: 20px;
-  .button-toolbar {
-    width: 400px;
-    margin: 0px;
+
+  .toolbar-header {
+    background: #003049;
+    display: flex;
+    justify-content: flex-end;
+    padding: 12px;
+  }
+  .data {
+    height: 500px;
+    overflow-y: scroll;
+    .item {
+      display: flex;
+      gap: 12px;
+    }
+  }
+  .filter {
+    display: flex;
+    gap: 12px;
+  }
+  .view {
+    display: flex;
+    flex-grow: 1;
+    .menu-admin {
+      background: #003049;
+    }
+
+    .content {
+      flex-grow: 1;
+
+      .breadcrumb {
+        height: 48px;
+        display: flex;
+        align-items: center;
+        padding: 12px;
+      }
+    }
   }
 }
 </style>

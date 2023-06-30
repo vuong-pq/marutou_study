@@ -56,9 +56,11 @@
 .w-300 {
   width: 300px;
 }
+
 .w-180 {
   width: 180px;
 }
+
 .w-90 {
   width: 90px;
 }
@@ -66,15 +68,19 @@
 .w-20-percent {
   width: 20%;
 }
+
 .w-15-percent {
   width: 15%;
 }
+
 .w-65-percent {
   width: 65% !important;
 }
+
 .w-60-percent {
   width: 60% !important;
 }
+
 .text-center {
   text-align: center !important;
 }
@@ -89,5 +95,4 @@
   }
 }
 
-@media (min-width: 1024px) {
-}
+@media (min-width: 1024px) {}
