@@ -17,7 +17,7 @@ const dataNestedMenu: any = {
           },
           {
             name: 'User search',
-            to: '/admin'
+            to: '/admin/search'
           }
         ]
       }
@@ -71,9 +71,11 @@ const dataNestedMenu: any = {
       <div class="menu-admin">
         <NestedMenu :data="dataNestedMenu" />
       </div>
-      <div class="content">
+      <div class="view-content">
         <div class="breadcrumb">{{ $router.currentRoute.value.name }}</div>
-        <RouterView />
+        <div class="content">
+          <RouterView />
+        </div>
       </div>
     </div>
   </div>
@@ -109,9 +111,18 @@ const dataNestedMenu: any = {
     .menu-admin {
       background: #003049;
     }
+    .view-content {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+    }
 
     .content {
       flex-grow: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
 
       .breadcrumb {
         height: 48px;
