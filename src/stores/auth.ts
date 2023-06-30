@@ -16,7 +16,7 @@ const defaultState = {
 }
 
 export const useAuthStore = defineStore('auth', () => {
-  const loggedIn = ref(true)
+  const loggedIn = ref(false)
 
   const state = reactive<UserState>({
     ..._.cloneDeep(defaultState)

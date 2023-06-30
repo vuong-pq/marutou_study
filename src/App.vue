@@ -15,7 +15,7 @@
 </script>
 
 <template>
-  <div class="layout-container">
+  <el-container class="layout-container">
     <!-- <div v-if="loggedIn">
       <div
         v-if="
@@ -34,19 +34,20 @@
         <AdminView />
       </div>
     </div> -->
-    <div>
+    <el-main>
       <RouterView />
-    </div>
-  </div>
+    </el-main>
+  </el-container>
 </template>
 
 <style lang="scss" scoped>
 .layout-container {
   min-width: 100vw;
   min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: black;
+  // background-color: black;
+
+  :deep(.el-main) {
+    padding: 0;
+  }
 }
 </style>

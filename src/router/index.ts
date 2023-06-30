@@ -7,6 +7,7 @@ import LoginView from '@/views/login/LoginView.vue'
 import RegisterSimulator from '@/views/sales/simulation/RegisterSimulator.vue'
 import SalesComponent from '@/views/sales/SalesComponent.vue'
 import AdminView from '@/views/admin/AdminView.vue'
+import { UserRegister, AdminPage, NewUserRegistration } from '@/views/admin/components'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -22,7 +23,11 @@ const router = createRouter({
       path: ROUTER_PATH.ADMIN,
       name: ROUTER_NAME.ADMIN,
       component: AdminView,
-      meta: { role: ROLE.ADMIN }
+      meta: { role: ROLE.ADMIN },
+      children: [
+        { path: '', component: AdminPage },
+        { path: 'user-register', name: 'user-register', component: NewUserRegistration }
+      ]
     },
     {
       path: ROUTER_PATH.USER_SETTING,
