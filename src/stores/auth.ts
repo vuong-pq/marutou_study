@@ -7,10 +7,12 @@ import LABEL from '@/constants/label'
 
 type UserState = {
   roleUser: Number
+  json: any
 }
 
 const defaultState = {
-  roleUser: 1
+  roleUser: 1,
+  json: null
 }
 
 export const useAuthStore = defineStore('auth', () => {
