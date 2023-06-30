@@ -11,12 +11,12 @@ type UserState = {
 }
 
 const defaultState = {
-  roleUser: 1,
+  roleUser: 2,
   json: null
 }
 
 export const useAuthStore = defineStore('auth', () => {
-  const loggedIn = ref(false)
+  const loggedIn = ref(true)
 
   const state = reactive<UserState>({
     ..._.cloneDeep(defaultState)

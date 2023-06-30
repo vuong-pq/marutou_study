@@ -85,10 +85,10 @@ const submitForm = (formEl: FormInstance | undefined) => {
           ref="ruleFormRef"
           :model="ruleForm"
           :rules="rules"
-          label-width="100px"
+          label-width="200px"
           class="demo-ruleForm"
         >
-          <el-form-item label="User Email: " prop="email">
+          <el-form-item label="Company Name: " prop="email">
             <el-input v-model="ruleForm.email" type="text" />
           </el-form-item>
           <el-form-item label="User Id: " prop="id">
@@ -124,8 +124,11 @@ const submitForm = (formEl: FormInstance | undefined) => {
     border-radius: inherit;
     padding: inherit;
     position: relative;
-    flex: 1;
+    // flex: 1;
     padding: 12px;
+    min-height: 500px;
+    display: flex;
+    align-items: center;
   }
   .content:not(:last-child)::before {
     content: '';
@@ -135,29 +138,11 @@ const submitForm = (formEl: FormInstance | undefined) => {
     height: 1px;
     background-color: #000;
   }
-
-  .user-registration-form {
-    .form-item {
-      display: flex;
-      gap: 8px;
-
-      .form-label {
-        min-width: 100px;
-      }
-
-      .input-wrapper {
-        position: relative;
-        display: flex;
-        flex-direction: column;
-
-        .form-error {
-          font-size: 12px;
-          height: 20px;
-          display: flex;
-          align-items: flex-start;
-        }
-      }
-    }
+  :deep(.el-form-item) {
+    margin-bottom: 25px;
+  }
+  :deep(.el-input__wrapper) {
+    min-width: 600px !important;
   }
 }
 </style>

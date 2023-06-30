@@ -7,7 +7,7 @@ import LoginView from '@/views/login/LoginView.vue'
 import RegisterSimulator from '@/views/sales/simulation/RegisterSimulator.vue'
 import SalesComponent from '@/views/sales/SalesComponent.vue'
 import AdminView from '@/views/admin/AdminView.vue'
-import { UserRegister, AdminPage, NewUserRegistration } from '@/views/admin/components'
+import { UserRegister, AdminPage, NewUserRegistration, SearchUser } from '@/views/admin/components'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -26,7 +26,16 @@ const router = createRouter({
       meta: { role: ROLE.ADMIN },
       children: [
         { path: '', component: AdminPage },
-        { path: 'user-register', name: 'user-register', component: NewUserRegistration }
+        {
+          path: 'user-register',
+          name: 'user-register',
+          component: NewUserRegistration
+        },
+        {
+          path: 'search',
+          name: 'search',
+          component: SearchUser
+        }
       ]
     },
     {
@@ -41,7 +50,8 @@ const router = createRouter({
 router.beforeEach((to, from, next) => {
   const { loggedIn, state } = useAuthStore()
 
-  console.log(from)
+  console.log(to.meta.role)
+  console.log(state.roleUser)
 
   if (to.matched.some((record) => record.meta.requiresAuth) && !loggedIn) {
     next(ROUTER_PATH.LOGIN)
