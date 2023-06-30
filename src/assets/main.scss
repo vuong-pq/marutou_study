@@ -49,6 +49,13 @@
   gap: 20px;
 }
 
+.view-layout {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
 .mt-10 {
   margin-top: 10px;
 }
@@ -95,4 +102,5 @@
   }
 }
 
-@media (min-width: 1024px) {}
+@media (min-width: 1024px) {
+}

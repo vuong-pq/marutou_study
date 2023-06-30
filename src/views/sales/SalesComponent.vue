@@ -11,15 +11,17 @@ const clickUserSetting = () => {
 </script>
 
 <template>
-  <div class="toolbar">
-    <div class="toolbar-header">
-      <el-button @click="logout">Logout</el-button>
-    </div>
-    <div class="toolbar-container">
-      <el-button class="button-toolbar" type="primary" @click="logout">User Setting</el-button>
-      <el-button class="button-toolbar" type="primary" @click="clickUserSetting"
-        >Simulator</el-button
-      >
+  <div class="view-layout">
+    <div class="toolbar">
+      <div class="toolbar-header">
+        <el-button @click="logout">Logout</el-button>
+      </div>
+      <div class="toolbar-container">
+        <el-button class="button-toolbar" type="primary" @click="logout">User Setting</el-button>
+        <el-button class="button-toolbar" type="primary" @click="clickUserSetting"
+          >Simulator</el-button
+        >
+      </div>
     </div>
   </div>
 </template>
@@ -31,6 +33,7 @@ const clickUserSetting = () => {
   width: 50vw;
   height: 50vh;
   position: relative;
+  border: 1px solid #000;
 }
 .toolbar-header {
   position: absolute;
