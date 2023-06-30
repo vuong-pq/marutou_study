@@ -10,33 +10,35 @@ const handleSimulator = () => {
 </script>
 
 <template>
-  <div class="toolbar">
-    <div class="toolbar-header">
-      <el-button @click="logout">Logout</el-button>
-    </div>
-    <div class="toolbar-container">
-      <div class="title-toolbar">Register simulator</div>
-      <div class="content-simulator">
-        <span class="company-simulator"> COMPANY NAME</span>
-        <div class="flex-space-between mt-10">
-          <span class="w-300">Customer</span>
-          <el-input placeholder="Please input" />
-        </div>
-        <ElectricsComponents />
-        <GasComponent />
+  <div class="view-layout">
+    <div class="toolbar">
+      <div class="toolbar-header">
+        <el-button @click="logout">Logout</el-button>
       </div>
-    </div>
-    <div class="text-center">
-      <el-button @click="handleSimulator" type="primary" class="button-simulator"
-        >Create Simulator
-      </el-button>
+      <div class="toolbar-container">
+        <div class="title-toolbar">Register simulator</div>
+        <div class="content-simulator">
+          <span class="company-simulator"> COMPANY NAME</span>
+          <div class="flex-space-between mt-10">
+            <span class="w-300">Customer</span>
+            <el-input placeholder="Please input" />
+          </div>
+          <ElectricsComponents />
+          <GasComponent />
+        </div>
+      </div>
+      <div class="text-center">
+        <el-button @click="handleSimulator" type="primary" class="button-simulator"
+          >Create Simulator
+        </el-button>
+      </div>
     </div>
   </div>
 </template>
 
 <style lang="scss" scoped>
 .toolbar {
-  background-color: white;
+  background-color: rgba(168, 162, 162, 0.699);
   border-radius: 5px;
   width: 50vw;
   min-height: 100vh;

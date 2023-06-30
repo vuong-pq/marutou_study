@@ -39,10 +39,12 @@ const formActions: FormActions = {
 </script>
 
 <template>
-  <div class="login-screen">
-    <div class="login-form">
-      <div class="login-title">Login</div>
-      <FormComponent :f-items="formItems" :f-rules="formRules" :f-actions="formActions" />
+  <div class="view-layout">
+    <div class="login-screen">
+      <div class="login-form">
+        <div class="login-title">Login</div>
+        <FormComponent :f-items="formItems" :f-rules="formRules" :f-actions="formActions" />
+      </div>
     </div>
   </div>
 </template>
@@ -54,6 +56,7 @@ const formActions: FormActions = {
   width: 50vw;
   height: 50vh;
   position: relative;
+  border: 1px solid #000;
 }
 .login-title {
   font-size: 20px;
