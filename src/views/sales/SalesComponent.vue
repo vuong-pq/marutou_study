@@ -16,8 +16,10 @@ const clickUserSetting = () => {
       <el-button @click="logout">Logout</el-button>
     </div>
     <div class="toolbar-container">
-      <el-button class="button-toolbar" @click="clickUserSetting">User Setting</el-button>
-      <el-button class="button-toolbar" @click="logout">Simulator</el-button>
+      <el-button class="button-toolbar" type="primary" @click="logout">User Setting</el-button>
+      <el-button class="button-toolbar" type="primary" @click="clickUserSetting"
+        >Simulator</el-button
+      >
     </div>
   </div>
 </template>

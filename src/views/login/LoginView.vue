@@ -72,4 +72,11 @@ const formActions: FormActions = {
 .login-form .el-form {
   width: 450px;
 }
+
+:deep(.el-form-item--default .el-form-item__content) {
+  justify-content: center !important;
+  .el-button {
+    min-width: 120px !important;
+  }
+}
 </style>
