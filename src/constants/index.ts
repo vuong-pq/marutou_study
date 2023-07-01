@@ -3,10 +3,16 @@ export const ROUTER_PATH = {
   ADMIN: '/admin',
   USER: '/',
   USER_SETTING: '/user-setting',
+  SETTING_USER: '/admin/setting-user',
+  COMMON_SETTING: '/admin/common-setting',
+  USER_SEARCH: 'setting-user/search',
   INVOICE: '/invoice-approval',
   JOURNAL_VOUCHER: '/journal-voucher',
   MASTER_SETTINGS: '/master-settings',
-  PAYMENTS: '/payments'
+  PAYMENTS: '/payments',
+  USER_REGISTER: 'setting-user/user-register',
+  POWER_COMPANY: 'common-setting/power-companies',
+  POWER_COMPANY_DETAIL: ':companyName'
 }
 
 export const ROUTER_NAME = {
@@ -14,13 +20,19 @@ export const ROUTER_NAME = {
   ADMIN: 'admin',
   USER: 'main',
   USER_SETTING: 'user-setting',
+  SETTING_USER: 'setting-user',
+  USER_SEARCH: 'search',
   INVOICE: 'invoice-approval',
   JOURNAL_VOUCHER: 'journal-voucher',
   MASTER_SETTINGS: 'master-settings',
   USER_MASTER: 'user-master',
   USER_ROLE_MASTER: 'user-role-master',
   BENEFICIARY_MASTER: 'beneficiary-master',
-  PAYMENTS: 'payments'
+  PAYMENTS: 'payments',
+  USER_REGISTER: 'user-register',
+  COMMON_SETTING: 'common-setting',
+  POWER_COMPANY: 'power-company',
+  POWER_COMPANY_DETAIL: 'power-company-detail'
 }
 
 export const MASTER_SETTINGS_ROUTER_PATH = {

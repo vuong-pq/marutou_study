@@ -1,9 +1,12 @@
 <script setup lang="ts">
 import { useAuthStore } from '@/stores/auth'
 import NestedMenu from './NestedMenu.vue'
+import type { MenuNested } from '@/constants/types'
 
+import BreadCrumb from './components/BreadCrumb.vue'
 const { logout } = useAuthStore()
-const dataNestedMenu: any = {
+
+const dataNestedMenu: MenuNested = {
   name: 'Admin menu',
   data: [
     {
@@ -13,11 +16,11 @@ const dataNestedMenu: any = {
         data: [
           {
             name: 'New user registration',
-            to: '/admin/user-register'
+            to: '/admin/setting-user/user-register'
           },
           {
             name: 'User search',
-            to: '/admin/search'
+            to: '/admin/setting-user/search'
           }
         ]
       }
@@ -29,31 +32,15 @@ const dataNestedMenu: any = {
         data: [
           {
             name: 'List of power companies',
-            child: {
-              name: '',
-              data: [
-                {
-                  name: 'List of power companies',
-                  to: '/admin/user-register'
-                },
-                {
-                  name: 'Electrical equipment list',
-                  to: '/admin/user-register'
-                },
-                {
-                  name: 'List of gas appliances',
-                  to: '/admin/user-register'
-                }
-              ]
-            }
+            to: '/admin/common-setting/power-companies'
           },
           {
             name: 'Electrical equipment list',
-            to: '/admin/user-register'
+            to: '/admin/setting-user/user-register'
           },
           {
             name: 'List of gas appliances',
-            to: '/admin/user-register'
+            to: '/admin/setting-user/user-register'
           }
         ]
       }
@@ -65,14 +52,18 @@ const dataNestedMenu: any = {
 <template>
   <div class="admin-view">
     <div class="toolbar-header">
-      <el-button @click="logout">Logout</el-button>
+      <div class="company-name">Gas Delivery: #0123</div>
+      <div @click="logout" class="logout-btn">Logout</div>
     </div>
+
     <div class="view">
       <div class="menu-admin">
         <NestedMenu :data="dataNestedMenu" />
       </div>
+
       <div class="view-content">
-        <div class="breadcrumb">{{ $router.currentRoute.value.name }}</div>
+        <BreadCrumb />
+
         <div class="content">
           <RouterView />
         </div>
@@ -92,6 +83,26 @@ const dataNestedMenu: any = {
     display: flex;
     justify-content: flex-end;
     padding: 12px;
+    gap: 12px;
+
+    .company-id,
+    .company-name,
+    .logout-btn {
+      color: #fff;
+      font-size: 16px;
+    }
+    .logout-btn {
+      border: 1px solid #fff;
+      font-weight: bold;
+      letter-spacing: 1px;
+      padding: 0 8px;
+      cursor: pointer;
+      transition: 0.3s;
+
+      &:hover {
+        letter-spacing: 2px;
+      }
+    }
   }
   .data {
     height: 500px;
@@ -121,15 +132,6 @@ const dataNestedMenu: any = {
     .content {
       flex-grow: 1;
       display: flex;
-      justify-content: center;
-      align-items: center;
-
-      .breadcrumb {
-        height: 48px;
-        display: flex;
-        align-items: center;
-        padding: 12px;
-      }
     }
   }
 }

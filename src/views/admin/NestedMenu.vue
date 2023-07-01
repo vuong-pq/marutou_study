@@ -50,6 +50,11 @@ const toggleMenuItems = (event: any) => {
   display: flex;
   flex-direction: column;
   gap: 12px;
+  width: max-content;
+
+  .child {
+    width: 100%;
+  }
   .menu-header {
     border-bottom: 1px solid #fff;
   }
@@ -90,10 +95,17 @@ const toggleMenuItems = (event: any) => {
     transition: 0.5s ease-out;
     max-height: 0;
     overflow: hidden;
-    padding-left: 8px;
+
+    & > a {
+      padding-left: 20px;
+    }
     &.active {
       transition: 0.5s ease-in;
       max-height: 500px;
+
+      :deep(.router-link-active.router-link-exact-active) {
+        background-color: #457b9d;
+      }
     }
   }
 }
