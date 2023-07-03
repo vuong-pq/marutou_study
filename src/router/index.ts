@@ -15,7 +15,9 @@ import {
   ListPowerCompaniesView,
   PowerCompanyDetail,
   CommonSettingRegistration,
-  UserRegister
+  UserRegister,
+  ElectricalEquipmentList,
+  GasAppliances
 } from '@/views/admin/components'
 
 const router = createRouter({
@@ -54,6 +56,16 @@ const router = createRouter({
           path: ROUTER_PATH.COMMON_SETTING,
           name: ROUTER_NAME.COMMON_SETTING,
           component: CommonSettingRegistration
+        },
+        {
+          path: ROUTER_PATH.ELECTRIC_EQUIPMENT,
+          name: ROUTER_NAME.ELECTRIC_EQUIPMENT,
+          component: ElectricalEquipmentList
+        },
+        {
+          path: ROUTER_PATH.GAS_APPLIANCES,
+          name: ROUTER_NAME.GAS_APPLIANCES,
+          component: GasAppliances
         },
         {
           path: ROUTER_PATH.POWER_COMPANY,

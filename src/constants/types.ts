@@ -74,3 +74,9 @@ export interface PowerCompanyCol {
   width?: string
   className?: string
 }
+
+export interface MenuDetailAdmin {
+  to: string
+  icon: string
+  name: string
+}

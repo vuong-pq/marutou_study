@@ -77,18 +77,26 @@ const submitForm = (formEl: FormInstance | undefined) => {
         <div class="content1 content">
           <div class="header-content">header content 1</div>
 
-          <div class="input">
-            <el-form-item label="Id" prop="id">
-              <el-input v-model="powerCompanyDetailData.id" />
-            </el-form-item>
-            KG
+          <div class="form-item">
+            <div class="title">Title1 --></div>
+
+            <div class="input">
+              <el-form-item prop="id">
+                <el-input v-model="powerCompanyDetailData.id" />
+              </el-form-item>
+              KG
+            </div>
           </div>
 
-          <div class="input">
-            <el-form-item label="Name" prop="name">
-              <el-input v-model="powerCompanyDetailData.name" />
-            </el-form-item>
-            KG
+          <div class="form-item">
+            <div class="title">Title1 --></div>
+
+            <div class="input">
+              <el-form-item prop="name">
+                <el-input v-model="powerCompanyDetailData.name" />
+              </el-form-item>
+              KG
+            </div>
           </div>
         </div>
 
@@ -296,14 +304,14 @@ const submitForm = (formEl: FormInstance | undefined) => {
           display: flex;
           gap: 12px;
         }
-        .form-item {
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
+      }
+      .form-item {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
 
-          :deep(.el-form-item) {
-            margin-bottom: 0 !important;
-          }
+        :deep(.el-form-item) {
+          margin-bottom: 0 !important;
         }
       }
       .content:not(:nth-child(3))::before {
