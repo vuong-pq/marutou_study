@@ -36,11 +36,11 @@ const dataNestedMenu: MenuNested = {
           },
           {
             name: 'Electrical equipment list',
-            to: '/admin/setting-user/user-register'
+            to: '/admin/common-setting/electric-equipment'
           },
           {
             name: 'List of gas appliances',
-            to: '/admin/setting-user/user-register'
+            to: '/admin/common-setting/gas-appliances'
           }
         ]
       }

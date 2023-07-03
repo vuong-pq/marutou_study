@@ -12,6 +12,8 @@ export const ROUTER_PATH = {
   PAYMENTS: '/payments',
   USER_REGISTER: 'setting-user/user-register',
   POWER_COMPANY: 'common-setting/power-companies',
+  ELECTRIC_EQUIPMENT: 'common-setting/electric-equipment',
+  GAS_APPLIANCES: 'common-setting/gas-appliances',
   POWER_COMPANY_DETAIL: ':companyName'
 }
 
@@ -32,7 +34,29 @@ export const ROUTER_NAME = {
   USER_REGISTER: 'user-register',
   COMMON_SETTING: 'common-setting',
   POWER_COMPANY: 'power-company',
-  POWER_COMPANY_DETAIL: 'power-company-detail'
+  ELECTRIC_EQUIPMENT: 'electric-equipment',
+  POWER_COMPANY_DETAIL: 'power-company-detail',
+  GAS_APPLIANCES: 'gas-appliances'
+}
+
+export const MENU_ITEMS_PATH = {
+  USER_SETTINGS: '/admin/setting-user',
+  COMMON_SETTINGS: '/admin/common-setting',
+  NEW_USER_REGISTRATION: '/admin/setting-user/user-register',
+  USER_SEARCH: '/admin/setting-user/search',
+  POWER_COMPANY: '/admin/common-setting/power-companies',
+  ELECTRICAL_EQUIPMENT: '/admin/common-setting/electric-equipment',
+  GAS_APPLIANCES: '/admin/common-setting/gas-appliances'
+}
+
+export const MENU_ITEMS_NAME = {
+  USER_SETTINGS: 'User registration/Edit',
+  COMMON_SETTINGS: 'Common setting registration',
+  NEW_USER_REGISTRATION: 'New user registration',
+  USER_SEARCH: 'User search',
+  POWER_COMPANY: 'List of power companies',
+  ELECTRICAL_EQUIPMENT: 'Electrical equipment list',
+  GAS_APPLIANCES: 'List of gas appliances'
 }
 
 export const MASTER_SETTINGS_ROUTER_PATH = {

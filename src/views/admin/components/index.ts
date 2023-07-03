@@ -6,6 +6,8 @@ import ListPowerCompanies from './common-setting-registration/ListPowerCompanies
 import ListPowerCompaniesView from './common-setting-registration/ListPowerCompaniesView.vue'
 import PowerCompanyDetail from './common-setting-registration/PowerCompanyDetail.vue'
 import CommonSettingRegistration from './common-setting-registration/CommonSettingRegistration.vue'
+import ElectricalEquipmentList from './common-setting-registration/ElectricalEquipmentList.vue'
+import GasAppliances from './common-setting-registration/GasAppliances.vue'
 
 export {
   UserRegister,
@@ -15,5 +17,7 @@ export {
   ListPowerCompanies,
   PowerCompanyDetail,
   ListPowerCompaniesView,
-  CommonSettingRegistration
+  CommonSettingRegistration,
+  ElectricalEquipmentList,
+  GasAppliances
 }
