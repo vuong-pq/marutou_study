@@ -23,7 +23,7 @@ const { logout } = useAuthStore()
       Tài khoản KH &nabla;&nbsp;&nbsp;&nbsp; <el-button @click="logout">Logout</el-button>
     </div>
   </div>
-  <BreadCrumb v-if="loggedIn" />
+  <BreadCrumb v-if="loggedIn && String(state.roleUser) === LABEL.COMMON.NUMBER.ONE" />
 </template>
 
 <style lang="scss" scoped></style>

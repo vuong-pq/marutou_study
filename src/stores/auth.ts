@@ -11,7 +11,7 @@ type UserState = {
 }
 
 const defaultState = {
-  roleUser: 1,
+  roleUser: 2,
   json: null
 }
 
