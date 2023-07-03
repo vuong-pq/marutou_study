@@ -14,13 +14,16 @@ export const ROUTER_PATH = {
   SETTING_USER: '/admin/setting-user',
   COMMON_SETTING: '/admin/common-setting',
   USER_SEARCH: 'setting-user/search',
+  USER_EDIT: 'setting-user/edit',
   INVOICE: '/invoice-approval',
   JOURNAL_VOUCHER: '/journal-voucher',
   MASTER_SETTINGS: '/master-settings',
   PAYMENTS: '/payments',
   USER_REGISTER: 'setting-user/user-register',
-  POWER_COMPANY: 'common-setting/power-companies',
+  ELECTRICITY_TARIFF_SETTING: 'common-setting/electricity-tariff',
   ELECTRIC_EQUIPMENT: 'common-setting/electric-equipment',
+  DEVICE_DETAIL: ':deviceDetail',
+  DEVICE_NEW: 'new',
   GAS_APPLIANCES: 'common-setting/gas-appliances',
   POWER_COMPANY_DETAIL: ':companyName'
 }
@@ -40,6 +43,7 @@ export const ROUTER_NAME = {
   EDIT_ELECTRICS: 'edit-electric',
   EDIT_GAS: 'edit-gas',
   USER_SEARCH: 'search',
+  USER_EDIT: 'edit',
   INVOICE: 'invoice-approval',
   JOURNAL_VOUCHER: 'journal-voucher',
   MASTER_SETTINGS: 'master-settings',
@@ -49,30 +53,33 @@ export const ROUTER_NAME = {
   PAYMENTS: 'payments',
   USER_REGISTER: 'user-register',
   COMMON_SETTING: 'common-setting',
-  POWER_COMPANY: 'power-company',
+  ELECTRICITY_TARIFF_SETTING: 'electricity-tariff',
   ELECTRIC_EQUIPMENT: 'electric-equipment',
   POWER_COMPANY_DETAIL: 'power-company-detail',
-  GAS_APPLIANCES: 'gas-appliances'
+  DEVICE_DETAIL: 'device-detail',
+  GAS_APPLIANCES: 'gas-appliances',
+  DEVICE_NEW: 'device-new'
 }
 
+// re set item by router after build interface
 export const MENU_ITEMS_PATH = {
   USER_SETTINGS: '/admin/setting-user',
   COMMON_SETTINGS: '/admin/common-setting',
   NEW_USER_REGISTRATION: '/admin/setting-user/user-register',
   USER_SEARCH: '/admin/setting-user/search',
-  POWER_COMPANY: '/admin/common-setting/power-companies',
   ELECTRICAL_EQUIPMENT: '/admin/common-setting/electric-equipment',
+  ELECTRICITY_TARIFF_SETTING: '/admin/common-setting/electricity-tariff',
   GAS_APPLIANCES: '/admin/common-setting/gas-appliances'
 }
 
 export const MENU_ITEMS_NAME = {
-  USER_SETTINGS: 'User registration/Edit',
-  COMMON_SETTINGS: 'Common setting registration',
-  NEW_USER_REGISTRATION: 'New user registration',
-  USER_SEARCH: 'User search',
-  POWER_COMPANY: 'List of power companies',
-  ELECTRICAL_EQUIPMENT: 'Electrical equipment list',
-  GAS_APPLIANCES: 'List of gas appliances'
+  USER_SETTINGS: 'ユーザー登録・編集',
+  COMMON_SETTINGS: '共通設定登録',
+  NEW_USER_REGISTRATION: '新規ユーザー登録',
+  USER_SEARCH: 'ユーザー情報編集',
+  ELECTRICITY_TARIFF_SETTING: '電力料金設定',
+  ELECTRICAL_EQUIPMENT: '電気機器登録',
+  GAS_APPLIANCES: 'ガス機器登録'
 }
 
 export const MASTER_SETTINGS_ROUTER_PATH = {

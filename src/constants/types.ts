@@ -60,8 +60,8 @@ export interface BeneficiaryMaster {
 }
 
 export interface PowerCompany {
-  id: string
   name: string
+  title: string
   field1: string
   field2: string
   field3: string
@@ -79,4 +79,9 @@ export interface MenuDetailAdmin {
   to: string
   icon: string
   name: string
+}
+
+export interface Device {
+  name: string
+  title: string
 }

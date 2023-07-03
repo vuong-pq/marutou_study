@@ -24,6 +24,8 @@
 /* semantic color variables for this project */
 :root {
   --color-background: var(--vt-c-white);
+  --button-background: #47b5ff;
+  --button-color: #fff;
   --color-background-soft: var(--vt-c-white-soft);
   --color-background-mute: var(--vt-c-white-mute);
 
@@ -70,4 +72,5 @@ body {
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow: hidden;
 }

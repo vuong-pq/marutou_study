@@ -6,9 +6,9 @@ import { MENU_ITEMS_PATH, MENU_ITEMS_NAME } from '@/constants'
 
 const dataMenu = reactive<MenuDetailAdmin[]>([
   {
-    to: MENU_ITEMS_PATH.NEW_USER_REGISTRATION,
+    to: MENU_ITEMS_PATH.ELECTRICITY_TARIFF_SETTING,
     icon: 'UserRegistrationIcon',
-    name: MENU_ITEMS_NAME.NEW_USER_REGISTRATION
+    name: MENU_ITEMS_NAME.ELECTRICITY_TARIFF_SETTING
   },
   {
     to: MENU_ITEMS_PATH.ELECTRICAL_EQUIPMENT,

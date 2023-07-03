@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { RouterLink } from 'vue-router'
-import * as Icons from '@/assets/icons'
 import type { MenuDetailAdmin } from '@/constants/types'
 import { defineAsyncComponent } from 'vue'
 
@@ -36,6 +35,7 @@ const getCurrentComponent = (componentName?: string) => {
     align-items: center;
     height: 100%;
     justify-content: center;
+    flex-direction: column;
   }
 
   .menu-item {
@@ -44,10 +44,12 @@ const getCurrentComponent = (componentName?: string) => {
     height: max-content;
     padding: 12px;
     display: flex;
-    flex-direction: column;
+    gap: 12px;
     align-items: center;
-    min-width: 224px;
+    min-width: 500px;
     cursor: pointer;
+    text-decoration: none;
+    font-size: 28px;
 
     &:hover {
       opacity: 0.7;
@@ -56,6 +58,9 @@ const getCurrentComponent = (componentName?: string) => {
 
     .icon {
       font-size: 5rem;
+      display: flex;
+      min-width: 100px;
+      align-items: center;
       svg {
         fill: aquamarine;
       }

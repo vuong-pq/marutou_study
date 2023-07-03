@@ -14,12 +14,18 @@ import HeaderComponents from './views/user/components/HeaderComponents.vue'
 <style lang="scss" scoped>
 .layout-container {
   min-height: 100vh;
+
   :deep(.el-main) {
     padding: 0;
   }
 }
 .el-container {
   flex-direction: column !important;
+
+  .el-main {
+    display: flex;
+    flex-direction: column;
+  }
 }
 .el-main {
   display: flex;

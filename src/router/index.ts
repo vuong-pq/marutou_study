@@ -21,15 +21,18 @@ import GasView from '@/views/user/components/GasView.vue'
 
 import {
   AdminPage,
-  NewUserRegistration,
+  UserInfoForm,
   SearchUser,
+  UserEdit,
   ListPowerCompanies,
   ListPowerCompaniesView,
   PowerCompanyDetail,
   CommonSettingRegistration,
   UserRegister,
+  GasAppliancesList,
   ElectricalEquipmentList,
-  GasAppliances
+  ElectricalEquipmentListView,
+  DeviceDetail
 } from '@/views/admin/components'
 
 const router = createRouter({
@@ -57,7 +60,7 @@ const router = createRouter({
         {
           path: ROUTER_PATH.USER_REGISTER,
           name: ROUTER_NAME.USER_REGISTER,
-          component: NewUserRegistration
+          component: UserInfoForm
         },
         {
           path: ROUTER_PATH.USER_SEARCH,
@@ -65,23 +68,65 @@ const router = createRouter({
           component: SearchUser
         },
         {
+          path: ROUTER_PATH.USER_EDIT,
+          name: ROUTER_NAME.USER_EDIT,
+          component: UserEdit
+        },
+        {
           path: ROUTER_PATH.COMMON_SETTING,
           name: ROUTER_NAME.COMMON_SETTING,
           component: CommonSettingRegistration
         },
         {
-          path: ROUTER_PATH.ELECTRIC_EQUIPMENT,
-          name: ROUTER_NAME.ELECTRIC_EQUIPMENT,
-          component: ElectricalEquipmentList
-        },
-        {
           path: ROUTER_PATH.GAS_APPLIANCES,
           name: ROUTER_NAME.GAS_APPLIANCES,
-          component: GasAppliances
+          component: ElectricalEquipmentListView,
+          children: [
+            {
+              path: '',
+              component: GasAppliancesList
+            },
+            {
+              path: ROUTER_PATH.DEVICE_DETAIL,
+              name: ROUTER_NAME.DEVICE_DETAIL,
+              component: DeviceDetail,
+              props: { isNewForm: false, isElectricEquipment: false }
+            },
+            {
+              path: ROUTER_PATH.DEVICE_NEW,
+              name: ROUTER_NAME.DEVICE_NEW,
+              component: DeviceDetail,
+              props: { isNewForm: true, isElectricEquipment: false }
+            }
+          ]
         },
         {
-          path: ROUTER_PATH.POWER_COMPANY,
-          name: ROUTER_NAME.POWER_COMPANY,
+          path: ROUTER_PATH.ELECTRIC_EQUIPMENT,
+          name: ROUTER_NAME.ELECTRIC_EQUIPMENT,
+          component: ElectricalEquipmentListView,
+          children: [
+            {
+              path: '',
+              component: ElectricalEquipmentList
+            },
+            {
+              path: ROUTER_PATH.DEVICE_DETAIL,
+              name: ROUTER_NAME.DEVICE_DETAIL,
+              component: DeviceDetail,
+              props: { isNewForm: false, isElectricEquipment: true }
+            },
+            {
+              path: ROUTER_PATH.DEVICE_NEW,
+              name: ROUTER_NAME.DEVICE_NEW,
+              component: DeviceDetail,
+              props: { isNewForm: true, isElectricEquipment: true }
+            }
+          ]
+        },
+
+        {
+          path: ROUTER_PATH.ELECTRICITY_TARIFF_SETTING,
+          name: ROUTER_NAME.ELECTRICITY_TARIFF_SETTING,
           component: ListPowerCompaniesView,
           children: [
             {

@@ -4,6 +4,15 @@ import { reactive, ref } from 'vue'
 
 const ruleFormRef = ref<FormInstance>()
 
+withDefaults(
+  defineProps<{
+    isModeEdit: boolean
+  }>(),
+  {
+    isModeEdit: false
+  }
+)
+
 const checkAge = (rule: any, value: any, callback: any) => {
   if (!value) {
     return callback(new Error('Please input the age'))
@@ -70,11 +79,6 @@ const submitForm = (formEl: FormInstance | undefined) => {
     }
   })
 }
-
-// const resetForm = (formEl: FormInstance | undefined) => {
-//   if (!formEl) return
-//   formEl.resetFields()
-// }
 </script>
 
 <template>
@@ -89,17 +93,23 @@ const submitForm = (formEl: FormInstance | undefined) => {
             label-width="200px"
             class="demo-ruleForm"
           >
-            <el-form-item label="Company Name: " prop="email">
+            <el-form-item label="販売店名" prop="email">
               <el-input v-model="ruleForm.email" type="text" />
             </el-form-item>
-            <el-form-item label="User Id: " prop="id">
+            <el-form-item label="ユーザーID" prop="id">
               <el-input v-model="ruleForm.id" type="text" />
             </el-form-item>
-            <el-form-item label="Password" prop="password">
+            <el-form-item label="パスワード" prop="password">
               <el-input v-model="ruleForm.password" type="password" autocomplete="off" />
             </el-form-item>
             <el-form-item>
-              <el-button type="default" @click="submitForm(ruleFormRef)">Register</el-button>
+              <el-button v-if="!isModeEdit" type="default" @click="submitForm(ruleFormRef)"
+                >登録</el-button
+              >
+              <div v-else class="edit-actions">
+                <el-button class="btn btn-update">保存</el-button>
+                <el-button class="btn btn-delete">削除</el-button>
+              </div>
               <!-- <el-button @click="resetForm(ruleFormRef)">Reset</el-button> -->
             </el-form-item>
           </el-form>
@@ -121,15 +131,12 @@ const submitForm = (formEl: FormInstance | undefined) => {
   --item-gap: 8px;
   width: max-content;
   height: max-content;
-  border: 1px solid #000;
-  border-radius: 24px;
   padding: 4px;
   display: flex;
   flex-direction: column;
   gap: var(--item-gap);
 
   .content-register {
-    background-color: #d6dce5;
     border-radius: inherit;
     padding: inherit;
     position: relative;
@@ -148,10 +155,52 @@ const submitForm = (formEl: FormInstance | undefined) => {
     background-color: #000;
   }
   :deep(.el-form-item) {
-    margin-bottom: 25px;
+    margin-bottom: 40px;
+    display: flex;
+    align-items: center;
   }
   :deep(.el-input__wrapper) {
     min-width: 600px !important;
+    height: 40px;
+  }
+
+  :deep(.el-form-item__content:has(.el-button)) {
+    margin-left: 120px !important;
+    margin-top: 24px;
+    display: flex;
+    justify-content: center;
+
+    .el-button {
+      width: 200px;
+      height: 40px;
+      transition: 0.3s;
+      background-color: var(--button-background);
+      cursor: pointer;
+      color: var(--button-color);
+
+      span {
+        letter-spacing: 2px;
+      }
+
+      &:active {
+        opacity: 0.7;
+      }
+    }
+  }
+
+  .edit-actions {
+    display: flex;
+    gap: 24px;
+
+    .el-button.btn-delete {
+      background-color: #fff;
+      border: 1px solid var(--button-background);
+      color: var(--button-background);
+
+      &:active {
+        opacity: 0.6;
+      }
+    }
   }
 }
 </style>
