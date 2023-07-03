@@ -78,36 +78,45 @@ const submitForm = (formEl: FormInstance | undefined) => {
 </script>
 
 <template>
-  <div class="new-user-registration">
-    <div class="content">
-      <div class="user-registration-form">
-        <el-form
-          ref="ruleFormRef"
-          :model="ruleForm"
-          :rules="rules"
-          label-width="200px"
-          class="demo-ruleForm"
-        >
-          <el-form-item label="Company Name: " prop="email">
-            <el-input v-model="ruleForm.email" type="text" />
-          </el-form-item>
-          <el-form-item label="User Id: " prop="id">
-            <el-input v-model="ruleForm.id" type="text" />
-          </el-form-item>
-          <el-form-item label="Password" prop="password">
-            <el-input v-model="ruleForm.password" type="password" autocomplete="off" />
-          </el-form-item>
-          <el-form-item>
-            <el-button type="default" @click="submitForm(ruleFormRef)">Register</el-button>
-            <!-- <el-button @click="resetForm(ruleFormRef)">Reset</el-button> -->
-          </el-form-item>
-        </el-form>
+  <div class="register">
+    <div class="new-user-registration">
+      <div class="content-register">
+        <div class="user-registration-form">
+          <el-form
+            ref="ruleFormRef"
+            :model="ruleForm"
+            :rules="rules"
+            label-width="200px"
+            class="demo-ruleForm"
+          >
+            <el-form-item label="Company Name: " prop="email">
+              <el-input v-model="ruleForm.email" type="text" />
+            </el-form-item>
+            <el-form-item label="User Id: " prop="id">
+              <el-input v-model="ruleForm.id" type="text" />
+            </el-form-item>
+            <el-form-item label="Password" prop="password">
+              <el-input v-model="ruleForm.password" type="password" autocomplete="off" />
+            </el-form-item>
+            <el-form-item>
+              <el-button type="default" @click="submitForm(ruleFormRef)">Register</el-button>
+              <!-- <el-button @click="resetForm(ruleFormRef)">Reset</el-button> -->
+            </el-form-item>
+          </el-form>
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <style lang="scss" scoped>
+.register {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 100%;
+}
 .new-user-registration {
   --item-gap: 8px;
   width: max-content;
@@ -119,7 +128,7 @@ const submitForm = (formEl: FormInstance | undefined) => {
   flex-direction: column;
   gap: var(--item-gap);
 
-  .content {
+  .content-register {
     background-color: #d6dce5;
     border-radius: inherit;
     padding: inherit;
@@ -130,7 +139,7 @@ const submitForm = (formEl: FormInstance | undefined) => {
     display: flex;
     align-items: center;
   }
-  .content:not(:last-child)::before {
+  .content-register:not(:last-child)::before {
     content: '';
     width: 96%;
     position: absolute;
