@@ -13,9 +13,9 @@ const clickUserSetting = () => {
 <template>
   <div class="view-layout">
     <div class="toolbar">
-      <div class="toolbar-header">
+      <!-- <div class="toolbar-header">
         <el-button @click="logout">Logout</el-button>
-      </div>
+      </div> -->
       <div class="toolbar-container">
         <el-button class="button-toolbar" type="primary" @click="logout">User Setting</el-button>
         <el-button class="button-toolbar" type="primary" @click="clickUserSetting"
