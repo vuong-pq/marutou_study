@@ -4,8 +4,8 @@ import _ from 'lodash'
 import type { PowerCompany } from '@/constants/types'
 
 const defaultState = {
-  id: '',
   name: '',
+  title: '',
   field1: '',
   field2: '',
   field3: '',

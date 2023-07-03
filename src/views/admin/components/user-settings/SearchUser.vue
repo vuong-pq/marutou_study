@@ -1,13 +1,23 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { ROUTER_NAME } from '@/constants'
+import router from '@/router'
+
+const RedirectToEdit = () => {
+  console.log('clicked')
+  router.push({ name: ROUTER_NAME.USER_EDIT })
+}
+</script>
 
 <template>
   <div class="block-element">
-    <div class="top-content">
-      <div class="input-search">User ID</div>
-      <el-input />
-      <el-button> Search</el-button>
+    <div class="wrapper">
+      <div class="input-search">
+        <div class="title">ユーザーID</div>
+        <el-input />
+      </div>
+      <el-button class="btn" @click="RedirectToEdit">検索</el-button>
     </div>
-    <div class="bottom-content">
+    <!-- <div class="bottom-content">
       <div class="update-pass">
         <div style="font-weight: 700; font-size: 20px">Update PassWord</div>
         <div class="form-element">
@@ -24,51 +34,52 @@
             <el-form-item>
               <el-button type="default">Update</el-button>
               <el-button type="default">Cancel</el-button>
-              <!-- <el-button @click="resetForm(ruleFormRef)">Reset</el-button> -->
+              <!- <el-button @click="resetForm(ruleFormRef)">Reset</el-button> --
             </el-form-item>
           </el-form>
         </div>
       </div>
-    </div>
+    </div> -->
   </div>
 </template>
 
 <style lang="scss" scoped>
 .block-element {
-  display: block;
-  width: 100%;
-  height: 100%;
-}
-.top-content {
-  display: flex;
-  margin: 20px 10px;
-  .input-search {
-    min-width: 150px;
-  }
-}
-.bottom-content {
+  margin: auto;
   display: flex;
   align-items: center;
-  width: 100%;
   justify-content: center;
-  .update-pass {
-    margin-top: 100px;
-    background-color: #d6dce5;
-    padding: 12px;
-    border: 1px solid #000;
-    border-radius: 24px;
-    .form-element {
-      min-height: 500px;
+  width: 100%;
+  height: 100%;
+
+  .wrapper {
+    max-width: 500px;
+    display: flex;
+    flex-direction: column;
+    gap: 60px;
+    justify-content: center;
+    align-items: center;
+    .input-search {
       display: flex;
       align-items: center;
-      flex-direction: column;
-      justify-content: center;
+
+      .title {
+        min-width: 100px;
+      }
     }
-    :deep(.el-form-item) {
-      margin-bottom: 25px;
-    }
-    :deep(.el-input__wrapper) {
-      min-width: 600px !important;
+
+    :deep(.el-button) {
+      width: 200px;
+      background-color: var(--button-background);
+      color: var(--button-color);
+
+      span {
+        letter-spacing: 2px;
+      }
+
+      &:active {
+        opacity: 0.7;
+      }
     }
   }
 }

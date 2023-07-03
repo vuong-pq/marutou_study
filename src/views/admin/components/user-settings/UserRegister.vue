@@ -1,18 +1,19 @@
 <script setup lang="ts">
 import { reactive } from 'vue'
 import DetailAdminMenu from '@/views/admin/DetailAdminMenu.vue'
+import { MENU_ITEMS_PATH, MENU_ITEMS_NAME } from '@/constants'
 import type { MenuDetailAdmin } from '@/constants/types'
 
 const dataMenu = reactive<MenuDetailAdmin[]>([
   {
-    to: '/admin/setting-user/user-register',
+    to: MENU_ITEMS_PATH.NEW_USER_REGISTRATION,
     icon: 'UserRegistrationIcon',
-    name: 'New user registration'
+    name: MENU_ITEMS_NAME.NEW_USER_REGISTRATION
   },
   {
-    to: '/admin/setting-user/search',
+    to: MENU_ITEMS_PATH.USER_SEARCH,
     icon: 'CommonSettingIcon',
-    name: 'User search'
+    name: MENU_ITEMS_NAME.USER_SEARCH
   }
 ])
 </script>

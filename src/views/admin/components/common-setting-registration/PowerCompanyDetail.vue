@@ -9,6 +9,10 @@ const store = useCompanyStore()
 const ruleFormRef = ref<FormInstance>()
 const { powerCompanyDetailData } = storeToRefs(store)
 
+defineProps<{
+  setActiveComponent: (componentName: string) => void
+}>()
+
 const validateField1 = (rule: any, value: any, callback: any) => {
   if (value === '') {
     callback(new Error('Please input the password'))
@@ -49,11 +53,20 @@ const rules = reactive<FormRules<typeof powerCompanyDetailData>>({
   field4: [{ validator: validateField4, trigger: 'blur' }]
 })
 
+const labels = {
+  lessThan90: '昼間　～90kWh',
+  lessThan210: '昼間　～210kWh',
+  greaterThan210: '昼間　210kWh ～',
+  daytimeHours: '昼間時間',
+  daytimeHoursWeekend: '日中時間（平日土の昼間）',
+  nightTime: '夜間・日祝時間（平日土の夜間＆日祝日の全日）'
+}
+
 const submitForm = (formEl: FormInstance | undefined) => {
   if (!formEl) return
   formEl.validate((valid) => {
     if (valid) {
-      console.log('submit!', ruleFormRef.value)
+      console.log('submit!', powerCompanyDetailData.value)
       router.go(-1)
     } else {
       return false
@@ -65,171 +78,210 @@ const submitForm = (formEl: FormInstance | undefined) => {
 <template>
   <div class="power-company-detail">
     <div class="form-wrapper">
-      <div class="header">Power Company Detail</div>
-
-      <el-form
-        ref="ruleFormRef"
-        :model="powerCompanyDetailData"
-        :rules="rules"
-        label-width="120px"
-        class="detail-form"
-      >
-        <div class="content1 content">
-          <div class="header-content">header content 1</div>
-
+      <el-form ref="ruleFormRef" :model="powerCompanyDetailData" :rules="rules" class="detail-form">
+        <div class="content">
+          <div class="header">
+            <div class="header1">旧プラン</div>
+            <div class="header2">ドリーム８</div>
+          </div>
           <div class="form-item">
-            <div class="title">Title1 --></div>
+            <div class="label">{{ labels.lessThan90 }}</div>
 
-            <div class="input">
-              <el-form-item prop="id">
-                <el-input v-model="powerCompanyDetailData.id" />
-              </el-form-item>
-              KG
-            </div>
+            <el-form-item prop="field1">
+              <el-input v-model="powerCompanyDetailData.field1" />
+            </el-form-item>
           </div>
 
           <div class="form-item">
-            <div class="title">Title1 --></div>
+            <div class="label">{{ labels.lessThan210 }}</div>
 
-            <div class="input">
-              <el-form-item prop="name">
-                <el-input v-model="powerCompanyDetailData.name" />
-              </el-form-item>
-              KG
-            </div>
+            <el-form-item prop="field1">
+              <el-input v-model="powerCompanyDetailData.field1" />
+            </el-form-item>
+          </div>
+
+          <div class="form-item">
+            <div class="label">{{ labels.greaterThan210 }}</div>
+
+            <el-form-item prop="field1">
+              <el-input v-model="powerCompanyDetailData.field1" />
+            </el-form-item>
+          </div>
+
+          <div class="form-item">
+            <div class="label">{{ labels.daytimeHours }}</div>
+
+            <el-form-item prop="field1">
+              <el-input v-model="powerCompanyDetailData.field1" />
+            </el-form-item>
           </div>
         </div>
 
-        <div class="content2 content">
-          <div class="header-content">header content 2</div>
+        <div class="content">
+          <div class="header">
+            <div class="header1">新プラン</div>
+            <div class="header2">エネとくスマートプラン</div>
+          </div>
+          <div class="form-item">
+            <div class="label">{{ labels.daytimeHoursWeekend }}</div>
 
-          <div class="content-items">
-            <div class="left">
-              <div class="form-item">
-                <div class="title">Title1 --></div>
+            <el-form-item prop="field1">
+              <el-input v-model="powerCompanyDetailData.field1" />
+            </el-form-item>
+          </div>
 
-                <div class="input">
-                  <el-form-item prop="field1">
-                    <el-input v-model.number="powerCompanyDetailData.field1" />
-                  </el-form-item>
-                  KG
-                </div>
-              </div>
+          <div class="form-item">
+            <div class="label">{{ labels.nightTime }}</div>
 
-              <div class="form-item-wrapper">
-                <div class="form-item">
-                  <div class="title">Title1</div>
-
-                  <div class="input">
-                    <el-form-item prop="field2">
-                      <el-input v-model.number="powerCompanyDetailData.field2" />
-                    </el-form-item>
-                    Title 2
-                  </div>
-                </div>
-
-                <div class="form-item">
-                  <div class="input">
-                    <el-form-item prop="field2">
-                      <el-input v-model.number="powerCompanyDetailData.field2" />
-                    </el-form-item>
-                    KG
-                  </div>
-                </div>
-              </div>
-
-              <div class="form-item">
-                <div class="title">Title1 --></div>
-
-                <div class="input">
-                  <el-form-item prop="field2">
-                    <el-input v-model.number="powerCompanyDetailData.field2" />
-                  </el-form-item>
-                  KG
-                </div>
-              </div>
-            </div>
-
-            <div class="right">
-              <div class="input">
-                <el-form-item prop="field1">
-                  <el-input v-model.number="powerCompanyDetailData.field1" />
-                </el-form-item>
-                KG
-              </div>
-
-              <div class="input">
-                <el-form-item prop="field2">
-                  <el-input v-model.number="powerCompanyDetailData.field2" />
-                </el-form-item>
-                KG
-              </div>
-
-              <div class="input">
-                <el-form-item prop="field2">
-                  <el-input v-model.number="powerCompanyDetailData.field2" />
-                </el-form-item>
-                KG
-              </div>
-            </div>
+            <el-form-item prop="field1">
+              <el-input v-model="powerCompanyDetailData.field1" />
+            </el-form-item>
           </div>
         </div>
 
-        <div class="content3 content">
-          <div class="header-content">header content 2</div>
+        <div class="content">
+          <div class="header">
+            <div class="header1">（１）契約電流</div>
+          </div>
+          <div class="form-item">
+            <div class="label">10A</div>
 
-          <div class="content-items">
-            <div class="left">
-              <div class="form-item">
-                <div class="title">Title1 --></div>
+            <el-form-item prop="field1">
+              <el-input v-model="powerCompanyDetailData.field1" />
+            </el-form-item>
+          </div>
 
-                <div class="input">
-                  <el-form-item prop="field3">
-                    <el-input v-model.number="powerCompanyDetailData.field1" />
-                  </el-form-item>
-                  KG
-                </div>
-              </div>
+          <div class="form-item">
+            <div class="label">15A</div>
 
-              <div class="form-item">
-                <div class="title">Title1</div>
+            <el-form-item prop="field1">
+              <el-input v-model="powerCompanyDetailData.field1" />
+            </el-form-item>
+          </div>
 
-                <div class="input">
-                  <el-form-item prop="field4">
-                    <el-input v-model.number="powerCompanyDetailData.field2" />
-                  </el-form-item>
-                  KG
-                </div>
-              </div>
-            </div>
+          <div class="form-item">
+            <div class="label">20A</div>
 
-            <div class="right">
-              <div class="input">
-                <el-form-item prop="field3">
-                  <el-input v-model.number="powerCompanyDetailData.field1" />
-                </el-form-item>
-                KG
-              </div>
+            <el-form-item prop="field1">
+              <el-input v-model="powerCompanyDetailData.field1" />
+            </el-form-item>
+          </div>
 
-              <div class="input">
-                <el-form-item prop="field4">
-                  <el-input v-model.number="powerCompanyDetailData.field2" />
-                </el-form-item>
-                KG
-              </div>
+          <div class="form-item">
+            <div class="label">30A</div>
 
-              <div class="input">
-                <el-form-item prop="field4">
-                  <el-input v-model.number="powerCompanyDetailData.field2" />
-                </el-form-item>
-                KG
-              </div>
-            </div>
+            <el-form-item prop="field1">
+              <el-input v-model="powerCompanyDetailData.field1" />
+            </el-form-item>
+          </div>
+
+          <div class="form-item">
+            <div class="label">40A</div>
+
+            <el-form-item prop="field1">
+              <el-input v-model="powerCompanyDetailData.field1" />
+            </el-form-item>
+          </div>
+
+          <div class="form-item">
+            <div class="label">50A</div>
+
+            <el-form-item prop="field1">
+              <el-input v-model="powerCompanyDetailData.field1" />
+            </el-form-item>
+          </div>
+
+          <div class="form-item">
+            <div class="label">60A</div>
+
+            <el-form-item prop="field1">
+              <el-input v-model="powerCompanyDetailData.field1" />
+            </el-form-item>
+          </div>
+        </div>
+
+        <div class="content">
+          <div class="header">
+            <div class="header1">（２）従量電灯</div>
+          </div>
+          <div class="form-item">
+            <div class="label">第１料金</div>
+
+            <el-form-item prop="field1">
+              <el-input v-model="powerCompanyDetailData.field1" />
+            </el-form-item>
+          </div>
+
+          <div class="form-item">
+            <div class="label">第２料金</div>
+
+            <el-form-item prop="field1">
+              <el-input v-model="powerCompanyDetailData.field1" />
+            </el-form-item>
+          </div>
+
+          <div class="form-item">
+            <div class="label">第３料金</div>
+
+            <el-form-item prop="field1">
+              <el-input v-model="powerCompanyDetailData.field1" />
+            </el-form-item>
+          </div>
+        </div>
+
+        <div class="content">
+          <div class="header">
+            <div class="header1">（３）その他</div>
+          </div>
+          <div class="form-item">
+            <div class="label">燃料費調整単価</div>
+
+            <el-form-item prop="field1">
+              <el-input v-model="powerCompanyDetailData.field1" />
+            </el-form-item>
+          </div>
+
+          <div class="form-item">
+            <div class="label">再生エネルギー発電促進賦課金単価</div>
+
+            <el-form-item prop="field1">
+              <el-input v-model="powerCompanyDetailData.field1" />
+            </el-form-item>
+          </div>
+        </div>
+
+        <div class="content">
+          <div class="header"></div>
+          <div class="form-item">
+            <div class="label">太陽光発電促進賦課金単価</div>
+
+            <el-form-item prop="field1">
+              <el-input v-model="powerCompanyDetailData.field1" />
+            </el-form-item>
+          </div>
+        </div>
+
+        <div class="content">
+          <div class="header"></div>
+          <div class="form-item">
+            <div class="label">補助金</div>
+
+            <el-form-item prop="field1">
+              <el-input v-model="powerCompanyDetailData.field1" />
+            </el-form-item>
+          </div>
+
+          <div class="form-item">
+            <div class="label">ＣＯ２排出係数</div>
+
+            <el-form-item prop="field1">
+              <el-input v-model="powerCompanyDetailData.field1" />
+            </el-form-item>
           </div>
         </div>
 
         <el-form-item>
-          <el-button type="primary" @click="submitForm(ruleFormRef)">Submit</el-button>
+          <el-button type="primary" @click="submitForm(ruleFormRef)">保存</el-button>
         </el-form-item>
       </el-form>
     </div>
@@ -239,88 +291,86 @@ const submitForm = (formEl: FormInstance | undefined) => {
 <style lang="scss" scoped>
 .power-company-detail {
   height: 100%;
+  width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-direction: column;
 
   .form-wrapper {
-    border: 1px solid #ccc;
     border-radius: 20px;
     padding: 24px;
     text-align: center;
+    max-height: calc(100vh - 200px);
+    overflow-y: auto;
+
+    &::-webkit-scrollbar {
+      width: 4px;
+    }
+
+    &::-webkit-scrollbar-track {
+      background-color: #f1f1f1;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background-color: #ccc;
+      border-radius: 5px;
+    }
+
+    &::-webkit-scrollbar-thumb:hover {
+      background-color: #888;
+    }
+
+    &::-webkit-scrollbar-corner {
+      background-color: #f1f1f1;
+    }
 
     .detail-form {
       --item-gap: 8px;
+      --min-width-label: 350px;
       margin-top: 24px;
-      min-width: 800px;
       display: flex;
       flex-direction: column;
       border-radius: inherit;
       gap: var(--item-gap);
 
       .content {
-        background-color: #d6dce5;
         border-radius: inherit;
         padding: inherit;
         position: relative;
         padding: 12px;
+        width: max-content;
+      }
 
-        .title {
-          min-width: 100px;
-        }
-        .header-content {
+      .header {
+        display: flex;
+        .header1 {
+          min-width: var(--min-width-label);
           text-align: left;
         }
-
-        :deep(.el-form-item__content) {
-          flex-wrap: unset;
-          gap: 12px;
-          margin-left: 0 !important;
-          justify-content: space-between;
-        }
       }
 
-      .input {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        margin-bottom: 18px;
-
-        :deep(.el-form-item) {
-          margin-bottom: 0 !important;
-        }
-      }
-
-      .content-items {
-        display: flex;
-        gap: 12px;
-        justify-content: space-between;
-
-        .left {
-          flex-grow: 1;
-        }
-
-        .form-item-wrapper {
-          display: flex;
-          gap: 12px;
-        }
-      }
       .form-item {
         display: flex;
         align-items: center;
-        justify-content: space-between;
+        margin-bottom: 16px;
 
         :deep(.el-form-item) {
           margin-bottom: 0 !important;
         }
+
+        .label {
+          text-align: left;
+          min-width: var(--min-width-label);
+        }
       }
-      .content:not(:nth-child(3))::before {
+      .content:nth-child(1)::before {
         content: '';
         width: 98%;
         position: absolute;
         bottom: calc(var(--item-gap) / -2);
         height: 1px;
-        background-color: #ccc;
+        background-color: #000;
         left: 6px;
       }
 
@@ -329,7 +379,10 @@ const submitForm = (formEl: FormInstance | undefined) => {
       }
 
       :deep(.el-input__wrapper) {
-        height: 48px;
+        height: 40px;
+        width: 400px;
+        border-radius: unset;
+        border: 1px solid #000;
       }
 
       :deep(.el-form-item.asterisk-left .el-form-item__content) {
@@ -357,6 +410,23 @@ const submitForm = (formEl: FormInstance | undefined) => {
       font-weight: bold;
       font-size: 24px;
       font-family: Arial, Helvetica, sans-serif;
+    }
+  }
+
+  .go-to-next {
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+    margin-right: 10%;
+
+    .el-button {
+      background-color: #fff;
+      border: 1px solid var(--button-background);
+      color: var(--button-background);
+
+      &:active {
+        opacity: 0.6;
+      }
     }
   }
 }

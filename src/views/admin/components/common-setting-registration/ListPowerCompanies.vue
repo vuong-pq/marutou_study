@@ -1,86 +1,113 @@
 <script setup lang="ts">
 import router from '@/router'
-import type { ElTable } from 'element-plus/lib/components/index.js'
+// import type { ElTable } from 'element-plus/lib/components/index.js'
 import { ref } from 'vue'
 import { useCompanyStore } from '@/stores/company'
-import type { PowerCompany, PowerCompanyCol } from '@/constants/types'
+import type { PowerCompany } from '@/constants/types'
+import { ROUTER_NAME } from '@/constants'
 
-const singleTableRef = ref<InstanceType<typeof ElTable>>()
+// const singleTableRef = ref<InstanceType<typeof ElTable>>()
 
 const store = useCompanyStore()
 
 // list will be took from api => after update in update screen then call api and return to this page => re get data from api set to list
-const powerCompanies = ref<PowerCompany[]>(
-  new Array(9).fill(0).map((item, index) => {
-    return {
-      id: index + 1 + '',
-      name: 'company' + index,
-      field1: 'field1',
-      field2: 'field2',
-      field3: 'field3',
-      field4: 'field4'
-    }
-  })
-)
+const powerCompanies = ref<PowerCompany[]>([
+  {
+    name: 'company1',
+    title: '北海道',
+    field1: 'field1',
+    field2: 'field2',
+    field3: 'field3',
+    field4: 'field4'
+  },
+  {
+    name: 'company2',
+    title: '東北',
+    field1: 'field1',
+    field2: 'field2',
+    field3: 'field3',
+    field4: 'field4'
+  },
+  {
+    name: 'company3',
+    title: '東京',
+    field1: 'field1',
+    field2: 'field2',
+    field3: 'field3',
+    field4: 'field4'
+  },
+  {
+    name: 'company4',
+    title: '中部',
+    field1: 'field1',
+    field2: 'field2',
+    field3: 'field3',
+    field4: 'field4'
+  },
+  {
+    name: 'company5',
+    title: '北陸',
+    field1: 'field1',
+    field2: 'field2',
+    field3: 'field3',
+    field4: 'field4'
+  },
+  {
+    name: 'company6',
+    title: '関西',
+    field1: 'field1',
+    field2: 'field2',
+    field3: 'field3',
+    field4: 'field4'
+  },
+  {
+    name: 'company7',
+    title: '四国',
+    field1: 'field1',
+    field2: 'field2',
+    field3: 'field3',
+    field4: 'field4'
+  },
+  {
+    name: 'company8',
+    title: '中国',
+    field1: 'field1',
+    field2: 'field2',
+    field3: 'field3',
+    field4: 'field4'
+  },
+  {
+    name: 'company9',
+    title: '九州',
+    field1: 'field1',
+    field2: 'field2',
+    field3: 'field3',
+    field4: 'field4'
+  }
+])
 
-const rowClick = (dataRow: PowerCompany) => {
-  const companyName = dataRow.name
+const clickCompany = (company: PowerCompany) => {
+  console.log('company: ', company)
+  const companyName = company.name
   router.push({
-    name: 'power-company-detail',
+    name: ROUTER_NAME.POWER_COMPANY_DETAIL,
     params: { companyName }
   })
-  store.setPowerCompanyDetailData(dataRow)
+  store.setPowerCompanyDetailData(company)
 }
-
-const tableCols: PowerCompanyCol[] = [
-  {
-    prop: 'id',
-    label: 'Id'
-  },
-  {
-    prop: 'name',
-    label: 'Name'
-  },
-  {
-    prop: 'field1',
-    label: 'Field1'
-  },
-  {
-    prop: 'field2',
-    label: 'Field2'
-  },
-  {
-    prop: 'field3',
-    label: 'Field3'
-  },
-  {
-    prop: 'field4',
-    label: 'Field4'
-  }
-]
 </script>
 
 <template>
   <div class="list-power-companies">
-    <div class="header">List power companies</div>
-
     <div class="data">
-      <el-table
-        ref="singleTableRef"
-        :data="powerCompanies"
-        highlight-current-row
-        @row-click="rowClick"
-        row-class-name="row-table"
+      <div
+        class="company"
+        v-for="(company, index) in powerCompanies"
+        :key="index"
+        @click="() => clickCompany(company)"
       >
-        <el-table-column
-          v-for="(col, index) in tableCols"
-          :key="index"
-          :width="col?.width"
-          :prop="col.prop"
-          :label="col.label"
-          :class-name="col?.className"
-        />
-      </el-table>
+        {{ company.title }}
+      </div>
     </div>
   </div>
 </template>
@@ -105,11 +132,25 @@ const tableCols: PowerCompanyCol[] = [
     display: flex;
     align-items: center;
     justify-content: center;
-  }
+    flex-direction: column;
+    gap: 24px;
 
-  :deep(.el-table__row).row-table {
-    cursor: pointer;
-    height: 56px;
+    .company {
+      width: 200px;
+      height: 48px;
+      background-color: #6998ab;
+      border-radius: 12px;
+      border: 1px solid #000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: 0.3s;
+
+      &:active {
+        opacity: 0.7;
+      }
+    }
   }
 }
 </style>
