@@ -1,7 +1,6 @@
 @import './base.css';
 
 #app {
-  width: 100vw;
   height: 100vh;
   font-weight: normal;
   font-family: Roboto, Arial;
@@ -60,8 +59,36 @@
   margin-top: 10px;
 }
 
+.mt-20 {
+  margin-top: 20px;
+}
+
+.mt-50 {
+  margin-top: 50px;
+}
+
+.mt-200 {
+  margin-top: 200px;
+}
+.ml-80 {
+  margin-left: 80px;
+}
+.ml-130 {
+  margin-left: 130px;
+}
+
+.mb-10 {
+  margin-bottom: 10px;
+}
+
+.pr-20 {
+  padding-right: 20px;
+}
 .w-300 {
-  width: 300px;
+  width: 300px !important;
+}
+.w-200 {
+  width: 200px !important;
 }
 
 .w-180 {
@@ -75,9 +102,18 @@
 .w-20-percent {
   width: 20%;
 }
+.w-30-percent {
+  width: 30%;
+}
+.w-35-percent {
+  width: 35%;
+}
 
 .w-15-percent {
   width: 15%;
+}
+.w-55-percent {
+  width: 55% !important;
 }
 
 .w-65-percent {
@@ -92,8 +128,21 @@
   text-align: center !important;
 }
 
+.text-right {
+  text-align: right !important;
+}
+
 .el-input__wrapper {
   height: 32px;
+}
+
+.title-header-user {
+  font-size: 20px;
+  font-style: bold;
+}
+
+.font-weight-bold {
+  font-weight: bold;
 }
 
 @media (hover: hover) {

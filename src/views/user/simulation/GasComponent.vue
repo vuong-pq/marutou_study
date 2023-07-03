@@ -38,24 +38,27 @@ const handleDelete = () => {
 <template>
   <div class="gas-content">
     <div class="gas-bg-content">
-      <div class="title-type">Standard charge</div>
+      <div class="font-weight-bold">標準料金</div>
       <div class="flex-space-between mt-10">
-        <span class="w-300">Electricity basic charge</span>
-        <el-input placeholder="Please input" />
-        <span class="w-180">kWh @**円/kWh</span>
+        <span class="w-30-percent">ガス基本料金</span>
+        <div class="w-55-percent text-right">
+          <el-input class="w-200" placeholder="Please input" />
+        </div>
+        <span class="w-15-percent">円</span>
       </div>
       <br />
       <hr />
-      <div>unit price</div>
+      <div>従量単価</div>
 
       <div v-for="(data, index) in datas" class="price mt-10">
         <div class="price-element">
-          <span class="w-90">{{ index === 0 ? 0 : datas[index - 1].price }} .0~ </span>
-          <el-input type="number" v-model="data.price" class="w-60-percent" />
+          <span class="w-300">{{ index === 0 ? 0 : datas[index - 1].price }} .0~ </span>
+          <el-input type="number" v-model="data.price" class="w-200" />
           <span> m3 </span>
         </div>
         <div class="price-element">
-          <el-input v-model="data.m3" class="w-60-percent" />
+          <span style="width: 160px"> </span>
+          <el-input v-model="data.m3" class="w-200" />
           <span> 円/m3 </span>
         </div>
       </div>
@@ -63,11 +66,11 @@ const handleDelete = () => {
       <!--<div class="price">
         <div class="price-element">
           <span class="w-90"> 0.0~ </span>
-          <el-input class="w-60-percent" />
+          <el-input class="w-200" />
           <span> m3 </span>
         </div>
         <div class="price-element">
-          <el-input class="w-60-percent" />
+          <el-input class="w-200" />
           <span> 円/m3 </span>
         </div>
       </div>
@@ -75,72 +78,79 @@ const handleDelete = () => {
       <div class="price mt-10">
         <div class="price-element">
           <span class="w-90"> 5.0~ </span>
-          <el-input class="w-60-percent" />
+          <el-input class="w-200" />
           <span> m3 </span>
         </div>
         <div class="price-element">
-          <el-input class="w-60-percent" />
+          <el-input class="w-200" />
           <span> 円/m3 </span>
         </div>
       </div>
       <div class="price mt-10">
         <div class="price-element">
           <span class="w-90"> 10.0~ </span>
-          <el-input class="w-60-percent" />
+          <el-input class="w-200" />
           <span> m3 </span>
         </div>
         <div class="price-element">
-          <el-input class="w-60-percent" />
+          <el-input class="w-200" />
           <span> 円/m3 </span>
         </div>
       </div>
       <div class="price mt-10">
         <div class="price-element">
           <span class="w-90"> 15.0~ </span>
-          <el-input class="w-60-percent" />
+          <el-input class="w-200" />
           <span> m3 </span>
         </div>
         <div class="price-element">
-          <el-input class="w-60-percent" />
+          <el-input class="w-200" />
           <span> 円/m3 </span>
         </div>
       </div>
       <div class="price mt-10">
         <div class="price-element">
           <span class="w-90"> 20.0~ </span>
-          <el-input class="w-60-percent" />
+          <el-input class="w-200" />
           <span> m3 </span>
         </div>
         <div class="price-element">
-          <el-input class="w-60-percent" />
+          <el-input class="w-200" />
           <span> 円/m3 </span>
         </div>
       </div> -->
       <div class="price mt-10">
         <div class="price-element">
-          <span> {{ datas[datas.length - 1].price }}.0~ that's all</span>
+          <span> {{ datas[datas.length - 1].price }}.0 m3以上</span>
         </div>
         <div class="price-element">
-          <el-input class="w-60-percent" />
+          <span style="width: 160px"> </span>
+          <el-input class="w-200" />
           <span> 円/m3 </span>
-          <el-button :disabled="datas.length <= 1" type="primary" @click="handleDelete"
-            >delete</el-button
-          >
+          <el-button :disabled="datas.length <= 1" class="btn-gas" @click="handleDelete"
+            >削除
+          </el-button>
         </div>
       </div>
-      <div class="mt-10 text-center">
-        <el-button class="w-180" type="primary" @click="handleAdd">ADD</el-button>
+      <div class="mt-10 text-center mb-10">
+        <el-button class="w-180 btn-gas" @click="handleAdd">料金段階追加 </el-button>
       </div>
     </div>
     <div class="gas-bg-content mt-10">
-      <div class="mt-10 title-type">New price menu</div>
+      <div class="mt-10 title-type">新・料金メニュー</div>
       <div class="d-flex-gap20 mt-10">
-        <span class="w-20-percent">gas basic charge</span>
-        <el-input class="w-65-percent" placeholder="Please input" />
+        <span class="w-30-percent">ガス基本料金</span>
+        <div class="w-55-percent text-right">
+          <el-input class="w-200" placeholder="Please input" />
+        </div>
+        <span class="w-15-percent">円</span>
       </div>
-      <div class="d-flex-gap20 mt-10">
-        <span class="w-20-percent">Plan usage fee</span>
-        <el-input class="w-65-percent" placeholder="Please input" />
+      <div class="d-flex-gap20 mt-10 mb-10">
+        <span class="w-30-percent">プラン利用料</span>
+        <div class="w-55-percent text-right">
+          <el-input class="w-200" placeholder="Please input" />
+        </div>
+        <span class="w-15-percent">円</span>
       </div>
     </div>
   </div>
@@ -154,13 +164,11 @@ const handleDelete = () => {
 .gas-bg-content {
   background-color: #d6dce5;
   border-radius: 5px;
-  padding: 5px;
+  padding: 5px 20px;
 }
 
 .gas-content {
   margin-top: 20px;
-  border: solid 1px #000;
-  padding: 20px;
   width: 100%;
   border-radius: 5px;
 
@@ -172,6 +180,10 @@ const handleDelete = () => {
     display: flex;
     gap: 20px;
     width: 48%;
+  }
+  .btn-gas {
+    background-image: linear-gradient(#e6ebf7, #b6c8e8, #e6ebf7);
+    border: solid 1px #000;
   }
 }
 </style>
