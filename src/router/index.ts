@@ -4,8 +4,8 @@ import { ROUTER_PATH, ROUTER_NAME, ROLE } from '@/constants'
 import LABEL from '@/constants/label'
 
 import LoginView from '@/views/login/LoginView.vue'
-import RegisterSimulator from '@/views/sales/simulation/RegisterSimulator.vue'
-import SalesComponent from '@/views/sales/SalesComponent.vue'
+import RegisterSimulator from '@/views/user/simulation/RegisterSimulator.vue'
+import SalesComponent from '@/views/user/SalesComponent.vue'
 import AdminView from '@/views/admin/AdminView.vue'
 import {
   AdminPage,
