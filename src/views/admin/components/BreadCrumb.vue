@@ -2,18 +2,27 @@
 import router from '@/router'
 import { computed } from 'vue'
 import { ArrowRightIcon } from '@/assets/icons'
+import { useAuthStore } from '@/stores/auth'
+const { state } = useAuthStore()
 
 const arrayBreadcrumbs = computed(() => {
   const currentPath = router.currentRoute.value.path
   const pathArray = currentPath.split('/')
   pathArray.shift()
+  if (String(state.roleUser) === '1') {
+    pathArray.unshift('/')
+  }
   return pathArray
 })
 
 const getToPath = (item: string) => {
   const arrayPath = [...arrayBreadcrumbs.value]
   const indexItem = arrayPath.indexOf(item)
-  router.push('/' + arrayPath.slice(0, indexItem + 1).join('/'))
+  if (String(state.roleUser) === '1') {
+    router.push('/' + arrayPath.slice(1, indexItem + 1).join('/'))
+  } else {
+    router.push('/' + arrayPath.slice(0, indexItem + 1).join('/'))
+  }
 }
 </script>
 

@@ -50,6 +50,9 @@ const formActions: FormActions = {
 </template>
 
 <style lang="scss" scoped>
+.view-layout {
+  margin: auto;
+}
 .login-screen {
   background-color: white;
   border-radius: 5px;

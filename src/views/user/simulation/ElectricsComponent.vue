@@ -1,31 +1,42 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { ref } from 'vue'
+const dataDefault = ref({
+  input: '',
+  company: ''
+})
+</script>
 
 <template>
   <div class="electrics-content">
     <div class="electrics-bg-content">
+      <div class="font-weight-bold">時間帯別電気使用量</div>
       <div class="flex-space-between">
-        <span class="w-20-percent">Electricity basic charge</span>
-        <el-input class="w-65-percent" placeholder="Please input" />
+        <span class="w-30-percent">日中時間 （平日土の昼間）</span>
+        <div class="w-55-percent text-right">
+          <el-input v-model="dataDefault.input" class="w-200" placeholder="Please input" />
+        </div>
         <span class="w-15-percent">kWh @**円/kWh</span>
       </div>
       <div class="flex-space-between mt-10">
-        <span class="w-20-percent">Electricity usage by time of day</span>
-        <el-input class="w-65-percent" placeholder="Please input" />
+        <span class="w-30-percent">夜間・祝日時間 （平日土の夜間＆日祝日の前日）</span>
+        <div class="w-55-percent text-right">
+          <el-input v-model="dataDefault.input" class="w-200" placeholder="Please input" />
+        </div>
+        <span class="w-15-percent">kWh @**円/kWh</span>
+      </div>
+      <!-- <div class="flex-space-between mt-10">
+        <span class="w-30-percent">night time</span>
+        <el-input class="w-55-percent" placeholder="Please input" />
         <span class="w-15-percent">kWh @**円/kWh</span>
       </div>
       <div class="flex-space-between mt-10">
-        <span class="w-20-percent">night time</span>
-        <el-input class="w-65-percent" placeholder="Please input" />
+        <span class="w-30-percent">home time</span>
+        <el-input class="w-55-percent" placeholder="Please input" />
         <span class="w-15-percent">kWh @**円/kWh</span>
-      </div>
+      </div> -->
       <div class="flex-space-between mt-10">
-        <span class="w-20-percent">home time</span>
-        <el-input class="w-65-percent" placeholder="Please input" />
-        <span class="w-15-percent">kWh @**円/kWh</span>
-      </div>
-      <div class="flex-space-between mt-10">
-        <span class="w-20-percent">Adjusted Unit Price/Subsidy</span>
-        <span class="w-65-percent text-center">123235346</span>
+        <span class="w-30-percent">調整単価・補助金・再エネ賦課金</span>
+        <span class="w-55-percent text-right pr-20">************</span>
         <span class="w-15-percent">kWh @**円/kWh</span>
       </div>
     </div>
@@ -36,12 +47,10 @@
 .electrics-bg-content {
   background-color: #d6dce5;
   border-radius: 5px;
-  padding: 5px;
+  padding: 5px 20px;
 }
 .electrics-content {
   margin-top: 20px;
-  border: solid 1px #000;
-  padding: 20px;
   border-radius: 5px;
 }
 </style>

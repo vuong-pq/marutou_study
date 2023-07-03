@@ -2,39 +2,48 @@
 import { useAuthStore } from '@/stores/auth'
 import { ref } from 'vue'
 import router from '@/router'
+// import HeaderComponentsVue from './components/HeaderComponents.vue'
 
 const { logout } = useAuthStore()
 
-const clickUserSetting = () => {
+const handleClickUserSetting = () => {
   router.push('/user-setting')
+}
+
+const handleClickSearch = () => {
+  router.push('/search-simulator')
+}
+
+const handleClickSimulator = () => {
+  router.push('/simulator')
 }
 </script>
 
 <template>
+  <!-- <HeaderComponentsVue /> -->
   <div class="view-layout">
     <div class="toolbar">
-      <!-- <div class="toolbar-header">
-        <el-button @click="logout">Logout</el-button>
-      </div> -->
       <div class="toolbar-container">
-        <el-button class="button-toolbar" type="primary" @click="logout">User Setting</el-button>
-        <el-button class="button-toolbar" type="primary" @click="clickUserSetting"
-          >Simulator</el-button
-        >
+        <el-button class="button-toolbar" @click="handleClickUserSetting">ユーザー設定</el-button>
+        <el-button class="button-toolbar" @click="handleClickSimulator">シミュレーション</el-button>
+        <el-button class="button-toolbar" @click="handleClickSearch">出力履歴</el-button>
       </div>
     </div>
   </div>
 </template>
 
 <style lang="scss" scoped>
-.toolbar {
-  background-color: white;
-  border-radius: 5px;
-  width: 50vw;
-  height: 50vh;
-  position: relative;
-  border: 1px solid #000;
+.view-layout {
+  flex: 1;
 }
+// .toolbar {
+//   background-color: white;
+//   border-radius: 5px;
+//   width: 50vw;
+//   height: 50vh;
+//   position: relative;
+//   border: 1px solid #000;
+// }
 .toolbar-header {
   position: absolute;
   top: 20px;
@@ -47,10 +56,14 @@ const clickUserSetting = () => {
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  gap: 20px;
+  gap: 35px;
   .button-toolbar {
     width: 400px;
     margin: 0px;
+    background-color: #cad6ee;
+    font-size: 16px;
+    font-weight: bold;
+    min-height: 40px;
   }
 }
 </style>

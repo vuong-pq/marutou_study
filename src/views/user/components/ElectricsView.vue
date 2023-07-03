@@ -1,7 +1,9 @@
 <script setup lang="ts"></script>
 
 <template>
-  <div>New Component</div>
+  <div class="content">
+    <RouterView />
+  </div>
 </template>
 
 <style lang="scss" scoped></style>
