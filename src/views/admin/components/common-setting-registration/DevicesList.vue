@@ -24,11 +24,12 @@ const submit = () => {
 
 const rowClick = (device: Device) => {
   store.setDeviceData(device)
+  const deviceName = device.name
   router.push({
     name: props.isElectricEquipment
       ? ROUTER_NAME.DEVICE_DETAIL_ELECTRIC
       : ROUTER_NAME.DEVICE_DETAIL_GAS_APP,
-    params: {}
+    params: { deviceName }
   })
 }
 </script>

@@ -1,8 +1,10 @@
 <script setup lang="ts">
 import { useAuthStore } from '@/stores/auth'
-
+import { ref } from 'vue'
 import BreadCrumb from './components/BreadCrumb.vue'
+
 const { logout } = useAuthStore()
+const currentScreenName = ref<string>('')
 </script>
 
 <template>
@@ -14,9 +16,9 @@ const { logout } = useAuthStore()
 
     <div class="view">
       <div class="view-content">
-        <BreadCrumb />
+        <BreadCrumb v-model:currentScreenName="currentScreenName" />
 
-        <div class="screen-title">管理者メニュー</div>
+        <div class="screen-title">{{ currentScreenName }}</div>
 
         <div class="content">
           <RouterView />

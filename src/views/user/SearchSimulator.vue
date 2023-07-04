@@ -1,11 +1,52 @@
 <script setup lang="ts">
 import router from '@/router'
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 const dataDefault = ref({
   from: '',
   to: '',
   showSearch: false
 })
+const pageSize = ref(10)
+const currentPage = ref(1)
+const small = ref(false)
+const background = ref(true)
+const disabled = ref(false)
+const getCurrentPageData = (tableData: any) => {
+  return tableData.slice(
+    (currentPage.value - 1) * pageSize.value,
+    currentPage.value * pageSize.value
+  )
+}
+const tableData = ref<any>(
+  new Array(60).fill(0).map((item, index) => {
+    return {
+      registered_date: '1/Jan/2022 12:00:00',
+      registered_na: 'Preparer ' + index,
+      updated_date: '1/Jan/2022 12:00:00',
+      updated_na: 'Preparer ' + index,
+      request_header: '202201-INVREQ-0000' + index,
+      request_detail: '001',
+      company_na: 'Company A',
+      target_month: '202201',
+      invoice: 'INV0001',
+      description: 'Invoice AAA',
+      preparer: 'PIC ' + index,
+      status: 'InvoiceStatus1',
+      due_date: '1/Jan/2022'
+    }
+  })
+)
+let currentPageData = computed(() => {
+  return getCurrentPageData(tableData.value)
+})
+
+const handleSizeChange = (val: number) => {
+  console.log(`${val} items per page`)
+}
+
+const handleCurrentChange = (val: number) => {
+  currentPage.value = val
+}
 </script>
 
 <template>
@@ -63,7 +104,20 @@ const dataDefault = ref({
         </div>
         <div class="content-table text-center" v-show="!dataDefault.showSearch">データなし.</div>
         <hr />
-        <div class="text-center font-weight-bold mt-10">1 2 3 次ページ＞</div>
+        <div class="pagination">
+          <el-pagination
+            v-model:current-page="currentPageData"
+            v-model:page-size="pageSize"
+            :page-sizes="[10, 30, 50]"
+            :small="small"
+            :disabled="disabled"
+            :background="background"
+            layout="prev, pager, next"
+            :total="tableData.length"
+            @size-change="handleSizeChange"
+            @current-change="handleCurrentChange"
+          />
+        </div>
         <div class="text-center m-top-bottom50">
           <el-button class="font-weight-bold btn-back" @click="router.go(-1)">戻る </el-button>
         </div>
@@ -81,7 +135,11 @@ const dataDefault = ref({
 .p5-left-right {
   padding: 0 5px;
 }
-
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 12px;
+}
 .btn-search {
   background-image: linear-gradient(#e6ebf7, #b6c8e8, #e6ebf7);
   border: solid 1px #000;

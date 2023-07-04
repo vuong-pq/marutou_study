@@ -55,7 +55,7 @@ export const ROUTER_NAME = {
   COMMON_SETTING: 'common-setting',
   LIST_POWER_COMPANIES: 'list-power-companies',
   ELECTRIC_EQUIPMENT: 'electric-equipment',
-  POWER_COMPANY_DETAIL: 'power-company-detail',
+  POWER_COMPANY_DETAIL: 'company-detail',
   DEVICE_DETAIL_ELECTRIC: 'device-detail-electric',
   DEVICE_DETAIL_ELECTRIC_NEW: 'device-detail-electric-new',
   DEVICE_DETAIL_GAS_APP: 'device-detail-gas-app',
