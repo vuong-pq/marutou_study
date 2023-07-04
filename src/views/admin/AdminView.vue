@@ -1,52 +1,10 @@
 <script setup lang="ts">
 import { useAuthStore } from '@/stores/auth'
-// import NestedMenu from './NestedMenu.vue'
-// import type { MenuNested } from '@/constants/types'
-
+import { ref } from 'vue'
 import BreadCrumb from './components/BreadCrumb.vue'
-const { logout } = useAuthStore()
 
-// const dataNestedMenu: MenuNested = {
-//   name: 'Admin menu',
-//   data: [
-//     {
-//       name: 'User registration/Edit',
-//       child: {
-//         name: '',
-//         data: [
-//           {
-//             name: 'New user registration',
-//             to: '/admin/setting-user/user-register'
-//           },
-//           {
-//             name: 'User search',
-//             to: '/admin/setting-user/search'
-//           }
-//         ]
-//       }
-//     },
-//     {
-//       name: 'Common setting registration',
-//       child: {
-//         name: '',
-//         data: [
-//           {
-//             name: 'List of power companies',
-//             to: '/admin/common-setting/power-companies'
-//           },
-//           {
-//             name: 'Electrical equipment list',
-//             to: '/admin/common-setting/electric-equipment'
-//           },
-//           {
-//             name: 'List of gas appliances',
-//             to: '/admin/common-setting/gas-appliances'
-//           }
-//         ]
-//       }
-//     }
-//   ]
-// }
+const { logout } = useAuthStore()
+const currentScreenName = ref<string>('')
 </script>
 
 <template>
@@ -57,14 +15,10 @@ const { logout } = useAuthStore()
     </div>
 
     <div class="view">
-      <!-- <div class="menu-admin">
-        <NestedMenu :data="dataNestedMenu" />
-      </div> -->
-
       <div class="view-content">
-        <BreadCrumb />
+        <BreadCrumb v-model:currentScreenName="currentScreenName" />
 
-        <div class="screen-title">管理者メニュー</div>
+        <div class="screen-title">{{ currentScreenName }}</div>
 
         <div class="content">
           <RouterView />

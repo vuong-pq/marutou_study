@@ -125,8 +125,8 @@ const router = createRouter({
         },
 
         {
-          path: ROUTER_PATH.ELECTRICITY_TARIFF_SETTING,
-          name: ROUTER_NAME.ELECTRICITY_TARIFF_SETTING,
+          path: ROUTER_PATH.LIST_POWER_COMPANIES,
+          name: ROUTER_NAME.LIST_POWER_COMPANIES,
           component: ListPowerCompaniesView,
           children: [
             {
