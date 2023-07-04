@@ -42,7 +42,7 @@ const handleDelete = () => {
       <div class="flex-space-between mt-10">
         <span class="w-30-percent">ガス基本料金</span>
         <div class="w-55-percent text-right">
-          <el-input class="w-200" placeholder="Please input" />
+          <el-input class="w-200" placeholder="入ってください" />
         </div>
         <span class="w-15-percent">円</span>
       </div>
@@ -141,14 +141,14 @@ const handleDelete = () => {
       <div class="d-flex-gap20 mt-10">
         <span class="w-30-percent">ガス基本料金</span>
         <div class="w-55-percent text-right">
-          <el-input class="w-200" placeholder="Please input" />
+          <el-input class="w-200" placeholder="入ってください" />
         </div>
         <span class="w-15-percent">円</span>
       </div>
       <div class="d-flex-gap20 mt-10 mb-10">
         <span class="w-30-percent">プラン利用料</span>
         <div class="w-55-percent text-right">
-          <el-input class="w-200" placeholder="Please input" />
+          <el-input class="w-200" placeholder="入ってください" />
         </div>
         <span class="w-15-percent">円</span>
       </div>
@@ -158,13 +158,14 @@ const handleDelete = () => {
 
 <style lang="scss" scoped>
 .title-type {
-  font-size: 16px;
+  font-size: 20px;
   font-weight: 700;
 }
 .gas-bg-content {
   background-color: #d6dce5;
   border-radius: 5px;
   padding: 5px 20px;
+  font-size: 20px;
 }
 
 .gas-content {
@@ -184,6 +185,7 @@ const handleDelete = () => {
   .btn-gas {
     background-image: linear-gradient(#e6ebf7, #b6c8e8, #e6ebf7);
     border: solid 1px #000;
+    font-size: 20px;
   }
 }
 </style>

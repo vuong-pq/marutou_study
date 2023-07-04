@@ -25,7 +25,7 @@ import ListComponent from '@/views/user/components/ListComponent.vue'
     margin: 0px;
     background-image: linear-gradient(#e6ebf7, #b6c8e8, #e6ebf7);
     border: solid 1px #000;
-    font-size: 16px;
+    font-size: 20px;
     font-weight: bold;
     min-height: 50px;
   }

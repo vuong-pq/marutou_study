@@ -3,6 +3,8 @@ import { storeToRefs } from 'pinia'
 import { useAuthStore } from '@/stores/auth'
 import LABEL from '@/constants/label'
 import BreadCrumb from '@/views/admin/components/BreadCrumb.vue'
+import { SwitchButton } from '@element-plus/icons-vue'
+
 const { loggedIn, state } = storeToRefs(useAuthStore())
 const { logout } = useAuthStore()
 </script>
@@ -20,7 +22,11 @@ const { logout } = useAuthStore()
     "
   >
     <div style="padding-right: 20px">
-      Tài khoản KH &nabla;&nbsp;&nbsp;&nbsp; <el-button @click="logout">Logout</el-button>
+      ユーザー1 &nabla;&nbsp;&nbsp;&nbsp;
+      <el-button @click="logout"
+        >ログアウト
+        <el-icon style="margin-left: 10px"><SwitchButton color="red" size="20" /></el-icon
+      ></el-button>
     </div>
   </div>
   <BreadCrumb v-if="loggedIn && String(state.roleUser) === LABEL.COMMON.NUMBER.ONE" />

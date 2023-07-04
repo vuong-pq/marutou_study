@@ -1,5 +1,9 @@
 <script setup lang="ts">
 import { useAuthStore } from '@/stores/auth'
+import { CommonSettingIcon } from '@/assets/icons'
+
+import { Tickets, FolderOpened } from '@element-plus/icons-vue'
+
 import { ref } from 'vue'
 import router from '@/router'
 // import HeaderComponentsVue from './components/HeaderComponents.vue'
@@ -24,9 +28,19 @@ const handleClickSimulator = () => {
   <div class="view-layout">
     <div class="toolbar">
       <div class="toolbar-container">
-        <el-button class="button-toolbar" @click="handleClickUserSetting">ユーザー設定</el-button>
-        <el-button class="button-toolbar" @click="handleClickSimulator">シミュレーション</el-button>
-        <el-button class="button-toolbar" @click="handleClickSearch">出力履歴</el-button>
+        <!-- <el-button class="button-toolbar" @click="handleClickUserSetting">ユーザー設定</el-button> -->
+        <div class="bg-btn-user" @click="handleClickUserSetting">
+          <CommonSettingIcon class="icon-item" />
+          <span class="button-toolbar">ユーザー設定</span>
+        </div>
+        <div class="bg-btn-user" @click="handleClickSimulator">
+          <el-icon class="icon-item"><FolderOpened color="red" /></el-icon>
+          <span class="button-toolbar">シミュレーション</span>
+        </div>
+        <div class="bg-btn-user" @click="handleClickSearch">
+          <el-icon class="icon-item"><Tickets color="blue" /></el-icon>
+          <span class="button-toolbar">出力履歴</span>
+        </div>
       </div>
     </div>
   </div>
@@ -61,9 +75,30 @@ const handleClickSimulator = () => {
     width: 400px;
     margin: 0px;
     background-color: #cad6ee;
-    font-size: 16px;
+    font-size: 20px;
     font-weight: bold;
     min-height: 40px;
+  }
+  .bg-btn-user {
+    background-color: #cad6ee;
+    border-radius: 5px;
+    width: 400px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+  }
+  .icon-item {
+    font-size: 5rem;
+    display: flex;
+    min-width: 100px;
+    align-items: center;
+    svg {
+      fill: aquamarine;
+    }
+    path {
+      stroke: green !important;
+    }
   }
 }
 </style>

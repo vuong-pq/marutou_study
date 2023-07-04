@@ -13,25 +13,25 @@ const dataDefault = ref({
       <div class="flex-space-between">
         <span class="w-30-percent">日中時間 （平日土の昼間）</span>
         <div class="w-55-percent text-right">
-          <el-input v-model="dataDefault.input" class="w-200" placeholder="Please input" />
+          <el-input v-model="dataDefault.input" class="w-200" placeholder="入ってください" />
         </div>
         <span class="w-15-percent">kWh @**円/kWh</span>
       </div>
       <div class="flex-space-between mt-10">
         <span class="w-30-percent">夜間・祝日時間 （平日土の夜間＆日祝日の前日）</span>
         <div class="w-55-percent text-right">
-          <el-input v-model="dataDefault.input" class="w-200" placeholder="Please input" />
+          <el-input v-model="dataDefault.input" class="w-200" placeholder="入ってください" />
         </div>
         <span class="w-15-percent">kWh @**円/kWh</span>
       </div>
       <!-- <div class="flex-space-between mt-10">
         <span class="w-30-percent">night time</span>
-        <el-input class="w-55-percent" placeholder="Please input" />
+        <el-input class="w-55-percent" placeholder="入ってください"  />
         <span class="w-15-percent">kWh @**円/kWh</span>
       </div>
       <div class="flex-space-between mt-10">
         <span class="w-30-percent">home time</span>
-        <el-input class="w-55-percent" placeholder="Please input" />
+        <el-input class="w-55-percent" placeholder="入ってください"  />
         <span class="w-15-percent">kWh @**円/kWh</span>
       </div> -->
       <div class="flex-space-between mt-10">
