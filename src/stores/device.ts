@@ -13,15 +13,9 @@ export const useDeviceStore = defineStore('device', () => {
     ..._.cloneDeep(defaultState)
   })
 
-  const isElectricalComponent = ref<boolean>(false)
-
   const setDeviceData = (params: Device) => {
     deviceData.value = { ...params }
   }
 
-  const checkIsElectricalComponent = (params: boolean) => {
-    isElectricalComponent.value = params
-  }
-
-  return { deviceData, setDeviceData, checkIsElectricalComponent, isElectricalComponent }
+  return { deviceData, setDeviceData }
 })

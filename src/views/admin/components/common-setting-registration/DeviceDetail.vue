@@ -1,25 +1,15 @@
 <script setup lang="ts">
-import router from '@/router'
 import DeviceForm from './DeviceForm.vue'
-import { ROUTER_NAME } from '@/constants'
-import { useDeviceStore } from '@/stores/device'
-import { storeToRefs } from 'pinia'
 
-const store = useDeviceStore()
-
-const { isElectricalComponent } = storeToRefs(store)
-
-defineProps<{
+const props = defineProps<{
   isNewForm: boolean
+  isElectricEquipment: boolean
 }>()
-
-console.log('curr', router.currentRoute.value.path)
-console.log('curr', ROUTER_NAME.ELECTRIC_EQUIPMENT)
 </script>
 
 <template>
   <div class="electrical-equipment-detail">
-    <DeviceForm :isNewForm="isNewForm" :isElectricEquipment="isElectricalComponent" />
+    <DeviceForm :isNewForm="props.isNewForm" :isElectricEquipment="props.isElectricEquipment" />
   </div>
 </template>
 
@@ -27,5 +17,11 @@ console.log('curr', ROUTER_NAME.ELECTRIC_EQUIPMENT)
 .electrical-equipment-detail {
   display: flex;
   align-items: center;
+  justify-content: center;
+  background: aliceblue;
+  height: max-content;
+  min-width: min(60%, 800px);
+  min-height: 80%;
+  border-radius: 12px;
 }
 </style>

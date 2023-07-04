@@ -56,7 +56,10 @@ export const ROUTER_NAME = {
   ELECTRICITY_TARIFF_SETTING: 'electricity-tariff',
   ELECTRIC_EQUIPMENT: 'electric-equipment',
   POWER_COMPANY_DETAIL: 'power-company-detail',
-  DEVICE_DETAIL: 'device-detail',
+  DEVICE_DETAIL_ELECTRIC: 'device-detail-electric',
+  DEVICE_DETAIL_ELECTRIC_NEW: 'device-detail-electric-new',
+  DEVICE_DETAIL_GAS_APP: 'device-detail-gas-app',
+  DEVICE_DETAIL_GAS_APP_NEW: 'device-detail-gas-app-new',
   GAS_APPLIANCES: 'gas-appliances',
   DEVICE_NEW: 'device-new'
 }

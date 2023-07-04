@@ -97,10 +97,6 @@ const cancelForm = () => {
     }
   }
 
-  padding: 175px;
-  background: aliceblue;
-  border-radius: 12px;
-
   :deep(.el-input__wrapper) {
     height: 40px;
     border-radius: unset;
@@ -114,7 +110,7 @@ const cancelForm = () => {
   }
 
   :deep(.el-form-item:nth-child(2)) {
-    margin-bottom: 32px;
+    margin-bottom: 64px;
   }
 }
 </style>

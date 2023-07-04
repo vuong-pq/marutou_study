@@ -17,29 +17,6 @@ const RedirectToEdit = () => {
       </div>
       <el-button class="btn" @click="RedirectToEdit">検索</el-button>
     </div>
-    <!-- <div class="bottom-content">
-      <div class="update-pass">
-        <div style="font-weight: 700; font-size: 20px">Update PassWord</div>
-        <div class="form-element">
-          <el-form ref="ruleFormRef" label-width="200px" class="demo-ruleForm">
-            <el-form-item label="Company Name: " prop="email">
-              <el-input type="text" />
-            </el-form-item>
-            <el-form-item label="User Id: " prop="id">
-              <el-input type="text" />
-            </el-form-item>
-            <el-form-item label="Password" prop="password">
-              <el-input type="password" autocomplete="off" />
-            </el-form-item>
-            <el-form-item>
-              <el-button type="default">Update</el-button>
-              <el-button type="default">Cancel</el-button>
-              <!- <el-button @click="resetForm(ruleFormRef)">Reset</el-button> --
-            </el-form-item>
-          </el-form>
-        </div>
-      </div>
-    </div> -->
   </div>
 </template>
 
