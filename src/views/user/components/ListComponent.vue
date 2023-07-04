@@ -115,7 +115,7 @@ const clickNewBtn = () => {
     <div class="view-list">
       <div class="list-container">
         <div
-          class="mt-10"
+          class="row-list"
           :class="index % 2 === 0 ? 'bg-line' : ''"
           v-for="(company, index) in companies"
         >
@@ -138,8 +138,33 @@ const clickNewBtn = () => {
 </template>
 
 <style lang="scss" scoped>
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+/* Track */
+
+::-webkit-scrollbar-track {
+  background: white;
+}
+
+/* Handle */
+
+::-webkit-scrollbar-thumb {
+  border-radius: 5px;
+  background: #ccc;
+}
+
+/* Handle on hover */
+
+::-webkit-scrollbar-thumb:hover {
+  background: #ccc;
+}
+
 .bg-line {
   background-color: #b6c8e8;
+}
+.row-list {
   padding: 5px 10px;
 }
 .view-layout {
@@ -154,6 +179,7 @@ const clickNewBtn = () => {
     border: solid 1px #000;
     min-width: 100px;
     height: 40px;
+    font-size: 20px;
   }
 }
 .list-container {
@@ -163,6 +189,8 @@ const clickNewBtn = () => {
   max-width: 600px;
   overflow: auto;
   border: 1px solid #000;
+  padding-bottom: 10px;
+  border-radius: 5px;
 
   .item-company {
     font-weight: bold;

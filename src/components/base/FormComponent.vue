@@ -89,7 +89,7 @@ defineExpose({
     status-icon
   >
     <el-row v-for="(rowItems, index) in fItems" :key="index" class="form-row">
-      <el-col v-for="item in rowItems" :key="item.key" :span="24 /   rowItems.length">
+      <el-col v-for="item in rowItems" :key="item.key" :span="24 / rowItems.length">
         <FormItemComponent
           :f-item="item"
           :f-model="formData[item?.key || '']"
@@ -110,3 +110,10 @@ defineExpose({
     </el-form-item>
   </el-form>
 </template>
+<style lang="scss" scoped>
+.el-form-item__content .el-button {
+  min-width: 200px !important;
+  font-size: 20px;
+  min-height: 40px;
+}
+</style>

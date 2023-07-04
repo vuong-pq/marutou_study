@@ -164,4 +164,8 @@ const createFilter = (queryString: string) => {
 .text-center {
   text-align: center;
 }
+:deep(.el-form-item__label) {
+  font-size: 20px;
+  min-width: 150px;
+}
 </style>

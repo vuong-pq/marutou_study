@@ -11,28 +11,42 @@ const dataDefault = ref({
 const options = [
   {
     value: 'Option1',
-    label: 'Option1'
+    label: 'オプション1'
   },
   {
     value: 'Option2',
-    label: 'Option2'
+    label: 'オプション2'
   },
   {
     value: 'Option3',
-    label: 'Option3'
+    label: 'オプション3'
   },
   {
     value: 'Option4',
-    label: 'Option4'
+    label: 'オプション4'
+  }
+]
+const options1 = [
+  {
+    value: 'Option1',
+    label: 'オプション1'
   },
   {
-    value: 'Option5',
-    label: 'Option5'
+    value: 'Option2',
+    label: 'オプション2'
+  },
+  {
+    value: 'Option3',
+    label: 'オプション3'
+  },
+  {
+    value: 'Option4',
+    label: 'オプション4'
   }
 ]
 
 const handleSimulator = () => {
-  window.open('./open.pdf')
+  window.open('./abc.pdf')
 }
 </script>
 
@@ -49,7 +63,7 @@ const handleSimulator = () => {
               <el-input
                 v-model="dataDefault.input"
                 class="input-company"
-                placeholder="Please input"
+                placeholder="入ってください"
               />
             </div>
             <div class="d-flex mt-10">
@@ -78,7 +92,7 @@ const handleSimulator = () => {
                 size="large"
               >
                 <el-option
-                  v-for="item in options"
+                  v-for="item in options1"
                   :key="item.value"
                   :label="item.label"
                   :value="item.value"
@@ -90,7 +104,7 @@ const handleSimulator = () => {
             <div class="flex-space-between mt-20">
               <span class="w-30-percent">電気基本料金</span>
               <div class="w-55-percent text-right">
-                <el-input v-model="dataDefault.input" class="w-200" placeholder="Please input" />
+                <el-input v-model="dataDefault.input" class="w-200" placeholder="入ってください" />
               </div>
               <span class="w-15-percent">円</span>
             </div>
@@ -127,6 +141,7 @@ const handleSimulator = () => {
   background-image: linear-gradient(#e6ebf7, #b6c8e8, #e6ebf7);
   border: solid 1px #000;
   color: #000;
+  font-size: 20px;
 }
 
 .toolbar-container {
@@ -137,7 +152,7 @@ const handleSimulator = () => {
     font-weight: 700;
   }
   .title-type {
-    font-size: 16px;
+    font-size: 20px;
     font-weight: 700;
   }
   .content-simulator {

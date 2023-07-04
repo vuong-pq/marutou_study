@@ -56,6 +56,7 @@ const dataDefault = ref({
     border: solid 1px #000;
     min-width: 200px;
     height: 40px;
+    font-size: 20px;
   }
 }
 .list-container {

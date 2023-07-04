@@ -18,7 +18,7 @@ const formItems: FormItem[][] = [
   [
     {
       key: 'password',
-      label: 'Password',
+      label: 'パスワード',
       type: FORM_ITEM_TYPE.INPUT_PASSWORD
     }
   ]
@@ -32,7 +32,7 @@ const formRules: FormRules = {
 const formActions: FormActions = {
   submit: {
     visible: true,
-    label: 'Login',
+    label: 'ログイン',
     onSuccess: login
   }
 }
@@ -42,7 +42,7 @@ const formActions: FormActions = {
   <div class="view-layout">
     <div class="login-screen">
       <div class="login-form">
-        <div class="login-title">Login</div>
+        <div class="login-title">ログイン</div>
         <FormComponent :f-items="formItems" :f-rules="formRules" :f-actions="formActions" />
       </div>
     </div>
@@ -52,6 +52,7 @@ const formActions: FormActions = {
 <style lang="scss" scoped>
 .view-layout {
   margin: auto;
+  font-size: 20px;
 }
 .login-screen {
   background-color: white;
@@ -82,7 +83,7 @@ const formActions: FormActions = {
 :deep(.el-form-item--default .el-form-item__content) {
   justify-content: center !important;
   .el-button {
-    min-width: 120px !important;
+    min-width: 200px !important;
   }
 }
 </style>
