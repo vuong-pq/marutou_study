@@ -20,12 +20,12 @@ export const ROUTER_PATH = {
   MASTER_SETTINGS: '/master-settings',
   PAYMENTS: '/payments',
   USER_REGISTER: 'setting-user/user-register',
-  ELECTRICITY_TARIFF_SETTING: 'common-setting/electricity-tariff',
+  LIST_POWER_COMPANIES: 'common-setting/list-power-companies',
   ELECTRIC_EQUIPMENT: 'common-setting/electric-equipment',
-  DEVICE_DETAIL: ':deviceDetail',
+  DEVICE_DETAIL: 'device-detail',
   DEVICE_NEW: 'new',
   GAS_APPLIANCES: 'common-setting/gas-appliances',
-  POWER_COMPANY_DETAIL: ':companyName'
+  POWER_COMPANY_DETAIL: 'company-detail'
 }
 
 export const ROUTER_NAME = {
@@ -33,7 +33,7 @@ export const ROUTER_NAME = {
   ADMIN: 'admin',
   USER: 'main',
   USER_SETTING: 'user-setting',
-  SIMULATOR: '/simulator',
+  SIMULATOR: 'simulator',
   SEARCH_SIMULATOR: 'search-simulator',
   SETTING_USER: 'setting-user',
   ELECTRIC_EQUIPMENT_USER: 'electric-equipment-user',
@@ -53,15 +53,63 @@ export const ROUTER_NAME = {
   PAYMENTS: 'payments',
   USER_REGISTER: 'user-register',
   COMMON_SETTING: 'common-setting',
-  ELECTRICITY_TARIFF_SETTING: 'electricity-tariff',
+  LIST_POWER_COMPANIES: 'list-power-companies',
   ELECTRIC_EQUIPMENT: 'electric-equipment',
   POWER_COMPANY_DETAIL: 'power-company-detail',
   DEVICE_DETAIL_ELECTRIC: 'device-detail-electric',
   DEVICE_DETAIL_ELECTRIC_NEW: 'device-detail-electric-new',
   DEVICE_DETAIL_GAS_APP: 'device-detail-gas-app',
   DEVICE_DETAIL_GAS_APP_NEW: 'device-detail-gas-app-new',
-  GAS_APPLIANCES: 'gas-appliances',
-  DEVICE_NEW: 'device-new'
+  GAS_APPLIANCES: 'gas-appliances'
+}
+//clone from route path admin?
+export const PATH_NAME = {
+  ADMIN: ROUTER_NAME.ADMIN,
+  SETTING_USER: ROUTER_NAME.SETTING_USER,
+  USER_REGISTER: ROUTER_NAME.USER_REGISTER,
+  USER_SEARCH: ROUTER_NAME.USER_SEARCH,
+  USER_EDIT: ROUTER_NAME.USER_EDIT,
+  COMMON_SETTING: ROUTER_NAME.COMMON_SETTING,
+  GAS_APPLIANCES: ROUTER_NAME.GAS_APPLIANCES,
+  DEVICE_DETAIL: 'device-detail',
+  DEVICE_NEW: 'new',
+  LIST_POWER_COMPANIES: ROUTER_NAME.LIST_POWER_COMPANIES,
+  POWER_COMPANY_DETAIL: ROUTER_NAME.POWER_COMPANY_DETAIL,
+  ELECTRIC_EQUIPMENT: ROUTER_NAME.ELECTRIC_EQUIPMENT
+}
+
+//check all route run after adjust this object
+export const PATH_NAME_JP = {
+  ADMIN: '管理者メニュー',
+  SETTING_USER: '管理者メニュー',
+  USER_REGISTER: '新規ユーザー登録',
+  USER_SEARCH: 'ユーザー検索',
+  USER_EDIT: 'ユーザー情報編集',
+  COMMON_SETTING: '共通設定登録',
+  GAS_APPLIANCES: 'ガス機器一覧',
+  DEVICE_DETAIL_GAS_APP: 'ガス機器編集',
+  DEVICE_DETAIL_ELECTRIC: '電気機器編集',
+  DEVICE_DETAIL_GAS_APP_NEW: 'ガス機器登録',
+  DEVICE_DETAIL_ELECTRIC_NEW: '電気機器登録',
+  LIST_POWER_COMPANIES: '電力会社一覧',
+  POWER_COMPANY_DETAIL: '電力料金設定編集',
+  ELECTRIC_EQUIPMENT: '電気機器一覧'
+}
+export const SCREEN_NAME = {
+  ADMIN: '管理者メニュー',
+  SETTING_USER: 'ユーザー登録・編集',
+  USER_REGISTER: '新規ユーザー登録',
+  USER_SEARCH: 'ユーザー検索',
+  USER_EDIT: 'ユーザー情報編集',
+  COMMON_SETTING: '共通設定登録',
+  GAS_APPLIANCES: 'ガス機器一覧',
+  DEVICE_DETAIL_GAS_APP: 'ガス機器編集',
+  DEVICE_DETAIL_ELECTRIC: '電気機器編集',
+  DEVICE_DETAIL_GAS_APP_NEW: 'ガス機器登録',
+  DEVICE_DETAIL_ELECTRIC_NEW: '電気機器登録',
+  LIST_POWER_COMPANIES: '電力会社一覧',
+  POWER_COMPANY_DETAIL: 'NAME OF COMPANY WHEN CLICK AN ITEM',
+  ELECTRIC_EQUIPMENT: '電気機器一覧'
 }
 
 // re set item by router after build interface
@@ -71,7 +119,7 @@ export const MENU_ITEMS_PATH = {
   NEW_USER_REGISTRATION: '/admin/setting-user/user-register',
   USER_SEARCH: '/admin/setting-user/search',
   ELECTRICAL_EQUIPMENT: '/admin/common-setting/electric-equipment',
-  ELECTRICITY_TARIFF_SETTING: '/admin/common-setting/electricity-tariff',
+  LIST_POWER_COMPANIES: '/admin/common-setting/list-power-companies',
   GAS_APPLIANCES: '/admin/common-setting/gas-appliances'
 }
 
@@ -80,7 +128,7 @@ export const MENU_ITEMS_NAME = {
   COMMON_SETTINGS: '共通設定登録',
   NEW_USER_REGISTRATION: '新規ユーザー登録',
   USER_SEARCH: 'ユーザー情報編集',
-  ELECTRICITY_TARIFF_SETTING: '電力料金設定',
+  LIST_POWER_COMPANIES: '電力料金設定',
   ELECTRICAL_EQUIPMENT: '電気機器登録',
   GAS_APPLIANCES: 'ガス機器登録'
 }
