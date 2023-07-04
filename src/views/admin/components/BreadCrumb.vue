@@ -14,7 +14,6 @@ const arrayBreadcrumbs = computed(() => {
   }
   return pathArray
 })
-console.log('array: ', arrayBreadcrumbs)
 
 const getToPath = (item: string) => {
   const arrayPath = [...arrayBreadcrumbs.value]

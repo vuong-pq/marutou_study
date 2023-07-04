@@ -13,17 +13,24 @@ const props = defineProps<{
 
 const submit = () => {
   console.log('submitted')
-  store.checkIsElectricalComponent(props.isElectricEquipment)
   store.setDeviceData({ name: '', title: '' })
-  router.push({ name: ROUTER_NAME.DEVICE_NEW, params: {} })
+  router.push({
+    name: props.isElectricEquipment
+      ? ROUTER_NAME.DEVICE_DETAIL_ELECTRIC_NEW
+      : ROUTER_NAME.DEVICE_DETAIL_GAS_APP_NEW,
+    params: {}
+  })
 }
 
 const rowClick = (device: Device) => {
-  console.log('click item device: ', device)
   store.setDeviceData(device)
-  store.checkIsElectricalComponent(props.isElectricEquipment)
   const deviceDetail = device.title
-  router.push({ name: ROUTER_NAME.DEVICE_DETAIL, params: { deviceDetail } })
+  router.push({
+    name: props.isElectricEquipment
+      ? ROUTER_NAME.DEVICE_DETAIL_ELECTRIC
+      : ROUTER_NAME.DEVICE_DETAIL_GAS_APP,
+    params: { deviceDetail }
+  })
 }
 </script>
 

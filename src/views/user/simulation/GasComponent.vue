@@ -50,7 +50,7 @@ const handleDelete = () => {
       <hr />
       <div>従量単価</div>
 
-      <div v-for="(data, index) in datas" class="price mt-10">
+      <div v-for="(data, index) in datas" :key="index" class="price mt-10">
         <div class="price-element">
           <span class="w-300">{{ index === 0 ? 0 : datas[index - 1].price }} .0~ </span>
           <el-input type="number" v-model="data.price" class="w-200" />

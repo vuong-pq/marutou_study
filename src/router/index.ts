@@ -88,13 +88,13 @@ const router = createRouter({
             },
             {
               path: ROUTER_PATH.DEVICE_DETAIL,
-              name: ROUTER_NAME.DEVICE_DETAIL,
+              name: ROUTER_NAME.DEVICE_DETAIL_GAS_APP,
               component: DeviceDetail,
               props: { isNewForm: false, isElectricEquipment: false }
             },
             {
               path: ROUTER_PATH.DEVICE_NEW,
-              name: ROUTER_NAME.DEVICE_NEW,
+              name: ROUTER_NAME.DEVICE_DETAIL_GAS_APP_NEW,
               component: DeviceDetail,
               props: { isNewForm: true, isElectricEquipment: false }
             }
@@ -111,13 +111,13 @@ const router = createRouter({
             },
             {
               path: ROUTER_PATH.DEVICE_DETAIL,
-              name: ROUTER_NAME.DEVICE_DETAIL,
+              name: ROUTER_NAME.DEVICE_DETAIL_ELECTRIC,
               component: DeviceDetail,
               props: { isNewForm: false, isElectricEquipment: true }
             },
             {
               path: ROUTER_PATH.DEVICE_NEW,
-              name: ROUTER_NAME.DEVICE_NEW,
+              name: ROUTER_NAME.DEVICE_DETAIL_ELECTRIC_NEW,
               component: DeviceDetail,
               props: { isNewForm: true, isElectricEquipment: true }
             }
