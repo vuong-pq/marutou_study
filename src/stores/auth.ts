@@ -17,6 +17,7 @@ const defaultState = {
 
 export const useAuthStore = defineStore('auth', () => {
   const loggedIn = ref(true)
+  const roleValue = ref(1)
 
   const state = reactive<UserState>({
     ..._.cloneDeep(defaultState)
@@ -35,6 +36,10 @@ export const useAuthStore = defineStore('auth', () => {
     loggedIn.value = false
     router.push('/login')
   }
+  const changeRole = (value: number) => {
+    console.log('value: ', value)
+    state.roleUser = value
+  }
 
-  return { state, loggedIn, login, logout }
+  return { state, loggedIn, login, logout, changeRole }
 })

@@ -4,8 +4,8 @@ import { FORM_ITEM_TYPE } from '@/constants'
 import { useAuthStore } from '@/stores/auth'
 import type { FormActions, FormItem } from '@/constants/types'
 import type { FormRules } from 'element-plus/lib/components/index.js'
-
-const { login, state } = useAuthStore()
+import { storeToRefs } from 'pinia'
+const { login, changeRole, state } = useAuthStore()
 
 const formItems: FormItem[][] = [
   [
@@ -36,13 +36,20 @@ const formActions: FormActions = {
     onSuccess: login
   }
 }
+const changeMode = () => {
+  if (state.roleUser === 1) {
+    state.roleUser = 2
+  } else {
+    state.roleUser = 1
+  }
+}
 </script>
 
 <template>
   <div class="view-layout">
     <div class="login-screen">
       <div class="login-form">
-        <div class="login-title">ログイン</div>
+        <div class="login-title" @click="changeMode">ログイン</div>
         <FormComponent :f-items="formItems" :f-rules="formRules" :f-actions="formActions" />
       </div>
     </div>
