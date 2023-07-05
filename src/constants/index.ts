@@ -171,14 +171,14 @@ export const ROLE = {
   USER: 'user'
 }
 
-export const LIST_POWER_COMPANIES = {
-  1: '北海道',
-  2: '東北',
-  3: '東京',
-  4: '中部',
-  5: '北陸',
-  6: '関西',
-  7: '四国',
-  8: '中国',
-  9: '九州'
-}
+export const LIST_POWER_COMPANIES = [
+  '北海道',
+  '東北',
+  '東京',
+  '中部',
+  '北陸',
+  '関西',
+  '四国',
+  '中国',
+  '九州'
+]
