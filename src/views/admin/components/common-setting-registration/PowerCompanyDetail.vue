@@ -7,6 +7,7 @@ import { LIST_POWER_COMPANIES } from '@/constants'
 import { reactive, ref } from 'vue'
 
 const ruleFormRef = ref<FormInstance>()
+const currentCompanyName = ref<string>('北海道')
 
 const transformData = (originData: any) => {
   const targetData: { [key: string]: any } = {}
@@ -106,14 +107,32 @@ const checkRequired1 = (rule: any, value: any, callback: any) => {
     callback()
   }
 }
-const checkRequired2 = (rule: any, value: any, callback: any) => {
-  if (value === '') {
-    callback(new Error('This field is required'))
-  } else {
-    callback()
+
+const getRuleByCompany = () => {
+  let ruleObject = {}
+  switch (currentCompanyName.value) {
+    case LIST_POWER_COMPANIES[0]: {
+      ruleObject = {
+        tab1_name_field1: [
+          { validator: checkRequired1, trigger: 'blur' },
+          {
+            required: true,
+            message: 'This field is required',
+            trigger: 'change'
+          }
+        ],
+        tab1_name_field2: [{ validator: checkRequired1, trigger: 'blur' }],
+        tab1_name_field3: [{ validator: checkRequired1, trigger: 'blur' }],
+        tab1_name_field4: [{ validator: checkRequired1, trigger: 'blur' }],
+        tab1_name_field5: [{ validator: checkRequired1, trigger: 'blur' }]
+      }
+    }
   }
+  return ruleObject
 }
-const rulesObject: { [key: string]: any } = {}
+
+const rulesObject: { [key: string]: any } = getRuleByCompany()
+
 Object.keys(targetData.value.tab2).forEach((key) => {
   rulesObject[key] = [{ required: true, message: 'This field is required', trigger: 'change' }]
 })
@@ -127,18 +146,6 @@ Object.keys(targetData.value.tab5).forEach((key) => {
   rulesObject[key] = [{ required: true, message: 'This field is required', trigger: 'change' }]
 })
 const rules = reactive<FormRules<any>>({
-  tab1_name_field1: [
-    { validator: checkRequired1, trigger: 'blur' },
-    {
-      required: true,
-      message: 'This field is required',
-      trigger: 'change'
-    }
-  ],
-  tab1_name_field2: [{ validator: checkRequired2, trigger: 'blur' }],
-  tab1_name_field3: [{ validator: checkRequired2, trigger: 'blur' }],
-  tab1_name_field4: [{ validator: checkRequired2, trigger: 'blur' }],
-  tab1_name_field5: [{ validator: checkRequired2, trigger: 'blur' }],
   ...rulesObject
 })
 
