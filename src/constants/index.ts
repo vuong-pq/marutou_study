@@ -114,33 +114,23 @@ export const SCREEN_NAME = {
 
 // re set item by router after build interface
 export const MENU_ITEMS_PATH = {
-  USER_SETTINGS: '/admin/setting-user',
-  COMMON_SETTINGS: '/admin/common-setting',
-  NEW_USER_REGISTRATION: '/admin/setting-user/user-register',
-  USER_SEARCH: '/admin/setting-user/search',
-  ELECTRICAL_EQUIPMENT: '/admin/common-setting/electric-equipment',
-  LIST_POWER_COMPANIES: '/admin/common-setting/list-power-companies',
-  GAS_APPLIANCES: '/admin/common-setting/gas-appliances'
+  USER_SETTINGS: ROUTER_PATH.SETTING_USER,
+  COMMON_SETTINGS: ROUTER_PATH.COMMON_SETTING,
+  NEW_USER_REGISTRATION: ROUTER_PATH.SETTING_USER + '/user-register',
+  USER_SEARCH: ROUTER_PATH.SETTING_USER + '/search',
+  ELECTRICAL_EQUIPMENT: ROUTER_PATH.COMMON_SETTING + '/electric-equipment',
+  LIST_POWER_COMPANIES: ROUTER_PATH.COMMON_SETTING + '/list-power-companies',
+  GAS_APPLIANCES: ROUTER_PATH.COMMON_SETTING + '/gas-appliances'
 }
 
 export const MENU_ITEMS_NAME = {
-  USER_SETTINGS: 'ユーザー登録・編集',
-  COMMON_SETTINGS: '共通設定登録',
-  NEW_USER_REGISTRATION: '新規ユーザー登録',
-  USER_SEARCH: 'ユーザー情報編集',
-  LIST_POWER_COMPANIES: '電力料金設定',
-  ELECTRICAL_EQUIPMENT: '電気機器登録',
-  GAS_APPLIANCES: 'ガス機器登録'
-}
-
-export const MASTER_SETTINGS_ROUTER_PATH = {
-  USER: ROUTER_PATH.MASTER_SETTINGS + '/user',
-  USER_ROLE: ROUTER_PATH.MASTER_SETTINGS + '/user-role',
-  BENEFICIARY: ROUTER_PATH.MASTER_SETTINGS + '/beneficiary',
-  APPROVAL_ROUTE: ROUTER_PATH.MASTER_SETTINGS + '/approval-route',
-  DOCUMENT_TYPE: ROUTER_PATH.MASTER_SETTINGS + '/document-type',
-  MONTHLY_EXCHANGE_RATE: ROUTER_PATH.MASTER_SETTINGS + '/monthly-exchange-rate',
-  RATIO_ALLOCATION: ROUTER_PATH.MASTER_SETTINGS + '/ratio-allocation'
+  USER_SETTINGS: SCREEN_NAME.SETTING_USER,
+  COMMON_SETTINGS: SCREEN_NAME.COMMON_SETTING,
+  NEW_USER_REGISTRATION: SCREEN_NAME.USER_REGISTER,
+  USER_SEARCH: SCREEN_NAME.USER_SEARCH,
+  LIST_POWER_COMPANIES: SCREEN_NAME.LIST_POWER_COMPANIES,
+  ELECTRICAL_EQUIPMENT: SCREEN_NAME.ELECTRIC_EQUIPMENT,
+  GAS_APPLIANCES: SCREEN_NAME.GAS_APPLIANCES
 }
 
 export const PUBLIC_PATH = [ROUTER_PATH.LOGIN]
@@ -179,4 +169,16 @@ export const SPECIAL_FORM_TYPE = [
 export const ROLE = {
   ADMIN: 'admin',
   USER: 'user'
+}
+
+export const LIST_POWER_COMPANIES = {
+  1: '北海道',
+  2: '東北',
+  3: '東京',
+  4: '中部',
+  5: '北陸',
+  6: '関西',
+  7: '四国',
+  8: '中国',
+  9: '九州'
 }
