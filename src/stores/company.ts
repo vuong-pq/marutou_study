@@ -12,14 +12,22 @@ const defaultState = {
   field4: ''
 }
 
-export const useCompanyStore = defineStore('company', () => {
-  const powerCompanyDetailData = ref<PowerCompany>({
-    ..._.cloneDeep(defaultState)
-  })
+export const useCompanyStore = defineStore(
+  'company',
+  () => {
+    const powerCompanyDetailData = ref<PowerCompany>({
+      ..._.cloneDeep(defaultState)
+    })
 
-  const setPowerCompanyDetailData = (params: PowerCompany) => {
-    powerCompanyDetailData.value = { ...params }
-  }
+    const $reset = () => {
+      powerCompanyDetailData.value = { ...defaultState }
+    }
 
-  return { powerCompanyDetailData, setPowerCompanyDetailData }
-})
+    const setPowerCompanyDetailData = (params: PowerCompany) => {
+      powerCompanyDetailData.value = { ...defaultState, ...params }
+    }
+
+    return { powerCompanyDetailData, setPowerCompanyDetailData, $reset }
+  },
+  { persist: { storage: sessionStorage } }
+)

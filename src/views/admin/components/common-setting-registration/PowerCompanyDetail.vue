@@ -1,72 +1,152 @@
 <script setup lang="ts">
+// data and rules form will pass to child here
+// mỗi lần sang đây thì api sẽ trả về data, mk lấy company name để check
 import router from '@/router'
-import { useCompanyStore } from '@/stores/company'
 import type { FormInstance, FormRules } from 'element-plus/lib/components/index.js'
-import { storeToRefs } from 'pinia'
+import { LIST_POWER_COMPANIES } from '@/constants'
 import { reactive, ref } from 'vue'
 
-const store = useCompanyStore()
 const ruleFormRef = ref<FormInstance>()
-const { powerCompanyDetailData } = storeToRefs(store)
 
-defineProps<{
-  setActiveComponent: (componentName: string) => void
-}>()
+const transformData = (originData: any) => {
+  const targetData: { [key: string]: any } = {}
 
-const validateField1 = (rule: any, value: any, callback: any) => {
-  if (value === '') {
-    callback(new Error('Please input the password'))
-  } else {
-    callback()
+  for (let key in originData) {
+    const [tabName, fieldName] = key.split('_')
+
+    if (!targetData[tabName]) {
+      targetData[tabName] = {
+        [key]: originData[key]
+      }
+    } else {
+      targetData[tabName][key] = originData[key]
+    }
   }
-}
 
-const validateField2 = (rule: any, value: any, callback: any) => {
-  if (value === '') {
-    callback(new Error('Please input the password again'))
-  } else if (value !== powerCompanyDetailData.value.field1) {
-    callback(new Error("Two inputs don't match!"))
-  } else {
-    callback()
-  }
+  return targetData
 }
-const validateField3 = (rule: any, value: any, callback: any) => {
-  if (value === '') {
-    callback(new Error('Please input the password again'))
-  } else if (value !== powerCompanyDetailData.value.field3) {
-    callback(new Error("Two inputs don't matchsdsdsd!"))
-  } else {
-    callback()
-  }
-}
+// label input do mình tự đặt=> tạo một array label cho từng tab rồi add thêm thuộc tính label vào data list trả về.
+//xem css thằng co2 ở cuối form kiểu gì
+//check rules obj by constant companies or by field of data after loop object keys
 
-const validateField4 = (rule: any, value: any, callback: any) => {
-  if (!value) {
-    callback(new Error('Please input the age'))
-  } else callback()
-}
-
-const rules = reactive<FormRules<typeof powerCompanyDetailData>>({
-  field1: [{ validator: validateField1, trigger: 'blur' }],
-  field2: [{ validator: validateField2, trigger: 'blur' }],
-  field3: [{ validator: validateField3, trigger: 'blur' }],
-  field4: [{ validator: validateField4, trigger: 'blur' }]
+const originData = ref<any>({
+  tab1_name: 'tab1_name',
+  tab1_name_field1: '冬季ピーク',
+  tab1_name_field2: '夏季ピーク',
+  tab1_name_field3: 'その他季ピーク',
+  tab1_name_field4: 'オフピーク',
+  tab1_name_field5: '夜間',
+  tab2_name: 'tab2_name',
+  tab2_name_field1: '日中時間（平日土の昼間）',
+  tab2_name_field2: '夜間・日祝時間（平日土の夜間＆日祝日の全日）',
+  tab2_name_field3: '平日昼間',
+  tab2_name_field4: '休日夜間',
+  tab2_name_field5: 'ウィークエンド時間（土日祝の昼間）',
+  tab3_name: 'tab3_name',
+  tab3_name_field1: '10 A',
+  tab3_name_field2: '20 A',
+  tab3_name_field3: '30 A',
+  tab3_name_field4: '40 A',
+  tab3_name_field5: '50 A',
+  tab3_name_field6: '60 A',
+  tab4_name: 'tab4_name',
+  tab4_name_field1: '第１料金',
+  tab4_name_field2: '第２料金',
+  tab4_name_field3: '第３料金',
+  tab5_name: 'tab5_name',
+  tab5_name_field1: '燃料費調整単価',
+  tab5_name_field2: '再生可能エネルギー発電促進賦課金単価',
+  tab5_name_field3: '太陽光発電促進賦課金単価',
+  tab5_name_field4: '補助金',
+  tab5_name_field5: 'CO2排出係数'
 })
 
-const labels = {
-  lessThan90: '昼間　～90kWh',
-  lessThan210: '昼間　～210kWh',
-  greaterThan210: '昼間　210kWh ～',
-  daytimeHours: '昼間時間',
-  daytimeHoursWeekend: '日中時間（平日土の昼間）',
-  nightTime: '夜間・日祝時間（平日土の夜間＆日祝日の全日）'
+const targetData = ref<any>(transformData(originData.value))
+const labelsForm: any = {
+  tab1: {
+    tab1_name_field1: '夏季ピーク',
+    tab1_name_field2: '冬季ピーク',
+    tab1_name_field3: 'その他季ピーク',
+    tab1_name_field4: 'オフピーク',
+    tab1_name_field5: '夜間'
+  },
+  tab2: {
+    tab2_name_field1: '日中時間（平日土の昼間）',
+    tab2_name_field2: '夜間・日祝時間（平日土の夜間＆日祝日の全日）',
+    tab2_name_field3: '平日昼間',
+    tab2_name_field4: '休日夜間',
+    tab2_name_field5: 'ウィークエンド時間（土日祝の昼間）'
+  },
+  tab3: {
+    tab3_name_field1: '10 A',
+    tab3_name_field2: '20 A',
+    tab3_name_field3: '30 A',
+    tab3_name_field4: '40 A',
+    tab3_name_field5: '50 A',
+    tab3_name_field6: '60 A'
+  },
+  tab4: {
+    tab4_name_field1: '第１料金',
+    tab4_name_field2: '第２料金',
+    tab4_name_field3: '第３料金'
+  },
+  tab5: {
+    tab5_name_field1: '燃料費調整単価',
+    tab5_name_field2: '再生可能エネルギー発電促進賦課金単価',
+    tab5_name_field3: '太陽光発電促進賦課金単価',
+    tab5_name_field4: '補助金',
+    tab5_name_field5: 'CO2排出係数'
+  }
 }
+
+const checkRequired1 = (rule: any, value: any, callback: any) => {
+  if (value === '') {
+    callback(new Error('This field is required'))
+  } else {
+    callback()
+  }
+}
+const checkRequired2 = (rule: any, value: any, callback: any) => {
+  if (value === '') {
+    callback(new Error('This field is required'))
+  } else {
+    callback()
+  }
+}
+const rulesObject: { [key: string]: any } = {}
+Object.keys(targetData.value.tab2).forEach((key) => {
+  rulesObject[key] = [{ required: true, message: 'This field is required', trigger: 'change' }]
+})
+Object.keys(targetData.value.tab3).forEach((key) => {
+  rulesObject[key] = [{ required: true, message: 'This field is required', trigger: 'change' }]
+})
+Object.keys(targetData.value.tab4).forEach((key) => {
+  rulesObject[key] = [{ required: true, message: 'This field is required', trigger: 'change' }]
+})
+Object.keys(targetData.value.tab5).forEach((key) => {
+  rulesObject[key] = [{ required: true, message: 'This field is required', trigger: 'change' }]
+})
+const rules = reactive<FormRules<any>>({
+  tab1_name_field1: [
+    { validator: checkRequired1, trigger: 'blur' },
+    {
+      required: true,
+      message: 'This field is required',
+      trigger: 'change'
+    }
+  ],
+  tab1_name_field2: [{ validator: checkRequired2, trigger: 'blur' }],
+  tab1_name_field3: [{ validator: checkRequired2, trigger: 'blur' }],
+  tab1_name_field4: [{ validator: checkRequired2, trigger: 'blur' }],
+  tab1_name_field5: [{ validator: checkRequired2, trigger: 'blur' }],
+  ...rulesObject
+})
 
 const submitForm = (formEl: FormInstance | undefined) => {
   if (!formEl) return
   formEl.validate((valid) => {
     if (valid) {
-      console.log('submit!', powerCompanyDetailData.value)
+      console.log('submit!', originData.value)
       router.go(-1)
     } else {
       return false
@@ -78,205 +158,92 @@ const submitForm = (formEl: FormInstance | undefined) => {
 <template>
   <div class="power-company-detail">
     <div class="form-wrapper">
-      <el-form ref="ruleFormRef" :model="powerCompanyDetailData" :rules="rules" class="detail-form">
-        <div class="content">
-          <div class="header">
-            <div class="header1">旧プラン</div>
-            <div class="header2">ドリーム８</div>
-          </div>
-          <div class="form-item">
-            <div class="label">{{ labels.lessThan90 }}</div>
+      <el-form ref="ruleFormRef" :model="originData" :rules="rules" class="detail-form">
+        <div class="form-items">
+          <div class="content underline">
+            <div class="header">
+              <div class="header1">旧プラン</div>
+              <div class="header2">ドリーム８</div>
+            </div>
 
-            <el-form-item prop="field1">
-              <el-input v-model="powerCompanyDetailData.field1" />
-            </el-form-item>
-          </div>
+            <div v-for="(key, index) in Object.keys(targetData.tab1)" :key="index">
+              <div class="form-item" v-if="key !== 'tab1_name'">
+                <div class="label">{{ labelsForm.tab1[key] }}</div>
 
-          <div class="form-item">
-            <div class="label">{{ labels.lessThan210 }}</div>
-
-            <el-form-item prop="field1">
-              <el-input v-model="powerCompanyDetailData.field1" />
-            </el-form-item>
+                <el-form-item :prop="key">
+                  <el-input v-model="originData[key]" />
+                </el-form-item>
+              </div>
+            </div>
           </div>
 
-          <div class="form-item">
-            <div class="label">{{ labels.greaterThan210 }}</div>
+          <div class="content underline">
+            <div class="header">
+              <div class="header1">旧プラン</div>
+              <div class="header2">エネとくスマートプラン</div>
+            </div>
 
-            <el-form-item prop="field1">
-              <el-input v-model="powerCompanyDetailData.field1" />
-            </el-form-item>
+            <div v-for="(key, index) in Object.keys(targetData.tab2)" :key="index">
+              <div class="form-item" v-if="key !== 'tab2_name'">
+                <div class="label">{{ labelsForm.tab2[key] }}</div>
+
+                <el-form-item :prop="key">
+                  <el-input v-model="originData[key]" />
+                </el-form-item>
+              </div>
+            </div>
           </div>
 
-          <div class="form-item">
-            <div class="label">{{ labels.daytimeHours }}</div>
+          <div class="content-wrapper">
+            <div class="header">従量電灯</div>
 
-            <el-form-item prop="field1">
-              <el-input v-model="powerCompanyDetailData.field1" />
-            </el-form-item>
-          </div>
-        </div>
+            <div class="content">
+              <div class="header">
+                <div class="header1">（１）契約電流</div>
+              </div>
 
-        <div class="content">
-          <div class="header">
-            <div class="header1">新プラン</div>
-            <div class="header2">エネとくスマートプラン</div>
-          </div>
-          <div class="form-item">
-            <div class="label">{{ labels.daytimeHoursWeekend }}</div>
+              <div v-for="(key, index) in Object.keys(targetData.tab3)" :key="index">
+                <div class="form-item" v-if="key !== 'tab3_name'">
+                  <div class="label">{{ labelsForm.tab3[key] }}</div>
 
-            <el-form-item prop="field1">
-              <el-input v-model="powerCompanyDetailData.field1" />
-            </el-form-item>
-          </div>
+                  <el-form-item :prop="key">
+                    <el-input v-model="originData[key]" />
+                  </el-form-item>
+                </div>
+              </div>
+            </div>
 
-          <div class="form-item">
-            <div class="label">{{ labels.nightTime }}</div>
+            <div class="content">
+              <div class="header">
+                <div class="header1">（２）従量電灯</div>
+              </div>
 
-            <el-form-item prop="field1">
-              <el-input v-model="powerCompanyDetailData.field1" />
-            </el-form-item>
-          </div>
-        </div>
+              <div v-for="(key, index) in Object.keys(targetData.tab4)" :key="index">
+                <div class="form-item" v-if="key !== 'tab4_name'">
+                  <div class="label">{{ labelsForm.tab4[key] }}</div>
 
-        <div class="content">
-          <div class="header">
-            <div class="header1">（１）契約電流</div>
-          </div>
-          <div class="form-item">
-            <div class="label">10A</div>
+                  <el-form-item :prop="key">
+                    <el-input v-model="originData[key]" />
+                  </el-form-item>
+                </div>
+              </div>
+            </div>
 
-            <el-form-item prop="field1">
-              <el-input v-model="powerCompanyDetailData.field1" />
-            </el-form-item>
-          </div>
+            <div class="content">
+              <div class="header">
+                <div class="header1">（３）その他</div>
+              </div>
 
-          <div class="form-item">
-            <div class="label">15A</div>
+              <div v-for="(key, index) in Object.keys(targetData.tab5)" :key="index">
+                <div class="form-item" v-if="key !== 'tab5_name'">
+                  <div class="label">{{ labelsForm.tab5[key] }}</div>
 
-            <el-form-item prop="field1">
-              <el-input v-model="powerCompanyDetailData.field1" />
-            </el-form-item>
-          </div>
-
-          <div class="form-item">
-            <div class="label">20A</div>
-
-            <el-form-item prop="field1">
-              <el-input v-model="powerCompanyDetailData.field1" />
-            </el-form-item>
-          </div>
-
-          <div class="form-item">
-            <div class="label">30A</div>
-
-            <el-form-item prop="field1">
-              <el-input v-model="powerCompanyDetailData.field1" />
-            </el-form-item>
-          </div>
-
-          <div class="form-item">
-            <div class="label">40A</div>
-
-            <el-form-item prop="field1">
-              <el-input v-model="powerCompanyDetailData.field1" />
-            </el-form-item>
-          </div>
-
-          <div class="form-item">
-            <div class="label">50A</div>
-
-            <el-form-item prop="field1">
-              <el-input v-model="powerCompanyDetailData.field1" />
-            </el-form-item>
-          </div>
-
-          <div class="form-item">
-            <div class="label">60A</div>
-
-            <el-form-item prop="field1">
-              <el-input v-model="powerCompanyDetailData.field1" />
-            </el-form-item>
-          </div>
-        </div>
-
-        <div class="content">
-          <div class="header">
-            <div class="header1">（２）従量電灯</div>
-          </div>
-          <div class="form-item">
-            <div class="label">第１料金</div>
-
-            <el-form-item prop="field1">
-              <el-input v-model="powerCompanyDetailData.field1" />
-            </el-form-item>
-          </div>
-
-          <div class="form-item">
-            <div class="label">第２料金</div>
-
-            <el-form-item prop="field1">
-              <el-input v-model="powerCompanyDetailData.field1" />
-            </el-form-item>
-          </div>
-
-          <div class="form-item">
-            <div class="label">第３料金</div>
-
-            <el-form-item prop="field1">
-              <el-input v-model="powerCompanyDetailData.field1" />
-            </el-form-item>
-          </div>
-        </div>
-
-        <div class="content">
-          <div class="header">
-            <div class="header1">（３）その他</div>
-          </div>
-          <div class="form-item">
-            <div class="label">燃料費調整単価</div>
-
-            <el-form-item prop="field1">
-              <el-input v-model="powerCompanyDetailData.field1" />
-            </el-form-item>
-          </div>
-
-          <div class="form-item">
-            <div class="label">再生エネルギー発電促進賦課金単価</div>
-
-            <el-form-item prop="field1">
-              <el-input v-model="powerCompanyDetailData.field1" />
-            </el-form-item>
-          </div>
-        </div>
-
-        <div class="content">
-          <div class="header"></div>
-          <div class="form-item">
-            <div class="label">太陽光発電促進賦課金単価</div>
-
-            <el-form-item prop="field1">
-              <el-input v-model="powerCompanyDetailData.field1" />
-            </el-form-item>
-          </div>
-        </div>
-
-        <div class="content">
-          <div class="header"></div>
-          <div class="form-item">
-            <div class="label">補助金</div>
-
-            <el-form-item prop="field1">
-              <el-input v-model="powerCompanyDetailData.field1" />
-            </el-form-item>
-          </div>
-
-          <div class="form-item">
-            <div class="label">ＣＯ２排出係数</div>
-
-            <el-form-item prop="field1">
-              <el-input v-model="powerCompanyDetailData.field1" />
-            </el-form-item>
+                  <el-form-item :prop="key">
+                    <el-input v-model="originData[key]" />
+                  </el-form-item>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -334,6 +301,14 @@ const submitForm = (formEl: FormInstance | undefined) => {
       border-radius: inherit;
       gap: var(--item-gap);
 
+      .content-wrapper {
+        margin-top: 12px;
+
+        .form-item .label {
+          padding-left: 50px;
+        }
+      }
+
       .content {
         border-radius: inherit;
         padding: inherit;
@@ -364,7 +339,7 @@ const submitForm = (formEl: FormInstance | undefined) => {
           min-width: var(--min-width-label);
         }
       }
-      .content:nth-child(1)::before {
+      .content.underline::before {
         content: '';
         width: 98%;
         position: absolute;

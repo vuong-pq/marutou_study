@@ -1,6 +1,11 @@
 <script setup lang="ts">
+import router from '@/router'
 import type { FormInstance, FormRules } from 'element-plus/lib/components/index.js'
 import { reactive, ref } from 'vue'
+import { useUserAdminStore } from '@/stores/user_admin'
+import { storeToRefs } from 'pinia'
+
+const { userAdminData } = storeToRefs(useUserAdminStore())
 
 const ruleFormRef = ref<FormInstance>()
 
@@ -15,57 +20,32 @@ withDefaults(
 
 const checkAge = (rule: any, value: any, callback: any) => {
   if (!value) {
-    return callback(new Error('Please input the age'))
+    callback(new Error('Please input the age'))
+  } else {
+    callback()
   }
-  setTimeout(() => {
-    if (!Number.isInteger(Number(value))) {
-      callback(new Error('Please input digits'))
-    } else {
-      if (value < 18) {
-        callback(new Error('Age must be greater than 18'))
-      } else {
-        return
-      }
-    }
-  }, 0)
 }
 
-const validateEmail = (rule: any, value: any, callback: any) => {
+const validateName = (rule: any, value: any, callback: any) => {
   if (value === '') {
     callback(new Error('Please input the password'))
   } else {
-    if (ruleForm.email !== '') {
-      if (!ruleFormRef.value) return
-      ruleFormRef.value.validateField('email', () => null)
-    }
-    return
+    callback()
   }
 }
 
 const validateId = (rule: any, value: any, callback: any) => {
   if (value === '') {
     callback(new Error('Please input the password again'))
-  } else if (value !== ruleForm.email) {
-    callback(new Error("Two inputs don't match!"))
   } else {
-    return
+    callback()
   }
 }
-interface User {
-  email: string
-  id: string
-  password: string
-}
-const ruleForm = reactive<User>({
-  email: '',
-  id: '',
-  password: ''
-})
 
-const rules = reactive<FormRules<typeof ruleForm>>({
-  email: [{ validator: validateEmail, trigger: 'blur' }],
-  id: [{ validator: validateId, trigger: 'blur' }],
-  password: [{ validator: checkAge, trigger: 'blur' }]
+const rules = reactive<FormRules<typeof userAdminData>>({
+  name: [{ validator: validateName, trigger: 'blur' }],
+  userId: [{ validator: validateId, trigger: 'blur' }],
+  pass: [{ validator: checkAge, trigger: 'blur' }]
 })
 
 const submitForm = (formEl: FormInstance | undefined) => {
@@ -73,11 +53,17 @@ const submitForm = (formEl: FormInstance | undefined) => {
   formEl.validate((valid) => {
     if (valid) {
       console.log('submit!')
+      //show popup then go back
+      router.go(-1)
     } else {
       console.log('error submit!')
       return false
     }
   })
+}
+
+const cancelForm = () => {
+  router.go(-1)
 }
 </script>
 
@@ -88,27 +74,27 @@ const submitForm = (formEl: FormInstance | undefined) => {
         <div class="user-registration-form">
           <el-form
             ref="ruleFormRef"
-            :model="ruleForm"
+            :model="userAdminData"
             :rules="rules"
-            label-width="200px"
+            label-width="120px"
             class="demo-ruleForm"
           >
-            <el-form-item label="販売店名" prop="email">
-              <el-input v-model="ruleForm.email" type="text" />
+            <el-form-item label="販売店名" prop="name">
+              <el-input v-model="userAdminData.name" type="text" />
             </el-form-item>
-            <el-form-item label="ユーザーID" prop="id">
-              <el-input v-model="ruleForm.id" type="text" />
+            <el-form-item label="ユーザーID" prop="userId">
+              <el-input v-model="userAdminData.userId" type="text" :disabled="isModeEdit" />
             </el-form-item>
-            <el-form-item label="パスワード" prop="password">
-              <el-input v-model="ruleForm.password" type="password" autocomplete="off" />
+            <el-form-item label="パスワード" prop="pass">
+              <el-input v-model="userAdminData.pass" type="text" />
             </el-form-item>
             <el-form-item>
               <el-button v-if="!isModeEdit" type="default" @click="submitForm(ruleFormRef)"
                 >登録</el-button
               >
               <div v-else class="edit-actions">
-                <el-button class="btn btn-update">保存</el-button>
-                <el-button class="btn btn-delete">削除</el-button>
+                <el-button class="btn btn-update" @click="submitForm(ruleFormRef)">保存</el-button>
+                <el-button class="btn btn-delete" @click="cancelForm">削除</el-button>
               </div>
               <!-- <el-button @click="resetForm(ruleFormRef)">Reset</el-button> -->
             </el-form-item>
@@ -140,11 +126,19 @@ const submitForm = (formEl: FormInstance | undefined) => {
     border-radius: inherit;
     padding: inherit;
     position: relative;
-    // flex: 1;
     padding: 12px;
     min-height: 500px;
     display: flex;
     align-items: center;
+    padding: 150px 100px;
+    background: aliceblue;
+    border-radius: 12px;
+
+    :deep(.el-form-item__label) {
+      text-align: left;
+      display: inline-block;
+      font-size: 20px;
+    }
   }
   .content-register:not(:last-child)::before {
     content: '';
@@ -155,7 +149,7 @@ const submitForm = (formEl: FormInstance | undefined) => {
     background-color: #000;
   }
   :deep(.el-form-item) {
-    margin-bottom: 40px;
+    margin-top: 50px;
     display: flex;
     align-items: center;
   }
@@ -165,17 +159,18 @@ const submitForm = (formEl: FormInstance | undefined) => {
   }
 
   :deep(.el-form-item__content:has(.el-button)) {
-    margin-left: 120px !important;
+    margin-left: 0 !important;
     margin-top: 24px;
     display: flex;
     justify-content: center;
 
     .el-button {
-      width: 200px;
-      height: 40px;
+      width: 250px;
+      height: 48px;
       transition: 0.3s;
       background-color: var(--button-background);
       cursor: pointer;
+      font-size: 20px;
       color: var(--button-color);
 
       span {

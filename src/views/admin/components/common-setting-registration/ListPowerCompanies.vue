@@ -87,12 +87,11 @@ const powerCompanies = ref<PowerCompany[]>([
 ])
 
 const clickCompany = (company: PowerCompany) => {
-  console.log('company: ', company)
+  store.setPowerCompanyDetailData({ ...company })
   router.push({
     name: ROUTER_NAME.POWER_COMPANY_DETAIL,
     params: {}
   })
-  store.setPowerCompanyDetailData(company)
 }
 </script>
 

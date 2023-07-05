@@ -1,22 +1,60 @@
 <script setup lang="ts">
 import { ROUTER_NAME } from '@/constants'
 import router from '@/router'
+import { reactive, ref } from 'vue'
+import { useUserAdminStore } from '@/stores/user_admin'
+import type { FormInstance, FormRules } from 'element-plus/lib/components/index.js'
+import { storeToRefs } from 'pinia'
 
-const RedirectToEdit = () => {
-  console.log('clicked')
-  router.push({ name: ROUTER_NAME.USER_EDIT })
+const userAdminStore = useUserAdminStore()
+const { userAdminData } = storeToRefs(userAdminStore)
+const { setUserAdminData } = userAdminStore
+
+const ruleFormRef = ref<FormInstance>()
+
+const validateName = (rule: any, value: any, callback: any) => {
+  if (value === '') {
+    callback(new Error('This field is required'))
+  } else {
+    callback()
+  }
+}
+
+const rules = reactive<FormRules<typeof userAdminData>>({
+  userId: [{ validator: validateName, trigger: 'blur' }]
+})
+
+const submitForm = (formEl: FormInstance | undefined) => {
+  if (!formEl) return
+  formEl.validate((valid) => {
+    if (valid) {
+      console.log('submit!')
+      setUserAdminData({ userId: userAdminData.value.userId })
+      router.push({ name: ROUTER_NAME.USER_EDIT })
+    } else {
+      console.log('error submit!')
+      return false
+    }
+  })
 }
 </script>
 
 <template>
   <div class="block-element">
-    <div class="wrapper">
-      <div class="input-search">
-        <div class="title">ユーザーID</div>
-        <el-input />
-      </div>
-      <el-button class="btn" @click="RedirectToEdit">検索</el-button>
-    </div>
+    <el-form
+      ref="ruleFormRef"
+      :model="userAdminData"
+      :rules="rules"
+      label-width="120px"
+      class="user-search-form"
+    >
+      <el-form-item label="ユーザーID" prop="userId">
+        <el-input v-model="userAdminData.userId" type="text" />
+      </el-form-item>
+      <el-form-item>
+        <el-button class="btn" @click.enter="submitForm(ruleFormRef)">検索</el-button>
+      </el-form-item>
+    </el-form>
   </div>
 </template>
 
@@ -26,37 +64,48 @@ const RedirectToEdit = () => {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 100%;
   height: 100%;
-
-  .wrapper {
-    max-width: 500px;
+  padding: 200px 150px;
+  background: aliceblue;
+  border-radius: 12px;
+  .user-search-form {
     display: flex;
-    flex-direction: column;
     gap: 60px;
-    justify-content: center;
+    flex-direction: column;
     align-items: center;
-    .input-search {
-      display: flex;
-      align-items: center;
+  }
 
-      .title {
-        min-width: 100px;
-      }
+  :deep(.el-input__wrapper) {
+    height: 48px;
+    border: 1px solid #000;
+    border-radius: unset;
+  }
+
+  :deep(.el-form-item) {
+    align-items: center;
+  }
+  :deep(.el-form-item__content:last-child) {
+    margin-left: 0 !important;
+  }
+
+  :deep(.el-form-item__label) {
+    display: inline-block;
+    text-align: left;
+    font-size: 20px;
+  }
+  :deep(.el-button) {
+    width: 250px;
+    height: 48px;
+    font-size: 20px;
+    background-color: var(--button-background);
+    color: var(--button-color);
+
+    span {
+      letter-spacing: 2px;
     }
 
-    :deep(.el-button) {
-      width: 200px;
-      background-color: var(--button-background);
-      color: var(--button-color);
-
-      span {
-        letter-spacing: 2px;
-      }
-
-      &:active {
-        opacity: 0.7;
-      }
+    &:active {
+      opacity: 0.7;
     }
   }
 }

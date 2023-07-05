@@ -70,9 +70,11 @@
 .mt-200 {
   margin-top: 200px;
 }
+
 .ml-80 {
   margin-left: 80px;
 }
+
 .ml-130 {
   margin-left: 130px;
 }
@@ -84,9 +86,11 @@
 .pr-20 {
   padding-right: 20px;
 }
+
 .w-300 {
   width: 300px !important;
 }
+
 .w-200 {
   width: 200px !important;
 }
@@ -102,9 +106,11 @@
 .w-20-percent {
   width: 20%;
 }
+
 .w-30-percent {
   width: 30%;
 }
+
 .w-35-percent {
   width: 35%;
 }
@@ -112,6 +118,7 @@
 .w-15-percent {
   width: 15%;
 }
+
 .w-55-percent {
   width: 55% !important;
 }
@@ -151,5 +158,4 @@
   }
 }
 
-@media (min-width: 1024px) {
-}
+@media (min-width: 1024px) {}

@@ -8,14 +8,20 @@ const defaultState = {
   name: ''
 }
 
-export const useDeviceStore = defineStore('device', () => {
-  const deviceData = ref<Device>({
-    ..._.cloneDeep(defaultState)
-  })
+export const useDeviceStore = defineStore(
+  'device',
+  () => {
+    const deviceData = ref<Device>({
+      ..._.cloneDeep(defaultState)
+    })
+    const $reset = () => {
+      deviceData.value = { ...defaultState }
+    }
+    const setDeviceData = (params: Device) => {
+      deviceData.value = { ...defaultState, ...params }
+    }
 
-  const setDeviceData = (params: Device) => {
-    deviceData.value = { ...params }
-  }
-
-  return { deviceData, setDeviceData }
-})
+    return { deviceData, setDeviceData, $reset }
+  },
+  { persist: { storage: sessionStorage } }
+)
