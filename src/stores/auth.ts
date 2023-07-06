@@ -3,7 +3,7 @@ import { defineStore } from 'pinia'
 import router from '@/router'
 import _ from 'lodash'
 import LABEL from '@/constants/label'
-import { loginAPI } from '@/services/auth'
+import { loginAPI, logoutAPI } from '@/services/auth'
 
 import { setSessionStorageByItem } from '@/constants/utils'
 
@@ -55,17 +55,14 @@ export const useAuthStore = defineStore(
       }
     }
 
-    const logout = () => {
+    const logout = async () => {
+      const response: { [key: string]: any } = await logoutAPI()
+      console.log(response)
+
       sessionStorage.removeItem('USER_LOGIN')
-      // loggedIn.value = false
       router.push('/login')
     }
-    const changeRole = (value: number) => {
-      console.log('value: ', value)
-      state.roleUser = value
-    }
-
-    return { state, loggedIn, login, logout, changeRole }
+    return { state, loggedIn, login, logout }
   },
   {
     persist: {
