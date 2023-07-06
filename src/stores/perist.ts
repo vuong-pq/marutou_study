@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { ref, reactive } from 'vue'
+import { reactive } from 'vue'
 import _ from 'lodash'
 
 type SomeState = {
@@ -11,7 +11,7 @@ const defaultState = {
 }
 
 export const useStore = defineStore(
-  'perist',
+  'persist',
   () => {
     const someState = reactive<SomeState>({
       ..._.cloneDeep(defaultState)

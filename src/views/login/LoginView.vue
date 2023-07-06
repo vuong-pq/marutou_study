@@ -1,9 +1,13 @@
 <script setup lang="ts">
 import { useAuthStore } from '@/stores/auth'
 import type { FormInstance, FormRules } from 'element-plus/lib/components/index.js'
-import ErrorAPI from '@/components/ErrorAPI.vue'
 import { reactive, ref } from 'vue'
-const { login, state } = useAuthStore()
+import { useModalStore } from '@/stores/modal'
+import { MODAL_TYPE } from '@/constants'
+
+const modalStore = useModalStore()
+const { openModal } = modalStore
+const { login } = useAuthStore()
 
 interface UserLogin {
   email: string
@@ -46,6 +50,13 @@ const submitForm = (formEl: FormInstance | undefined) => {
       console.log('submit!')
     } else {
       console.log('error submit!')
+      openModal({
+        open: true,
+        title: 'Login error',
+        type: MODAL_TYPE.ERROR,
+        content: 'error submit!',
+        btnText: 'Close'
+      })
       return false
     }
   })
@@ -57,13 +68,16 @@ const submitForm = (formEl: FormInstance | undefined) => {
     <div class="login-screen">
       <div class="login-form">
         <div class="login-title">ログイン</div>
+
         <el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" class="detail-form">
           <div class="d-flex">
             <span class="label-login"><span class="required">*</span>ID</span>
+
             <el-form-item prop="email">
               <el-input class="input-login" v-model="ruleForm.email" type="text" />
             </el-form-item>
           </div>
+
           <div class="d-flex mt-10">
             <span class="label-login">
               <span class="required">*</span>
@@ -73,13 +87,13 @@ const submitForm = (formEl: FormInstance | undefined) => {
               <el-input class="input-login" v-model="ruleForm.password" type="text" />
             </el-form-item>
           </div>
+
           <el-form-item>
             <el-button type="primary" @click="submitForm(ruleFormRef)">ログイン</el-button>
           </el-form-item>
         </el-form>
       </div>
     </div>
-    <ErrorAPI />
   </div>
 </template>
 
@@ -88,6 +102,7 @@ const submitForm = (formEl: FormInstance | undefined) => {
   margin: auto;
   font-size: 20px;
 }
+
 .login-screen {
   background-color: white;
   border-radius: 5px;

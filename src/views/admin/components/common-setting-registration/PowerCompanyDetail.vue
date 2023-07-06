@@ -2,7 +2,7 @@
 // data and rules form will pass to child here
 // mỗi lần sang đây thì api sẽ trả về data, mk lấy company name để check
 import router from '@/router'
-import type { FormInstance, FormRules } from 'element-plus/lib/components/index.js'
+import { type FormInstance, type FormRules } from 'element-plus/lib/components/index.js'
 import { LIST_POWER_COMPANIES } from '@/constants'
 import { reactive, ref } from 'vue'
 
@@ -155,11 +155,24 @@ const submitForm = (formEl: FormInstance | undefined) => {
     if (valid) {
       console.log('submit!', originData.value)
       router.go(-1)
+      // openLoading()
     } else {
       return false
     }
   })
 }
+
+// const openLoading = () => {
+//   const loading = ElLoading.service({
+//     lock: false,
+//     text: 'Loading',
+//     background: 'rgba(0, 0, 0, 0.7)',
+//     fullscreen: false
+//   })
+//   setTimeout(() => {
+//     loading.close()
+//   }, 2000)
+// }
 </script>
 
 <template>
