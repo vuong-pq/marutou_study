@@ -7,62 +7,68 @@ import _ from 'lodash'
 import LABEL from '@/constants/label'
 import { loginAPI } from '@/services/auth'
 
+import { setSessionStorageByItem, getSessionStorageByItem } from '@/constants/utils'
+
 type UserState = {
   roleUser: Number
   json: any
 }
 
 const defaultState = {
-  roleUser: 1,
+  roleUser: 2,
   json: null,
-  email: '1232',
-  password: '1234'
+  email: 'tuanpv2@rikkeisoft.com',
+  password: '12345678'
 }
 
-export const useAuthStore = defineStore('auth', () => {
-  const loggedIn = ref(false)
+export const useAuthStore = defineStore(
+  'auth',
+  () => {
+    const loggedIn = ref(false)
 
-  const state = reactive<UserState>({
-    ..._.cloneDeep(defaultState)
-  })
+    const state = reactive<UserState>({
+      ..._.cloneDeep(defaultState)
+    })
 
-  const login = async () => {
-    // axios
-    //   .post('http://10.1.39.73/api/login', {
-    //     email: 'tuanpv2@rikkeisoft.com',
-    //     password: '12345678678'
-    //   })
-    //   .then((response) => {
-    //     // Xử lý kết quả thành công
-    //     console.log(response.data)
-    //   })
-    //   .catch((error) => {
-    //     // Xử lý lỗi
-    //     console.error(error)
-    //   })
-    const param = {
-      email: 'tuanpv2@rikkeisoft.com',
-      password: '12345678'
+    const login = async (params: any) => {
+      const response: { [key: string]: any } = await loginAPI(params)
+      if (response) {
+        // Lưu token
+        setSessionStorageByItem('USER_LOGIN', response)
+
+        console.log(response)
+        if (response.user) {
+          if (response.user.role === '01') {
+            state.roleUser = 1
+          } else {
+            state.roleUser = 2
+          }
+        }
+
+        if (String(state.roleUser) === LABEL.COMMON.NUMBER.TWO) {
+          router.replace('/admin')
+        } else {
+          router.replace('/')
+        }
+      }
     }
 
-    const log = await loginAPI(param)
-    console.log(log)
+    const logout = () => {
+      sessionStorage.removeItem('USER_LOGIN')
+      // loggedIn.value = false
+      router.push('/login')
+    }
+    const changeRole = (value: number) => {
+      console.log('value: ', value)
+      state.roleUser = value
+    }
 
-    loggedIn.value = true
-    if (String(state.roleUser) === LABEL.COMMON.NUMBER.TWO) {
-      router.replace('/admin')
-    } else {
-      router.replace('/')
+    return { state, loggedIn, login, logout, changeRole }
+  },
+  {
+    persist: {
+      paths: ['state.roleUser'],
+      storage: sessionStorage
     }
   }
-
-  const logout = () => {
-    loggedIn.value = false
-    router.push('/login')
-  }
-  const changeRole = (value: number) => {
-    state.roleUser = value
-  }
-
-  return { state, loggedIn, login, logout, changeRole }
-})
+)

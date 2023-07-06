@@ -1,6 +1,9 @@
 import { useAuthStore } from './../stores/auth'
 import { createRouter, createWebHistory } from 'vue-router'
 import { ROUTER_PATH, ROUTER_NAME, ROLE } from '@/constants'
+import { getSessionStorageByItem } from '@/constants/utils'
+import lodash from 'lodash'
+const { isEmpty } = lodash
 import LABEL from '@/constants/label'
 
 import LoginView from '@/views/login/LoginView.vue'
@@ -38,7 +41,12 @@ import {
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
-    { path: ROUTER_PATH.LOGIN, name: ROUTER_NAME.LOGIN, component: LoginView },
+    {
+      path: ROUTER_PATH.LOGIN,
+      name: ROUTER_NAME.LOGIN,
+      component: LoginView,
+      meta: { requiresAuth: true }
+    },
     {
       path: ROUTER_PATH.USER,
       name: ROUTER_NAME.USER,
@@ -191,26 +199,6 @@ const router = createRouter({
             }
           ]
         }
-        // {
-        //   path: ROUTER_PATH.NEW_ELECTRICS,
-        //   name: ROUTER_NAME.NEW_ELECTRICS,
-        //   component: NewElectrics
-        // },
-        // {
-        //   path: ROUTER_PATH.NEW_GAS,
-        //   name: ROUTER_NAME.NEW_GAS,
-        //   component: NewGas
-        // },
-        // {
-        //   path: ROUTER_PATH.EDIT_ELECTRICS,
-        //   name: ROUTER_NAME.EDIT_ELECTRICS,
-        //   component: EditElectrics
-        // },
-        // {
-        //   path: ROUTER_PATH.EDIT_GAS,
-        //   name: ROUTER_NAME.EDIT_GAS,
-        //   component: EditGas
-        // }
       ]
     },
     {
@@ -223,35 +211,34 @@ const router = createRouter({
 })
 
 router.beforeEach((to, from, next) => {
-  const { loggedIn, state } = useAuthStore()
+  const { state } = useAuthStore()
+  const token = getSessionStorageByItem('USER_LOGIN')
+  // console.log(token)
 
-  console.log(to.meta.role)
-  console.log(state.roleUser)
-
-  if (to.matched.some((record) => record.meta.requiresAuth) && !loggedIn) {
+  if (!to.matched.some((record) => record.meta.requiresAuth) && isEmpty(token)) {
     next(ROUTER_PATH.LOGIN)
   } else if (
     to.path === ROUTER_PATH.LOGIN &&
-    loggedIn &&
+    !isEmpty(token) &&
     String(state.roleUser) === LABEL.COMMON.NUMBER.ONE
   ) {
     next(ROUTER_PATH.USER)
   } else if (
     to.path === ROUTER_PATH.LOGIN &&
-    loggedIn &&
+    !isEmpty(token) &&
     String(state.roleUser) === LABEL.COMMON.NUMBER.TWO
   ) {
     next(ROUTER_PATH.ADMIN)
   } else if (
     to.path !== ROUTER_PATH.LOGIN &&
-    loggedIn &&
+    !isEmpty(token) &&
     String(state.roleUser) === LABEL.COMMON.NUMBER.ONE &&
     to.meta.role === ROLE.ADMIN
   ) {
     next(ROUTER_PATH.USER)
   } else if (
     to.path !== ROUTER_PATH.LOGIN &&
-    loggedIn &&
+    !isEmpty(token) &&
     String(state.roleUser) === LABEL.COMMON.NUMBER.TWO &&
     to.meta.role === ROLE.USER
   ) {

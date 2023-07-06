@@ -15,10 +15,6 @@ export const ROUTER_PATH = {
   COMMON_SETTING: '/admin/common-setting',
   USER_SEARCH: 'setting-user/search',
   USER_EDIT: 'setting-user/edit',
-  INVOICE: '/invoice-approval',
-  JOURNAL_VOUCHER: '/journal-voucher',
-  MASTER_SETTINGS: '/master-settings',
-  PAYMENTS: '/payments',
   USER_REGISTER: 'setting-user/user-register',
   LIST_POWER_COMPANIES: 'common-setting/list-power-companies',
   ELECTRIC_EQUIPMENT: 'common-setting/electric-equipment',
@@ -44,13 +40,6 @@ export const ROUTER_NAME = {
   EDIT_GAS: 'edit-gas',
   USER_SEARCH: 'search',
   USER_EDIT: 'edit',
-  INVOICE: 'invoice-approval',
-  JOURNAL_VOUCHER: 'journal-voucher',
-  MASTER_SETTINGS: 'master-settings',
-  USER_MASTER: 'user-master',
-  USER_ROLE_MASTER: 'user-role-master',
-  BENEFICIARY_MASTER: 'beneficiary-master',
-  PAYMENTS: 'payments',
   USER_REGISTER: 'user-register',
   COMMON_SETTING: 'common-setting',
   LIST_POWER_COMPANIES: 'list-power-companies',
@@ -75,7 +64,19 @@ export const PATH_NAME = {
   DEVICE_NEW: 'new',
   LIST_POWER_COMPANIES: ROUTER_NAME.LIST_POWER_COMPANIES,
   POWER_COMPANY_DETAIL: ROUTER_NAME.POWER_COMPANY_DETAIL,
-  ELECTRIC_EQUIPMENT: ROUTER_NAME.ELECTRIC_EQUIPMENT
+  ELECTRIC_EQUIPMENT: ROUTER_NAME.ELECTRIC_EQUIPMENT,
+
+  LOGIN: ROUTER_NAME.LOGIN,
+  USER: ROUTER_NAME.USER,
+  USER_SETTING: ROUTER_NAME.USER_SETTING,
+  SIMULATOR: ROUTER_NAME.SIMULATOR,
+  SEARCH_SIMULATOR: ROUTER_NAME.SEARCH_SIMULATOR,
+  ELECTRIC_EQUIPMENT_USER: ROUTER_NAME.ELECTRIC_EQUIPMENT_USER,
+  LIST_GAS_USER: ROUTER_NAME.LIST_GAS_USER,
+  NEW_ELECTRICS: ROUTER_NAME.NEW_ELECTRICS,
+  NEW_GAS: ROUTER_NAME.NEW_GAS,
+  EDIT_ELECTRICS: ROUTER_NAME.EDIT_ELECTRICS,
+  EDIT_GAS: ROUTER_NAME.EDIT_GAS
 }
 
 //check all route run after adjust this object
@@ -93,7 +94,19 @@ export const PATH_NAME_JP = {
   DEVICE_DETAIL_ELECTRIC_NEW: '電気機器登録',
   LIST_POWER_COMPANIES: '電力会社一覧',
   POWER_COMPANY_DETAIL: '電力料金設定編集',
-  ELECTRIC_EQUIPMENT: '電気機器一覧'
+  ELECTRIC_EQUIPMENT: '電気機器一覧',
+
+  LOGIN: 'ログイン',
+  USER: '主要',
+  USER_SETTING: 'ユーザー設定',
+  SIMULATOR: 'シミュレータ',
+  SEARCH_SIMULATOR: '検索シミュレータ',
+  ELECTRIC_EQUIPMENT_USER: '電気機器ユーザー',
+  LIST_GAS_USER: 'リストガス',
+  NEW_ELECTRICS: '新しい電気',
+  NEW_GAS: '新しいガス',
+  EDIT_ELECTRICS: '編集電気',
+  EDIT_GAS: '編集ガス'
 }
 export const SCREEN_NAME = {
   ADMIN: '管理者メニュー',
@@ -109,7 +122,19 @@ export const SCREEN_NAME = {
   DEVICE_DETAIL_ELECTRIC_NEW: '電気機器登録',
   LIST_POWER_COMPANIES: '電力会社一覧',
   POWER_COMPANY_DETAIL: 'NAME OF COMPANY WHEN CLICK AN ITEM',
-  ELECTRIC_EQUIPMENT: '電気機器一覧'
+  ELECTRIC_EQUIPMENT: '電気機器一覧',
+
+  LOGIN: 'ログイン',
+  USER: '主要',
+  USER_SETTING: 'ユーザー設定',
+  SIMULATOR: 'シミュレータ',
+  SEARCH_SIMULATOR: '検索シミュレータ',
+  ELECTRIC_EQUIPMENT_USER: '電気機器ユーザー',
+  LIST_GAS_USER: 'リストガス',
+  NEW_ELECTRICS: '新しい電気',
+  NEW_GAS: '新しいガス',
+  EDIT_ELECTRICS: '編集電気',
+  EDIT_GAS: '編集ガス'
 }
 
 // re set item by router after build interface

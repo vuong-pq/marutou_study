@@ -1,7 +1,55 @@
 <script setup lang="ts">
 import { useAuthStore } from '@/stores/auth'
-
+import type { FormInstance, FormRules } from 'element-plus/lib/components/index.js'
+import ErrorAPI from '@/components/ErrorAPI.vue'
+import { reactive, ref } from 'vue'
 const { login, state } = useAuthStore()
+
+interface UserLogin {
+  email: string
+  password: string
+}
+const ruleForm = reactive<UserLogin>({
+  email: '',
+  password: ''
+})
+
+const ruleFormRef = ref<FormInstance>()
+const validateId = (rule: any, value: any, callback: any) => {
+  if (value === '') {
+    callback(new Error('Please input the id again'))
+  } else if (value !== ruleForm.email) {
+    callback(new Error("Two inputs don't match!"))
+  } else {
+    callback()
+  }
+}
+const validatePassword = (rule: any, value: any, callback: any) => {
+  if (value === '') {
+    callback(new Error('Please input the password'))
+  } else {
+    callback()
+  }
+}
+
+const rules = reactive<FormRules<typeof ruleForm>>({
+  email: [{ validator: validateId, trigger: 'blur' }],
+  password: [{ validator: validatePassword, trigger: 'blur' }]
+})
+
+const submitForm = (formEl: FormInstance | undefined) => {
+  if (!formEl) return
+
+  formEl.validate((valid) => {
+    if (valid) {
+      login(ruleForm)
+      console.log('submit!')
+    } else {
+      console.log('error submit!')
+      return false
+    }
+  })
+}
 </script>
 
 <template>
@@ -9,23 +57,29 @@ const { login, state } = useAuthStore()
     <div class="login-screen">
       <div class="login-form">
         <div class="login-title">ログイン</div>
-        <!-- <FormComponent :f-items="formItems" :f-rules="formRules" :f-actions="formActions" /> -->
-        <el-form-item>
+        <el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" class="detail-form">
           <div class="d-flex">
-            <span class="label-login"><span class="required">*</span>ID</span
-            ><el-input class="input-login" />
+            <span class="label-login"><span class="required">*</span>ID</span>
+            <el-form-item prop="email">
+              <el-input class="input-login" v-model="ruleForm.email" type="text" />
+            </el-form-item>
           </div>
-          <div class="d-flex">
+          <div class="d-flex mt-10">
             <span class="label-login">
               <span class="required">*</span>
               パスワード</span
             >
-            <el-input class="input-login" />
+            <el-form-item prop="password">
+              <el-input class="input-login" v-model="ruleForm.password" type="text" />
+            </el-form-item>
           </div>
-          <el-button type="primary" @click="login">ログイン</el-button>
-        </el-form-item>
+          <el-form-item>
+            <el-button type="primary" @click="submitForm(ruleFormRef)">ログイン</el-button>
+          </el-form-item>
+        </el-form>
       </div>
     </div>
+    <ErrorAPI />
   </div>
 </template>
 
@@ -83,7 +137,7 @@ const { login, state } = useAuthStore()
 .el-button {
   min-width: 200px !important;
   height: 40px;
-  margin-left: 150px;
+  margin-left: 200px;
   margin-top: 10px;
 }
 </style>

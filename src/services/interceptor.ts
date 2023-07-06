@@ -20,7 +20,16 @@ function setup(instance: AxiosInstance) {
 
 function checkToken(instance: AxiosInstance) {
   instance.interceptors.response.use(
-    (response) => response,
+    (response: any) => {
+      if (response?.error) {
+        alert(response?.error)
+      } else if (response?.data?.error) {
+        alert('Id or password invalid')
+        return false
+      } else {
+        return response.data
+      }
+    },
     (error) => {
       console.log('[API Error]', error)
       Promise.reject(error)
