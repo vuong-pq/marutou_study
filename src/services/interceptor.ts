@@ -1,13 +1,23 @@
 import { LIST_API_NOT_AUTHENTICATE } from './list-api'
 import type { AxiosInstance } from 'axios'
+import { getSessionStorageByItem } from '@/constants/utils'
+
+import { ElLoading } from 'element-plus/lib/components/index.js'
+let loading: any
+const loadingOptions = {
+  lock: true,
+  text: 'Loading',
+  background: 'rgba(0, 0, 0, 0.7)'
+}
 
 function setup(instance: AxiosInstance) {
   instance.interceptors.request.use(
     function (config) {
+      loading = ElLoading.service(loadingOptions)
       if (config?.url ? !LIST_API_NOT_AUTHENTICATE.includes(config.url) : false) {
-        const token = sessionStorage.getItem('access_token')
+        const token = getSessionStorageByItem('USER_LOGIN')
         if (token) {
-          config.headers.Authorization = `Bearer ${token}`
+          config.headers.Authorization = `Bearer ${token.token}`
         }
       }
       return config
@@ -21,6 +31,7 @@ function setup(instance: AxiosInstance) {
 function checkToken(instance: AxiosInstance) {
   instance.interceptors.response.use(
     (response: any) => {
+      loading.close()
       if (response?.error) {
         alert(response?.error)
       } else if (response?.data?.error) {
@@ -31,6 +42,7 @@ function checkToken(instance: AxiosInstance) {
       }
     },
     (error) => {
+      loading.close()
       console.log('[API Error]', error)
       Promise.reject(error)
       return {
