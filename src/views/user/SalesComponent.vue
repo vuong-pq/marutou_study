@@ -6,7 +6,6 @@ import { Tickets, FolderOpened } from '@element-plus/icons-vue'
 
 import { ref } from 'vue'
 import router from '@/router'
-// import HeaderComponentsVue from './components/HeaderComponents.vue'
 
 const { logout } = useAuthStore()
 
@@ -24,7 +23,6 @@ const handleClickSimulator = () => {
 </script>
 
 <template>
-  <!-- <HeaderComponentsVue /> -->
   <div class="view-layout">
     <div class="toolbar">
       <div class="toolbar-container">

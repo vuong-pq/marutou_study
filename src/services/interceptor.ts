@@ -34,10 +34,8 @@ function checkToken(instance: AxiosInstance) {
       console.log('[API Error]', error)
       Promise.reject(error)
       return {
-        data: {
-          success: false,
-          message: 'Error system'
-        }
+        success: false,
+        message: 'Error system'
       }
     }
   )

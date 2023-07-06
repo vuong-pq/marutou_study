@@ -30,23 +30,27 @@ export const useAuthStore = defineStore(
 
     const login = async (params: any) => {
       const response: { [key: string]: any } = await loginAPI(params)
-      if (response) {
-        // Lưu token
-        setSessionStorageByItem('USER_LOGIN', response)
+      console.log(response)
+      if (response?.success === false) {
+        alert(response.message)
+      } else {
+        if (response) {
+          // Lưu token
+          setSessionStorageByItem('USER_LOGIN', response)
 
-        console.log(response)
-        if (response.user) {
-          if (response.user.role === '01') {
-            state.roleUser = 1
-          } else {
-            state.roleUser = 2
+          if (response.user) {
+            if (response.user.role === '01') {
+              state.roleUser = 1
+            } else {
+              state.roleUser = 2
+            }
           }
-        }
 
-        if (String(state.roleUser) === LABEL.COMMON.NUMBER.TWO) {
-          router.replace('/admin')
-        } else {
-          router.replace('/')
+          if (String(state.roleUser) === LABEL.COMMON.NUMBER.TWO) {
+            router.replace('/admin')
+          } else {
+            router.replace('/')
+          }
         }
       }
     }

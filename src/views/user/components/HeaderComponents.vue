@@ -12,9 +12,10 @@ import BreadCrumb from '@/views/admin/components/BreadCrumb.vue'
 const { isEmpty } = lodash
 const currentScreenName = ref<string>('')
 
-const token = getSessionStorageByItem('USER_LOGIN')
+const token = ref(getSessionStorageByItem('USER_LOGIN'))
 
 const { state } = storeToRefs(useAuthStore())
+
 const { logout } = useAuthStore()
 </script>
 
