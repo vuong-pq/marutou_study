@@ -103,6 +103,10 @@
   width: 90px;
 }
 
+.h-40 {
+  height: 40px !important;
+}
+
 .w-20-percent {
   width: 20%;
 }
@@ -158,4 +162,5 @@
   }
 }
 
-@media (min-width: 1024px) {}
+@media (min-width: 1024px) {
+}

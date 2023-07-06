@@ -130,9 +130,9 @@ const clickNewBtn = () => {
           >
         </div>
       </div>
-      <div class="text-center mt-50">
+      <!-- <div class="text-center mt-50">
         <el-button class="btn-addition" @click="clickNewBtn">追加 </el-button>
-      </div>
+      </div> -->
     </div>
   </div>
 </template>
