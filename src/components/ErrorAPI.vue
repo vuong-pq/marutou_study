@@ -41,7 +41,17 @@ const onOk = () => {
           }"
           type="primary"
           @click.prevent="onOk"
-          >{{ modalData?.btnText || 'OK' }}</el-button
+          >{{ modalData?.okText || 'OK' }}</el-button
+        >
+        <el-button
+          v-if="modalData?.cancelText"
+          class="btn-cancel"
+          :class="{
+            error: modalData.type === MODAL_TYPE.ERROR,
+            info: modalData.type === MODAL_TYPE.INFO
+          }"
+          @click.prevent="closeModal"
+          >{{ modalData?.cancelText }}</el-button
         >
       </div>
     </div>
@@ -117,6 +127,18 @@ const onOk = () => {
 
     &:hover {
       opacity: 0.8;
+    }
+  }
+
+  .btn-cancel {
+    &.error {
+      color: var(--error-background-color);
+      border: 1px solid var(--error-background-color);
+    }
+
+    &.info {
+      color: var(--info-background-color);
+      border: 1px solid var(--info-background-color);
     }
   }
 }

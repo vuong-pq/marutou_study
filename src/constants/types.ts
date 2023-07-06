@@ -91,6 +91,7 @@ export interface ModalData {
   type: string
   title: string
   content: string
-  btnText?: string
+  okText?: string
+  cancelText?: string
   onOk?: Function
 }

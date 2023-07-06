@@ -55,7 +55,7 @@ const submitForm = (formEl: FormInstance | undefined) => {
         title: 'Login error',
         type: MODAL_TYPE.ERROR,
         content: 'error submit!',
-        btnText: 'Close'
+        okText: 'Close'
       })
       return false
     }

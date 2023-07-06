@@ -120,14 +120,6 @@ const clickCompany = (company: PowerCompany) => {
   height: 100%;
   width: 100%;
 
-  :deep(.el-table th.el-table__cell) {
-    background-color: #ccd6db;
-  }
-
-  .power-company-table {
-    width: fit-content;
-  }
-
   .data {
     flex-grow: 1;
     display: flex;
