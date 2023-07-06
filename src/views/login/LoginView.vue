@@ -1,47 +1,54 @@
 <script setup lang="ts">
-import FormComponent from '@/components/base/FormComponent.vue'
-import { FORM_ITEM_TYPE } from '@/constants'
 import { useAuthStore } from '@/stores/auth'
-import type { FormActions, FormItem } from '@/constants/types'
-import type { FormRules } from 'element-plus/lib/components/index.js'
-import { storeToRefs } from 'pinia'
-const { login, changeRole, state } = useAuthStore()
+import type { FormInstance, FormRules } from 'element-plus/lib/components/index.js'
+import ErrorAPI from '@/components/ErrorAPI.vue'
+import { reactive, ref } from 'vue'
+const { login, state } = useAuthStore()
 
-const formItems: FormItem[][] = [
-  [
-    {
-      key: 'username',
-      label: 'ID',
-      type: FORM_ITEM_TYPE.INPUT
-    }
-  ],
-  [
-    {
-      key: 'password',
-      label: 'パスワード',
-      type: FORM_ITEM_TYPE.INPUT_PASSWORD
-    }
-  ]
-]
-
-const formRules: FormRules = {
-  username: [{ required: true, message: 'Please input username', trigger: 'blur' }],
-  password: [{ required: true, message: 'Please input password', trigger: 'blur' }]
+interface UserLogin {
+  email: string
+  password: string
 }
+const ruleForm = reactive<UserLogin>({
+  email: '',
+  password: ''
+})
 
-const formActions: FormActions = {
-  submit: {
-    visible: true,
-    label: 'ログイン',
-    onSuccess: login
-  }
-}
-const changeMode = () => {
-  if (state.roleUser === 1) {
-    state.roleUser = 2
+const ruleFormRef = ref<FormInstance>()
+const validateId = (rule: any, value: any, callback: any) => {
+  if (value === '') {
+    callback(new Error('Please input the id again'))
+  } else if (value !== ruleForm.email) {
+    callback(new Error("Two inputs don't match!"))
   } else {
-    state.roleUser = 1
+    callback()
   }
+}
+const validatePassword = (rule: any, value: any, callback: any) => {
+  if (value === '') {
+    callback(new Error('Please input the password'))
+  } else {
+    callback()
+  }
+}
+
+const rules = reactive<FormRules<typeof ruleForm>>({
+  email: [{ validator: validateId, trigger: 'blur' }],
+  password: [{ validator: validatePassword, trigger: 'blur' }]
+})
+
+const submitForm = (formEl: FormInstance | undefined) => {
+  if (!formEl) return
+
+  formEl.validate((valid) => {
+    if (valid) {
+      login(ruleForm)
+      console.log('submit!')
+    } else {
+      console.log('error submit!')
+      return false
+    }
+  })
 }
 </script>
 
@@ -49,10 +56,30 @@ const changeMode = () => {
   <div class="view-layout">
     <div class="login-screen">
       <div class="login-form">
-        <div class="login-title" @click="changeMode">ログイン</div>
-        <FormComponent :f-items="formItems" :f-rules="formRules" :f-actions="formActions" />
+        <div class="login-title">ログイン</div>
+        <el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" class="detail-form">
+          <div class="d-flex">
+            <span class="label-login"><span class="required">*</span>ID</span>
+            <el-form-item prop="email">
+              <el-input class="input-login" v-model="ruleForm.email" type="text" />
+            </el-form-item>
+          </div>
+          <div class="d-flex mt-10">
+            <span class="label-login">
+              <span class="required">*</span>
+              パスワード</span
+            >
+            <el-form-item prop="password">
+              <el-input class="input-login" v-model="ruleForm.password" type="text" />
+            </el-form-item>
+          </div>
+          <el-form-item>
+            <el-button type="primary" @click="submitForm(ruleFormRef)">ログイン</el-button>
+          </el-form-item>
+        </el-form>
       </div>
     </div>
+    <ErrorAPI />
   </div>
 </template>
 
@@ -82,15 +109,35 @@ const changeMode = () => {
   display: flex;
   justify-content: center;
   align-items: center;
+  .label-login {
+    min-width: 150px;
+    font-size: 20px;
+    text-align: right;
+    margin-right: 15px;
+  }
+  .input-login {
+    min-width: 300px;
+    :deep(.el-input__wrapper) {
+      min-height: 40px;
+    }
+  }
+  .required {
+    color: red;
+    margin-right: 5px;
+  }
 }
 .login-form .el-form {
   width: 450px;
 }
+.el-form-item:deep(.el-form-item__content) {
+  flex-direction: column;
+  gap: 30px;
+}
 
-:deep(.el-form-item--default .el-form-item__content) {
-  justify-content: center !important;
-  .el-button {
-    min-width: 200px !important;
-  }
+.el-button {
+  min-width: 200px !important;
+  height: 40px;
+  margin-left: 200px;
+  margin-top: 10px;
 }
 </style>

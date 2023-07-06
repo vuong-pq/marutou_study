@@ -1,9 +1,11 @@
 <script setup lang="ts">
 import { useAuthStore } from '@/stores/auth'
+import { useStore } from '@/stores/perist'
 import GasComponent from './GasComponent.vue'
 import ElectricsComponents from './ElectricsComponent.vue'
 import { ref } from 'vue'
 const { logout, state } = useAuthStore()
+const { someState } = useStore()
 const dataDefault = ref({
   input: '',
   company: ''
@@ -61,7 +63,7 @@ const handleSimulator = () => {
             <div class="d-flex mt-10">
               <span class="w-200">お客様氏名</span>
               <el-input
-                v-model="dataDefault.input"
+                v-model="someState.state"
                 class="input-company"
                 placeholder="入ってください"
               />

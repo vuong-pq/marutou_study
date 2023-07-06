@@ -2,16 +2,25 @@
 import { storeToRefs } from 'pinia'
 import { useAuthStore } from '@/stores/auth'
 import LABEL from '@/constants/label'
-import BreadCrumb from '@/views/admin/components/BreadCrumb.vue'
 import { SwitchButton } from '@element-plus/icons-vue'
+import { getSessionStorageByItem } from '@/constants/utils'
+import lodash from 'lodash'
+import { ref } from 'vue'
 
-const { loggedIn, state } = storeToRefs(useAuthStore())
+import BreadCrumb from '@/views/admin/components/BreadCrumb.vue'
+
+const { isEmpty } = lodash
+const currentScreenName = ref<string>('')
+
+const token = getSessionStorageByItem('USER_LOGIN')
+
+const { state } = storeToRefs(useAuthStore())
 const { logout } = useAuthStore()
 </script>
 
 <template>
   <div
-    v-if="loggedIn && String(state.roleUser) === LABEL.COMMON.NUMBER.ONE"
+    v-if="!isEmpty(token) && String(state.roleUser) === LABEL.COMMON.NUMBER.ONE"
     style="
       display: flex;
       justify-content: end;
@@ -29,7 +38,10 @@ const { logout } = useAuthStore()
       ></el-button>
     </div>
   </div>
-  <BreadCrumb v-if="loggedIn && String(state.roleUser) === LABEL.COMMON.NUMBER.ONE" />
+  <BreadCrumb
+    v-model:currentScreenName="currentScreenName"
+    v-if="!isEmpty(token) && String(state.roleUser) === LABEL.COMMON.NUMBER.ONE"
+  />
 </template>
 
 <style lang="scss" scoped></style>
