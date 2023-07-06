@@ -5,6 +5,7 @@ import { ref } from 'vue'
 import { useCompanyStore } from '@/stores/company'
 import type { PowerCompany } from '@/constants/types'
 import { ROUTER_NAME } from '@/constants'
+import { GasIcon } from '@/assets/icons'
 
 // const singleTableRef = ref<InstanceType<typeof ElTable>>()
 
@@ -104,7 +105,9 @@ const clickCompany = (company: PowerCompany) => {
         :key="index"
         @click="() => clickCompany(company)"
       >
-        {{ company.title }}
+        <div class="icon"><GasIcon /></div>
+
+        <div class="title">{{ company.title }}</div>
       </div>
     </div>
   </div>
@@ -134,8 +137,8 @@ const clickCompany = (company: PowerCompany) => {
     gap: 24px;
 
     .company {
-      width: 200px;
-      height: 48px;
+      width: 250px;
+      height: 60px;
       background-color: #6998ab;
       border-radius: 12px;
       border: 1px solid #000;
@@ -144,9 +147,25 @@ const clickCompany = (company: PowerCompany) => {
       justify-content: center;
       cursor: pointer;
       transition: 0.3s;
+      font-size: 20px;
+      gap: 12px;
+
+      .icon {
+        display: flex;
+        align-items: center;
+        font-size: 40px;
+      }
+
+      .title {
+        min-width: 60px;
+      }
 
       &:active {
         opacity: 0.7;
+      }
+
+      &:hover {
+        background-color: #8aaebb;
       }
     }
   }

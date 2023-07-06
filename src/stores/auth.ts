@@ -1,13 +1,11 @@
-import { ROUTER_PATH } from '@/constants'
-import { ref } from 'vue'
+import { ref, reactive } from 'vue'
 import { defineStore } from 'pinia'
 import router from '@/router'
-import { reactive } from 'vue'
 import _ from 'lodash'
 import LABEL from '@/constants/label'
 import { loginAPI } from '@/services/auth'
 
-import { setSessionStorageByItem, getSessionStorageByItem } from '@/constants/utils'
+import { setSessionStorageByItem } from '@/constants/utils'
 
 type UserState = {
   roleUser: Number

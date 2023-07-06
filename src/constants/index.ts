@@ -207,3 +207,8 @@ export const LIST_POWER_COMPANIES = [
   '中国',
   '九州'
 ]
+
+export const MODAL_TYPE = {
+  INFO: 'info',
+  ERROR: 'error'
+}
