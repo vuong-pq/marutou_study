@@ -4,10 +4,16 @@ import type { FormInstance, FormRules } from 'element-plus/lib/components/index.
 import { reactive, ref } from 'vue'
 import { useUserAdminStore } from '@/stores/user_admin'
 import { storeToRefs } from 'pinia'
+import { useModalStore } from '@/stores/modal'
+import { MODAL_TYPE } from '@/constants'
+
+const modalStore = useModalStore()
+const { openModal } = modalStore
 
 const { userAdminData } = storeToRefs(useUserAdminStore())
 
 const ruleFormRef = ref<FormInstance>()
+const showNewPassField = ref<Boolean>(false)
 
 withDefaults(
   defineProps<{
@@ -65,6 +71,20 @@ const submitForm = (formEl: FormInstance | undefined) => {
 const cancelForm = () => {
   router.go(-1)
 }
+
+const addNewPass = () => {
+  openModal({
+    open: true,
+    type: MODAL_TYPE.INFO,
+    title: 'Confirm',
+    content: 'Are you sure to add new password?',
+    okText: 'Yes',
+    cancelText: 'No',
+    onOk: () => {
+      showNewPassField.value = true
+    }
+  })
+}
 </script>
 
 <template>
@@ -83,9 +103,14 @@ const cancelForm = () => {
               <el-input v-model="userAdminData.name" type="text" />
             </el-form-item>
             <el-form-item label="ユーザーID" prop="userId">
-              <el-input v-model="userAdminData.userId" type="text" :disabled="isModeEdit" />
+              <el-input v-model="userAdminData.userId" type="text" />
             </el-form-item>
-            <el-form-item label="パスワード" prop="pass">
+            <el-form-item
+              class="new-pass"
+              :class="{ active: showNewPassField }"
+              label="パスワード"
+              prop="pass"
+            >
               <el-input v-model="userAdminData.pass" type="text" />
             </el-form-item>
             <el-form-item>
@@ -94,9 +119,15 @@ const cancelForm = () => {
               >
               <div v-else class="edit-actions">
                 <el-button class="btn btn-update" @click="submitForm(ruleFormRef)">保存</el-button>
+                <el-button
+                  class="btn btn-new-pass"
+                  :class="{ disabled: showNewPassField }"
+                  @click="addNewPass"
+                  :disabled="showNewPassField"
+                  >Add new password</el-button
+                >
                 <el-button class="btn btn-delete" @click="cancelForm">削除</el-button>
               </div>
-              <!-- <el-button @click="resetForm(ruleFormRef)">Reset</el-button> -->
             </el-form-item>
           </el-form>
         </div>
@@ -113,6 +144,21 @@ const cancelForm = () => {
   flex-direction: column;
   width: 100%;
 }
+
+.new-pass {
+  max-height: 0;
+  overflow: hidden;
+
+  &.active {
+    animation: changeMaxHeight 1s forwards ease-in;
+  }
+}
+
+.btn-new-pass.disabled {
+  pointer-events: none;
+  opacity: 0.7;
+}
+
 .new-user-registration {
   --item-gap: 8px;
   width: max-content;
@@ -149,7 +195,7 @@ const cancelForm = () => {
     background-color: #000;
   }
   :deep(.el-form-item) {
-    margin-top: 50px;
+    margin-top: 30px;
     display: flex;
     align-items: center;
   }
@@ -196,6 +242,13 @@ const cancelForm = () => {
         opacity: 0.6;
       }
     }
+  }
+}
+
+@keyframes changeMaxHeight {
+  to {
+    max-height: 300px;
+    overflow: unset;
   }
 }
 </style>

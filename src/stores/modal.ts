@@ -8,7 +8,8 @@ const defaultState = {
   type: MODAL_TYPE.INFO,
   title: '',
   content: '',
-  btnText: ''
+  okText: '',
+  cancelText: ''
 }
 
 export const useModalStore = defineStore('modal', () => {

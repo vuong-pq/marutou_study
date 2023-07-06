@@ -1,13 +1,9 @@
 <script setup lang="ts">
-import { useAuthStore } from '@/stores/auth'
 import { CommonSettingIcon } from '@/assets/icons'
 
 import { Tickets, FolderOpened } from '@element-plus/icons-vue'
 
-import { ref } from 'vue'
 import router from '@/router'
-
-const { logout } = useAuthStore()
 
 const handleClickUserSetting = () => {
   router.push('/user-setting')

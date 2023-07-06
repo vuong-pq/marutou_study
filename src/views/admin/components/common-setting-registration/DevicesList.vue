@@ -40,6 +40,8 @@ const rowClick = (device: Device) => {
       <div class="header">IHコンロ</div>
       <div class="body">
         <el-table
+          v-loading="!props.devicesList?.length"
+          element-loading-background="rgba(122, 122, 122, 0.4)"
           table-layout="fixed"
           ref="singleTableRef"
           :data="props.devicesList"
