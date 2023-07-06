@@ -21,6 +21,7 @@ import ListGas from '@/views/user/user-setting/ListGas.vue'
 import UserView from '@/views/user/components/UserView.vue'
 import ElectricsView from '@/views/user/components/ElectricsView.vue'
 import GasView from '@/views/user/components/GasView.vue'
+import NotFound from '@/views/notFound/NotFound.vue'
 
 import {
   AdminPage,
@@ -206,7 +207,8 @@ const router = createRouter({
       name: ROUTER_NAME.SEARCH_SIMULATOR,
       component: SearchSimulator,
       meta: { role: ROLE.USER }
-    }
+    },
+    { path: '/:pathMatch(.*)*', name: 'NotFound', component: NotFound }
   ]
 })
 
