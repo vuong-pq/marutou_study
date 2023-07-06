@@ -85,3 +85,12 @@ export interface Device {
   name: string
   title: string
 }
+
+export interface ModalData {
+  open: boolean
+  type: string
+  title: string
+  content: string
+  btnText?: string
+  onOk?: Function
+}

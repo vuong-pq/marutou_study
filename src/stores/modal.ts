@@ -1,17 +1,8 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
 import { MODAL_TYPE } from '@/constants'
+import type { ModalData } from '@/constants/types'
 
-interface ModalData {
-  open: boolean
-  type: string
-  title: string
-  content: string
-  btnText?: string
-  onOk?: Function
-}
-//add type modal
-//add transition
 const defaultState = {
   open: false,
   type: MODAL_TYPE.INFO,
