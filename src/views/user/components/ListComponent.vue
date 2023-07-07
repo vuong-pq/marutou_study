@@ -1,5 +1,8 @@
 <script setup lang="ts">
 import router from '@/router'
+import { getList } from '@/services/auth'
+import { onMounted } from 'vue'
+
 const props = withDefaults(
   defineProps<{
     mode: boolean
@@ -105,6 +108,10 @@ const clickNewBtn = () => {
     props.mode ? '/user-setting/electric-equipment/new-electric' : '/user-setting/list-gas/new-gas'
   )
 }
+
+onMounted(async () => {
+  await getList()
+})
 </script>
 
 <template>
@@ -130,9 +137,9 @@ const clickNewBtn = () => {
           >
         </div>
       </div>
-      <!-- <div class="text-center mt-50">
+      <div class="text-center mt-50">
         <el-button class="btn-addition" @click="clickNewBtn">追加 </el-button>
-      </div> -->
+      </div>
     </div>
   </div>
 </template>
