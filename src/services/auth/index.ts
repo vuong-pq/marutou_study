@@ -9,4 +9,8 @@ const logoutAPI = async () => {
   return await request.post(API.LOGOUT)
 }
 
-export { loginAPI, logoutAPI }
+const getList = async () => {
+  return await request.get(API.GET_LIST)
+}
+
+export { loginAPI, logoutAPI, getList }

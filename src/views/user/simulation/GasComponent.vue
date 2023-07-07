@@ -53,81 +53,29 @@ const handleDelete = () => {
       <div v-for="(data, index) in datas" :key="index" class="price mt-10">
         <div class="price-element">
           <span class="w-300">{{ index === 0 ? 0 : datas[index - 1].price }} .0~ </span>
-          <el-input type="number" v-model="data.price" class="w-200" />
+          <el-input
+            :disabled="!(index === datas.length - 1)"
+            type="number"
+            v-model="data.price"
+            class="w-200"
+          />
           <span> m3 </span>
         </div>
-        <div class="price-element">
-          <span style="width: 160px"> </span>
-          <el-input v-model="data.m3" class="w-200" />
+        <div class="price-element-right">
+          <el-input v-model="data.m3" :disabled="!(index === datas.length - 1)" class="w-200" />
           <span> 円/m3 </span>
+          <span class="w-80"></span>
         </div>
       </div>
 
-      <!--<div class="price">
-        <div class="price-element">
-          <span class="w-90"> 0.0~ </span>
-          <el-input class="w-200" />
-          <span> m3 </span>
-        </div>
-        <div class="price-element">
-          <el-input class="w-200" />
-          <span> 円/m3 </span>
-        </div>
-      </div>
-    
-      <div class="price mt-10">
-        <div class="price-element">
-          <span class="w-90"> 5.0~ </span>
-          <el-input class="w-200" />
-          <span> m3 </span>
-        </div>
-        <div class="price-element">
-          <el-input class="w-200" />
-          <span> 円/m3 </span>
-        </div>
-      </div>
-      <div class="price mt-10">
-        <div class="price-element">
-          <span class="w-90"> 10.0~ </span>
-          <el-input class="w-200" />
-          <span> m3 </span>
-        </div>
-        <div class="price-element">
-          <el-input class="w-200" />
-          <span> 円/m3 </span>
-        </div>
-      </div>
-      <div class="price mt-10">
-        <div class="price-element">
-          <span class="w-90"> 15.0~ </span>
-          <el-input class="w-200" />
-          <span> m3 </span>
-        </div>
-        <div class="price-element">
-          <el-input class="w-200" />
-          <span> 円/m3 </span>
-        </div>
-      </div>
-      <div class="price mt-10">
-        <div class="price-element">
-          <span class="w-90"> 20.0~ </span>
-          <el-input class="w-200" />
-          <span> m3 </span>
-        </div>
-        <div class="price-element">
-          <el-input class="w-200" />
-          <span> 円/m3 </span>
-        </div>
-      </div> -->
       <div class="price mt-10">
         <div class="price-element">
           <span> {{ datas[datas.length - 1].price }}.0 m3以上</span>
         </div>
-        <div class="price-element">
-          <span style="width: 160px"> </span>
+        <div class="price-element-right">
           <el-input class="w-200" />
           <span> 円/m3 </span>
-          <el-button :disabled="datas.length <= 1" class="btn-gas" @click="handleDelete"
+          <el-button :disabled="datas.length <= 1" class="btn-gas w-80" @click="handleDelete"
             >削除
           </el-button>
         </div>
@@ -181,6 +129,15 @@ const handleDelete = () => {
     display: flex;
     gap: 20px;
     width: 48%;
+  }
+  .price-element-right {
+    display: flex;
+    justify-content: right;
+    gap: 20px;
+    width: 48%;
+  }
+  .w-80 {
+    width: 80px !important;
   }
   .btn-gas {
     background-image: linear-gradient(#e6ebf7, #b6c8e8, #e6ebf7);

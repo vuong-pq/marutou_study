@@ -32,7 +32,7 @@ const { logout } = useAuthStore()
     "
   >
     <div style="padding-right: 20px">
-      ユーザー1 &nabla;&nbsp;&nbsp;&nbsp;
+      Hello&nbsp;&nbsp;&nbsp; {{ state.data.user.user_name }} &nbsp;&nbsp;&nbsp;
       <el-button @click="logout"
         >ログアウト
         <el-icon style="margin-left: 10px"><SwitchButton color="red" size="20" /></el-icon

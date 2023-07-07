@@ -74,7 +74,7 @@ const submitForm = (formEl: FormInstance | undefined) => {
             <span class="label-login"><span class="required">*</span>ID</span>
 
             <el-form-item prop="email">
-              <el-input class="input-login" v-model="ruleForm.email" type="text" />
+              <el-input class="input-login" name="userName" v-model="ruleForm.email" type="text" />
             </el-form-item>
           </div>
 
@@ -84,7 +84,12 @@ const submitForm = (formEl: FormInstance | undefined) => {
               パスワード</span
             >
             <el-form-item prop="password">
-              <el-input class="input-login" v-model="ruleForm.password" type="text" />
+              <el-input
+                class="input-login"
+                name="password"
+                v-model="ruleForm.password"
+                type="password"
+              />
             </el-form-item>
           </div>
 

@@ -10,13 +10,13 @@ import { setSessionStorageByItem } from '@/constants/utils'
 type UserState = {
   roleUser: Number
   json: any
+  data: any
 }
 
 const defaultState = {
   roleUser: 2,
   json: null,
-  email: 'tuanpv2@rikkeisoft.com',
-  password: '12345678'
+  data: null
 }
 
 export const useAuthStore = defineStore(
@@ -37,6 +37,7 @@ export const useAuthStore = defineStore(
         if (response) {
           // Lưu token
           setSessionStorageByItem('USER_LOGIN', response)
+          state.data = response
 
           if (response.user) {
             if (response.user.role === '01') {
@@ -59,15 +60,16 @@ export const useAuthStore = defineStore(
       const response: { [key: string]: any } = await logoutAPI()
       console.log(response)
 
-      sessionStorage.removeItem('USER_LOGIN')
+      localStorage.removeItem('USER_LOGIN')
       router.push('/login')
     }
     return { state, loggedIn, login, logout }
   },
   {
-    persist: {
-      paths: ['state.roleUser'],
-      storage: sessionStorage
-    }
+    persist: true
+    // {
+    //   paths: ['state.roleUser'],
+    //   storage: sessionStorage
+    // }
   }
 )

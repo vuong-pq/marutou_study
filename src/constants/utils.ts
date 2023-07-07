@@ -10,7 +10,7 @@ export const getDisplayItems = (arrayItem: any[]) => {}
  * @param {String} data
  */
 export function setSessionStorageByItem(name: string, data: any) {
-  sessionStorage.setItem(name, window.btoa(encodeURIComponent(JSON.stringify(data))))
+  localStorage.setItem(name, window.btoa(encodeURIComponent(JSON.stringify(data))))
 }
 
 /**
@@ -19,7 +19,7 @@ export function setSessionStorageByItem(name: string, data: any) {
  * @returns
  */
 export function getSessionStorageByItem(name: any) {
-  const dataSessionStorage = sessionStorage.getItem(name)
+  const dataSessionStorage = localStorage.getItem(name)
   if (dataSessionStorage) {
     return isEmpty(dataSessionStorage)
       ? null

@@ -106,6 +106,9 @@
 .h-40 {
   height: 40px !important;
 }
+.w-15-percent {
+  width: 15%;
+}
 
 .w-20-percent {
   width: 20%;
@@ -119,10 +122,6 @@
   width: 35%;
 }
 
-.w-15-percent {
-  width: 15%;
-}
-
 .w-55-percent {
   width: 55% !important;
 }
@@ -133,6 +132,10 @@
 
 .w-60-percent {
   width: 60% !important;
+}
+
+.w-100-percent {
+  width: 100% !important;
 }
 
 .text-center {
@@ -154,6 +157,17 @@
 
 .font-weight-bold {
   font-weight: bold;
+}
+
+.popup-class {
+  .el-message-box__header {
+    background-color: red;
+    .el-message-box__title {
+      color: white;
+      font-size: 20px;
+      font-weight: bold;
+    }
+  }
 }
 
 @media (hover: hover) {

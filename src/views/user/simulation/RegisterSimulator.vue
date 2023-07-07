@@ -31,19 +31,23 @@ const options = [
 const options1 = [
   {
     value: 'Option1',
-    label: 'オプション1'
+    label: '10A'
   },
   {
     value: 'Option2',
-    label: 'オプション2'
+    label: '20A'
   },
   {
     value: 'Option3',
-    label: 'オプション3'
+    label: '30A'
   },
   {
     value: 'Option4',
-    label: 'オプション4'
+    label: '50A'
+  },
+  {
+    value: 'Option5',
+    label: '60A'
   }
 ]
 

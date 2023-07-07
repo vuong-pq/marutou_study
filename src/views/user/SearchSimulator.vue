@@ -1,51 +1,100 @@
 <script setup lang="ts">
 import router from '@/router'
-import { ref, computed } from 'vue'
-const dataDefault = ref({
+import { ref, computed, reactive } from 'vue'
+import { getListSimulator } from '@/services/simulator'
+
+import lodash from 'lodash'
+
+const { isEmpty } = lodash
+
+interface DataEx {
+  email: string
+  password: string
+  tableData: any
+  from: any
+  to: any
+}
+
+const dataDefault = reactive<DataEx>({
   from: '',
   to: '',
-  showSearch: false
+  showSearch: false,
+  tableData: []
 })
+
 const pageSize = ref(10)
 const currentPage = ref(1)
 const small = ref(false)
 const background = ref(true)
 const disabled = ref(false)
+
 const getCurrentPageData = (tableData: any) => {
   return tableData.slice(
     (currentPage.value - 1) * pageSize.value,
     currentPage.value * pageSize.value
   )
 }
-const tableData = ref<any>(
-  new Array(60).fill(0).map((item, index) => {
-    return {
-      registered_date: '1/Jan/2022 12:00:00',
-      registered_na: 'Preparer ' + index,
-      updated_date: '1/Jan/2022 12:00:00',
-      updated_na: 'Preparer ' + index,
-      request_header: '202201-INVREQ-0000' + index,
-      request_detail: '001',
-      company_na: 'Company A',
-      target_month: '202201',
-      invoice: 'INV0001',
-      description: 'Invoice AAA',
-      preparer: 'PIC ' + index,
-      status: 'InvoiceStatus1',
-      due_date: '1/Jan/2022'
-    }
-  })
-)
+// const tableData = ref<any>(
+//   new Array(30).fill(0).map((item, index) => {
+//     return {
+//       id: index,
+//       date: '2023年6月2日',
+//       company_name: 'Company ABC'
+//     }
+//   })
+// )
 let currentPageData = computed(() => {
-  return getCurrentPageData(tableData.value)
+  return getCurrentPageData(dataDefault.tableData)
 })
-
-const handleSizeChange = (val: number) => {
-  console.log(`${val} items per page`)
-}
 
 const handleCurrentChange = (val: number) => {
   currentPage.value = val
+}
+
+const handleSearch = async () => {
+  const response = await getListSimulator()
+  dataDefault.showSearch = true
+  console.log('123', response.simulationHistorys.data)
+  dataDefault.tableData = response.simulationHistorys.data
+}
+const handleClickOpen = (val: any) => {
+  window.open(val)
+}
+
+const ruleFormRef = ref<FormInstance>()
+const validateFrom = (rule: any, value: any, callback: any) => {
+  if (value === '') {
+    callback(new Error('Please input the id again'))
+  } else {
+    callback()
+  }
+}
+const validateTo = (rule: any, value: any, callback: any) => {
+  console.log(dataDefault.from)
+
+  if (value === '' && !isEmpty(dataDefault.from)) {
+    callback(new Error('Please input the password'))
+  } else {
+    callback()
+  }
+}
+
+const rules = reactive<FormRules<typeof dataDefault>>({
+  from: [{ validator: validateFrom, trigger: 'blur' }],
+  to: [{ validator: validateTo, trigger: 'blur' }]
+})
+
+const submitForm = (formEl: FormInstance | undefined) => {
+  if (!formEl) return
+
+  formEl.validate((valid) => {
+    if (valid) {
+      handleSearch()
+      console.log('submit!')
+    } else {
+      return false
+    }
+  })
 }
 </script>
 
@@ -53,68 +102,53 @@ const handleCurrentChange = (val: number) => {
   <div class="title-header-user ml-80 mt-10 font-weight-bold">シミュレーション情報登録</div>
   <div class="view-layout">
     <div class="view-search mt-10">
-      <div class="flex-space-between">
+      <el-form ref="ruleFormRef" :model="dataDefault" :rules="rules" class="flex-space-between">
         <span class="w-20-percent">出力日付</span>
         <div class="d-flex">
-          <el-date-picker v-model="dataDefault.from" type="date" />
+          <el-form-item prop="from">
+            <el-date-picker v-model="dataDefault.from" type="date" />
+          </el-form-item>
           <span class="p5-left-right">~</span>
-          <el-date-picker v-model="dataDefault.to" type="date" />
+          <el-form-item prop="to">
+            <el-date-picker v-model="dataDefault.to" type="date" />
+          </el-form-item>
         </div>
         <div>
-          <el-button class="btn-search" @click="dataDefault.showSearch = true">検索 </el-button>
+          <el-button class="btn-search" @click="submitForm(ruleFormRef)">検索 </el-button>
         </div>
-      </div>
+      </el-form>
       <div class="content-search">
         <hr />
         <div class="header-table">
-          <div class="w-35-percent font-weight-bold">出力日付</div>
-          <div class="w-35-percent font-weight-bold">お客様名</div>
-          <div class="w-30-percent"></div>
+          <div class="w-15-percent font-weight-bold">ID</div>
+          <div class="w-30-percent font-weight-bold">出力日付</div>
+          <div class="w-30-percent font-weight-bold">お客様名</div>
+          <div class="w-25-percent"></div>
         </div>
         <hr />
-        <div class="content-table" v-show="dataDefault.showSearch">
-          <div class="d-flex mt-10">
-            <div class="w-35-percent font-weight-bold">2023年6月2日</div>
-            <div class="w-35-percent font-weight-bold">Company ABC</div>
-            <div class="w-30-percent">
-              <el-button class="btn-browse">閲覧 </el-button>
-            </div>
-          </div>
-          <div class="d-flex mt-10">
-            <div class="w-35-percent font-weight-bold">2023年6月2日</div>
-            <div class="w-35-percent font-weight-bold">Company ABC</div>
-            <div class="w-30-percent">
-              <el-button class="btn-browse">閲覧 </el-button>
-            </div>
-          </div>
-          <div class="d-flex mt-10">
-            <div class="w-35-percent font-weight-bold">2023年6月2日</div>
-            <div class="w-35-percent font-weight-bold">Company ABC</div>
-            <div class="w-30-percent">
-              <el-button class="btn-browse">閲覧 </el-button>
-            </div>
-          </div>
-          <div class="d-flex mt-10 mb-10">
-            <div class="w-35-percent font-weight-bold">2023年6月2日</div>
-            <div class="w-35-percent font-weight-bold">Company ABC</div>
-            <div class="w-30-percent">
-              <el-button class="btn-browse">閲覧 </el-button>
+        <div class="content-table" v-if="dataDefault.showSearch">
+          <div class="d-flex mt-10" v-for="data in currentPageData">
+            <div class="w-15-percent font-weight-bold">{{ data.id }}</div>
+            <div class="w-30-percent font-weight-bold">{{ data.created_at }}</div>
+            <div class="w-30-percent font-weight-bold">{{ data.customer_name }}</div>
+            <div class="w-25-percent">
+              <el-button class="btn-browse" @click="handleClickOpen(data.result_pdf_url)"
+                >閲覧
+              </el-button>
             </div>
           </div>
         </div>
-        <div class="content-table text-center" v-show="!dataDefault.showSearch">データなし.</div>
+        <div class="content-table text-center" v-else>データなし.</div>
         <hr />
         <div class="pagination">
           <el-pagination
             v-model:current-page="currentPageData"
             v-model:page-size="pageSize"
-            :page-sizes="[10, 30, 50]"
             :small="small"
             :disabled="disabled"
             :background="background"
             layout="prev, pager, next"
-            :total="tableData.length"
-            @size-change="handleSizeChange"
+            :total="dataDefault.tableData.length"
             @current-change="handleCurrentChange"
           />
         </div>
@@ -128,7 +162,7 @@ const handleCurrentChange = (val: number) => {
 
 <style lang="scss" scoped>
 .view-search {
-  width: 50vw;
+  width: 65vw;
   font-size: 20px;
 }
 
