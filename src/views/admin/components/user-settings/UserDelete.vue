@@ -3,7 +3,7 @@ import UserInfoForm from './UserInfoForm.vue'
 </script>
 
 <template>
-  <UserInfoForm :isModeEdit="true" />
+  <UserInfoForm :isModeDelete="true" />
 </template>
 
 <style lang="scss" scoped></style>

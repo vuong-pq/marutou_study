@@ -3,7 +3,7 @@ import router from '@/router'
 import { computed } from 'vue'
 import { ArrowRightIcon } from '@/assets/icons'
 import { useAuthStore } from '@/stores/auth'
-import { PATH_NAME, PATH_NAME_JP, SCREEN_NAME } from '@/constants'
+import { PATH_NAME, PATH_NAME_JP, ROUTER_PATH, SCREEN_NAME } from '@/constants'
 import { useCompanyStore } from '@/stores/company'
 import { storeToRefs } from 'pinia'
 
@@ -41,28 +41,71 @@ const arrayBreadcrumbs = computed(() => {
         let value = SCREEN_NAME[key as keyof typeof SCREEN_NAME]
         //check if path name is device detail/new
         if (path === PATH_NAME.DEVICE_DETAIL) {
-          if (currentPath.includes(PATH_NAME.ELECTRIC_EQUIPMENT)) {
+          if (currentPath.includes(ROUTER_PATH.ELECTRIC_EQUIPMENT)) {
             title = PATH_NAME_JP.DEVICE_DETAIL_ELECTRIC
             value = SCREEN_NAME.DEVICE_DETAIL_ELECTRIC
           } else {
             title = PATH_NAME_JP.DEVICE_DETAIL_GAS_APP
             value = SCREEN_NAME.DEVICE_DETAIL_GAS_APP
           }
-          console.log('device detail')
         }
         if (path === PATH_NAME.DEVICE_NEW) {
-          if (currentPath.includes(PATH_NAME.ELECTRIC_EQUIPMENT)) {
+          if (currentPath.includes(ROUTER_PATH.ELECTRIC_EQUIPMENT)) {
             title = PATH_NAME_JP.DEVICE_DETAIL_ELECTRIC_NEW
             value = SCREEN_NAME.DEVICE_DETAIL_ELECTRIC_NEW
           } else {
             title = PATH_NAME_JP.DEVICE_DETAIL_GAS_APP_NEW
             value = SCREEN_NAME.DEVICE_DETAIL_GAS_APP_NEW
           }
-          console.log('device new')
         }
         if (path === PATH_NAME.POWER_COMPANY_DETAIL) {
-          console.log('company detail')
           value = powerCompanyDetailData.value.title
+        }
+        // check if router is register/search/edit/list/delete of admin or user
+        if (path === PATH_NAME.REGISTER) {
+          if (currentPath.includes(ROUTER_PATH.USER_REGISTER)) {
+            title = PATH_NAME_JP.USER_REGISTER
+            value = SCREEN_NAME.USER_REGISTER
+          } else {
+            title = PATH_NAME_JP.USER_ADMIN_SEARCH
+            value = SCREEN_NAME.USER_ADMIN_REGISTER
+          }
+        }
+        if (path === PATH_NAME.SEARCH) {
+          if (currentPath.includes(ROUTER_PATH.USER_SEARCH)) {
+            title = PATH_NAME_JP.USER_SEARCH
+            value = SCREEN_NAME.USER_SEARCH
+          } else {
+            title = PATH_NAME_JP.USER_ADMIN_SEARCH
+            value = SCREEN_NAME.USER_ADMIN_SEARCH
+          }
+        }
+        if (path === PATH_NAME.EDIT) {
+          if (currentPath.includes(ROUTER_PATH.USER_EDIT)) {
+            title = PATH_NAME_JP.USER_EDIT
+            value = SCREEN_NAME.USER_EDIT
+          } else {
+            title = PATH_NAME_JP.USER_ADMIN_EDIT
+            value = SCREEN_NAME.USER_ADMIN_EDIT
+          }
+        }
+        if (path === PATH_NAME.LIST) {
+          if (currentPath.includes(ROUTER_PATH.USER_LIST)) {
+            title = PATH_NAME_JP.USER_LIST
+            value = SCREEN_NAME.USER_LIST
+          } else {
+            title = PATH_NAME_JP.USER_ADMIN_LIST
+            value = SCREEN_NAME.USER_ADMIN_LIST
+          }
+        }
+        if (path === PATH_NAME.DELETE) {
+          if (currentPath.includes(ROUTER_PATH.USER_DELETE)) {
+            title = PATH_NAME_JP.USER_DELETE
+            value = SCREEN_NAME.USER_DELETE
+          } else {
+            title = PATH_NAME_JP.USER_ADMIN_DELETE
+            value = SCREEN_NAME.USER_ADMIN_DELETE
+          }
         }
         routeArr.push({
           name: path,

@@ -11,6 +11,11 @@ const dataMenu = reactive<MenuDetailAdmin[]>([
     name: MENU_ITEMS_NAME.LIST_POWER_COMPANIES
   },
   {
+    to: MENU_ITEMS_PATH.GAS_PRICE,
+    icon: 'UserRegistrationIcon',
+    name: MENU_ITEMS_NAME.GAS_PRICE
+  },
+  {
     to: MENU_ITEMS_PATH.ELECTRICAL_EQUIPMENT,
     icon: 'CommonSettingIcon',
     name: MENU_ITEMS_NAME.ELECTRICAL_EQUIPMENT

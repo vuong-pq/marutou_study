@@ -1,17 +1,16 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
+import type { UserAdmin } from '@/constants/types'
 import _ from 'lodash'
-
-interface UserAdmin {
-  userId: string
-  name?: string
-  pass?: string
-}
 
 const defaultState = {
   userId: '',
   name: '',
-  pass: ''
+  pass: '',
+  company: '',
+  registration_status: false,
+  availability: true,
+  deleteMess: ''
 }
 
 export const useUserAdminStore = defineStore(
@@ -31,5 +30,5 @@ export const useUserAdminStore = defineStore(
 
     return { userAdminData, setUserAdminData, $reset }
   },
-  { persist: { storage: sessionStorage } }
+  { persist: true }
 )

@@ -28,3 +28,7 @@ export function getSessionStorageByItem(name: any) {
 
   return false
 }
+
+export const isNumber = (value: any) => {
+  return typeof Number(value) === 'number' && !isNaN(Number(value))
+}

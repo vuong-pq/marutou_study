@@ -95,3 +95,13 @@ export interface ModalData {
   cancelText?: string
   onOk?: Function
 }
+
+export interface UserAdmin {
+  userId: string
+  name?: string
+  pass?: string
+  company: string
+  registration_status?: boolean
+  availability?: boolean
+  deleteMess?: string
+}

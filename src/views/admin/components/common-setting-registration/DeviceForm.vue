@@ -4,6 +4,11 @@ import type { FormInstance, FormRules } from 'element-plus/lib/components/index.
 import { ref, reactive } from 'vue'
 import { useDeviceStore } from '@/stores/device'
 import { storeToRefs } from 'pinia'
+import { useModalStore } from '@/stores/modal'
+import { MODAL_TYPE } from '@/constants'
+
+const modalStore = useModalStore()
+const { openModal } = modalStore
 
 defineProps<{
   isNewForm: boolean
@@ -45,6 +50,21 @@ const cancelForm = () => {
   console.log('cancel form')
   router.go(-1)
 }
+
+const showDelConfirm = () => {
+  openModal({
+    open: true,
+    type: MODAL_TYPE.INFO,
+    title: 'Confirm',
+    content: 'Are you sure to delete?',
+    okText: 'Yes',
+    cancelText: 'No',
+    onOk: () => {
+      //delete user than go to user list
+      router.go(-1)
+    }
+  })
+}
 </script>
 
 <template>
@@ -63,7 +83,8 @@ const cancelForm = () => {
           <el-button type="primary" @click="submitForm(ruleFormRef)">{{
             !isNewForm ? '保存' : '登録'
           }}</el-button>
-          <el-button @click="cancelForm" class="btn-cancel">Cancel</el-button>
+          <el-button class="btn-cancel" v-if="!isNewForm" @click="showDelConfirm">削除</el-button>
+          <el-button @click="cancelForm" class="btn-cancel">キャンセル</el-button>
         </el-form-item>
       </el-form>
     </div>

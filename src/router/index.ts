@@ -28,6 +28,8 @@ import {
   UserInfoForm,
   SearchUser,
   UserEdit,
+  UserList,
+  UserDelete,
   ListPowerCompanies,
   ListPowerCompaniesView,
   PowerCompanyDetail,
@@ -36,7 +38,8 @@ import {
   GasAppliancesList,
   ElectricalEquipmentList,
   ElectricalEquipmentListView,
-  DeviceDetail
+  DeviceDetail,
+  GasPrice
 } from '@/views/admin/components'
 
 const router = createRouter({
@@ -67,9 +70,22 @@ const router = createRouter({
           component: UserRegister
         },
         {
+          path: ROUTER_PATH.SETTING_ADMIN_USER,
+          name: ROUTER_NAME.SETTING_ADMIN_USER,
+          component: UserRegister,
+          props: { isAdminMode: true }
+        },
+        {
           path: ROUTER_PATH.USER_REGISTER,
           name: ROUTER_NAME.USER_REGISTER,
-          component: UserInfoForm
+          component: UserInfoForm,
+          props: { isAdminMode: true }
+        },
+        {
+          path: ROUTER_PATH.USER_ADMIN_REGISTER,
+          name: ROUTER_NAME.USER_ADMIN_REGISTER,
+          component: UserInfoForm,
+          props: { isAdminMode: true }
         },
         {
           path: ROUTER_PATH.USER_SEARCH,
@@ -77,14 +93,53 @@ const router = createRouter({
           component: SearchUser
         },
         {
+          path: ROUTER_PATH.USER_ADMIN_SEARCH,
+          name: ROUTER_NAME.USER_ADMIN_SEARCH,
+          component: SearchUser,
+          props: { isAdminMode: true }
+        },
+        {
           path: ROUTER_PATH.USER_EDIT,
           name: ROUTER_NAME.USER_EDIT,
           component: UserEdit
         },
         {
+          path: ROUTER_PATH.USER_ADMIN_EDIT,
+          name: ROUTER_NAME.USER_ADMIN_EDIT,
+          component: UserEdit,
+          props: { isAdminMode: true }
+        },
+        {
+          path: ROUTER_PATH.USER_LIST,
+          name: ROUTER_NAME.USER_LIST,
+          component: UserList
+        },
+        {
+          path: ROUTER_PATH.USER_ADMIN_LIST,
+          name: ROUTER_NAME.USER_ADMIN_LIST,
+          component: UserList,
+          props: { isAdminMode: true }
+        },
+        {
+          path: ROUTER_PATH.USER_DELETE,
+          name: ROUTER_NAME.USER_DELETE,
+          component: UserDelete
+        },
+        {
+          path: ROUTER_PATH.USER_ADMIN_DELETE,
+          name: ROUTER_NAME.USER_ADMIN_DELETE,
+          component: UserDelete,
+          props: { isAdminMode: true }
+        },
+        {
           path: ROUTER_PATH.COMMON_SETTING,
           name: ROUTER_NAME.COMMON_SETTING,
           component: CommonSettingRegistration
+        },
+        {
+          path: ROUTER_PATH.GAS_PRICE,
+          name: ROUTER_NAME.GAS_PRICE,
+          component: GasPrice
         },
         {
           path: ROUTER_PATH.GAS_APPLIANCES,
