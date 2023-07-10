@@ -2,9 +2,9 @@ import { LIST_API_NOT_AUTHENTICATE } from './list-api'
 import type { AxiosInstance } from 'axios'
 import { getSessionStorageByItem } from '@/constants/utils'
 import router from '@/router'
-import { ElLoading, ElMessageBox } from 'element-plus/lib/components/index.js'
-
-import { getCurrentInstance } from 'vue'
+import { ElLoading } from 'element-plus/lib/components/index.js'
+import { useModalStore } from '@/stores/modal'
+import { MODAL_TYPE } from '@/constants'
 
 let loading: any
 const loadingOptions = {
@@ -34,44 +34,49 @@ function setup(instance: AxiosInstance) {
 function checkToken(instance: AxiosInstance) {
   instance.interceptors.response.use(
     (response: any) => {
-      // console.log(response)
+      const { openModal } = useModalStore()
 
       loading.close()
+      let errorMessage = ''
       if (response?.data.error) {
         if (response?.data?.error?.code === 'E005') {
           localStorage.removeItem('USER_LOGIN')
           router.push('/login')
         }
         if (response.data.error.message.password || response.data.error.message.email) {
-          ElMessageBox.alert('User information is invalid. Please try again!', 'Error', {
-            type: 'error',
-            customClass: 'popup-class'
-          })
+          errorMessage = 'User information is invalid. Please try again!'
         } else {
-          ElMessageBox.alert(response.data.error.message, 'Error', {
-            type: 'error',
-            customClass: 'popup-class'
-          })
+          errorMessage = response.data.error.message
         }
       } else if (response?.error) {
-        ElMessageBox.alert('ERROR DATA', 'Error', {
-          type: 'error',
-          customClass: 'popup-class'
-        })
+        errorMessage = 'ERROR DATA'
       } else {
         return response.data
       }
+      if (errorMessage) {
+        openModal({
+          open: true,
+          type: MODAL_TYPE.ERROR,
+          title: 'Error',
+          content: errorMessage,
+          okText: 'OK'
+        })
+      }
     },
     (error) => {
+      const { openModal } = useModalStore()
       loading.close()
       if (String(error.response.status) === '401') {
-        console.log(123)
-        ElMessageBox.alert(error.message, 'Error', { type: 'error', customClass: 'popup-class' })
         localStorage.removeItem('USER_LOGIN')
         router.push('/login')
-      } else {
-        ElMessageBox.alert(error.message, 'Error', { type: 'error', customClass: 'popup-class' })
       }
+      openModal({
+        open: true,
+        type: MODAL_TYPE.ERROR,
+        title: 'Error',
+        content: error.message,
+        okText: 'OK'
+      })
       Promise.reject(error)
       return {
         success: false,
