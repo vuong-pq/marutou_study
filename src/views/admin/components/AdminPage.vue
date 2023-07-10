@@ -11,6 +11,11 @@ const dataMenu = reactive<MenuDetailAdmin[]>([
     name: MENU_ITEMS_NAME.USER_SETTINGS
   },
   {
+    to: MENU_ITEMS_PATH.SETTING_ADMIN_USER,
+    icon: 'UserRegistrationIcon',
+    name: MENU_ITEMS_NAME.SETTING_ADMIN_USER
+  },
+  {
     to: MENU_ITEMS_PATH.COMMON_SETTINGS,
     icon: 'CommonSettingIcon',
     name: MENU_ITEMS_NAME.COMMON_SETTINGS
