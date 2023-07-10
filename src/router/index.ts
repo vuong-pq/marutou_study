@@ -271,38 +271,39 @@ router.beforeEach((to, from, next) => {
   const { state } = useAuthStore()
   const token = getSessionStorageByItem('USER_LOGIN')
   // console.log(token)
+  next()
 
-  if (!to.matched.some((record) => record.meta.requiresAuth) && isEmpty(token)) {
-    next(ROUTER_PATH.LOGIN)
-  } else if (
-    to.path === ROUTER_PATH.LOGIN &&
-    !isEmpty(token) &&
-    String(state.roleUser) === LABEL.COMMON.NUMBER.ONE
-  ) {
-    next(ROUTER_PATH.USER)
-  } else if (
-    to.path === ROUTER_PATH.LOGIN &&
-    !isEmpty(token) &&
-    String(state.roleUser) === LABEL.COMMON.NUMBER.TWO
-  ) {
-    next(ROUTER_PATH.ADMIN)
-  } else if (
-    to.path !== ROUTER_PATH.LOGIN &&
-    !isEmpty(token) &&
-    String(state.roleUser) === LABEL.COMMON.NUMBER.ONE &&
-    to.meta.role === ROLE.ADMIN
-  ) {
-    next(ROUTER_PATH.USER)
-  } else if (
-    to.path !== ROUTER_PATH.LOGIN &&
-    !isEmpty(token) &&
-    String(state.roleUser) === LABEL.COMMON.NUMBER.TWO &&
-    to.meta.role === ROLE.USER
-  ) {
-    next(ROUTER_PATH.ADMIN)
-  } else {
-    next()
-  }
+  // if (!to.matched.some((record) => record.meta.requiresAuth) && isEmpty(token)) {
+  //   next(ROUTER_PATH.LOGIN)
+  // } else if (
+  //   to.path === ROUTER_PATH.LOGIN &&
+  //   !isEmpty(token) &&
+  //   String(state.roleUser) === LABEL.COMMON.NUMBER.ONE
+  // ) {
+  //   next(ROUTER_PATH.USER)
+  // } else if (
+  //   to.path === ROUTER_PATH.LOGIN &&
+  //   !isEmpty(token) &&
+  //   String(state.roleUser) === LABEL.COMMON.NUMBER.TWO
+  // ) {
+  //   next(ROUTER_PATH.ADMIN)
+  // } else if (
+  //   to.path !== ROUTER_PATH.LOGIN &&
+  //   !isEmpty(token) &&
+  //   String(state.roleUser) === LABEL.COMMON.NUMBER.ONE &&
+  //   to.meta.role === ROLE.ADMIN
+  // ) {
+  //   next(ROUTER_PATH.USER)
+  // } else if (
+  //   to.path !== ROUTER_PATH.LOGIN &&
+  //   !isEmpty(token) &&
+  //   String(state.roleUser) === LABEL.COMMON.NUMBER.TWO &&
+  //   to.meta.role === ROLE.USER
+  // ) {
+  //   next(ROUTER_PATH.ADMIN)
+  // } else {
+  //   next()
+  // }
 })
 
 export default router
