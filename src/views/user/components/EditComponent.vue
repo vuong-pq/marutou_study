@@ -20,12 +20,12 @@ const props = withDefaults(
 
 interface EditForm {
   name: string
-  effective: string
+  // effective: string
   price: string
 }
 const ruleForm = reactive<EditForm>({
   name: '電気機器名',
-  effective: '機器効率',
+  // effective: '機器効率',
   price: '初期費用'
 })
 
@@ -49,7 +49,7 @@ const validateEffective = (rule: any, value: any, callback: any) => {
 
 const rules = reactive<FormRules<typeof ruleForm>>({
   name: [{ validator: validateName, trigger: 'blur' }],
-  effective: [{ validator: validateEffective, trigger: 'blur' }],
+  // effective: [{ validator: validateEffective, trigger: 'blur' }],
   price: [{ validator: validateEffective, trigger: 'blur' }]
 })
 
@@ -80,12 +80,12 @@ const submitForm = (formEl: FormInstance | undefined) => {
           <el-input class="input" v-model="ruleForm.name"></el-input>
         </el-form-item>
       </div>
-      <div class="d-flex mt-50">
+      <!-- <div class="d-flex mt-50">
         <span class="w-200 font-weight-bold">機器効率</span>
         <el-form-item prop="effective">
           <el-input class="input" v-model="ruleForm.effective"> </el-input>
         </el-form-item>
-      </div>
+      </div> -->
       <div class="d-flex mt-50">
         <span class="w-200 font-weight-bold">初期費用</span>
         <el-form-item prop="price">

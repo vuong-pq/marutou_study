@@ -9,8 +9,4 @@ const logoutAPI = async () => {
   return await request.post(API.LOGOUT)
 }
 
-const getList = async () => {
-  return await request.get(API.GET_LIST)
-}
-
-export { loginAPI, logoutAPI, getList }
+export { loginAPI, logoutAPI }

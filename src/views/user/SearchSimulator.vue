@@ -2,17 +2,16 @@
 import router from '@/router'
 import { ref, computed, reactive } from 'vue'
 import { getListSimulator } from '@/services/simulator'
-
+import type { FormInstance, FormRules } from 'element-plus/lib/components/index.js'
 import lodash from 'lodash'
 
 const { isEmpty } = lodash
 
 interface DataEx {
-  email: string
-  password: string
   tableData: any
   from: any
   to: any
+  showSearch: boolean
 }
 
 const dataDefault = reactive<DataEx>({
@@ -52,9 +51,11 @@ const handleCurrentChange = (val: number) => {
 }
 
 const handleSearch = async () => {
-  const response = await getListSimulator()
+  const response: { [key: string]: any } = await getListSimulator()
   dataDefault.showSearch = true
-  console.log('123', response.simulationHistorys.data)
+
+  console.log('123', response?.simulationHistorys?.data)
+
   dataDefault.tableData = response.simulationHistorys.data
 }
 const handleClickOpen = (val: any) => {
