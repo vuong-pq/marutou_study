@@ -1,7 +1,11 @@
 <script setup lang="ts">
 import router from '@/router'
-import { getList } from '@/services/auth'
-import { onMounted } from 'vue'
+import { getListDevice } from '@/services/list'
+import { onMounted, reactive } from 'vue'
+
+interface Device {
+  device: any | null
+}
 
 const props = withDefaults(
   defineProps<{
@@ -11,97 +15,9 @@ const props = withDefaults(
     mode: true
   }
 )
-
-const companies = [
-  {
-    name: 'ガスコンロ',
-    id: 1
-  },
-  {
-    name: 'ガス給湯器',
-    id: 2
-  },
-  {
-    name: 'ガス******',
-    id: 3
-  },
-  {
-    name: 'ガス****',
-    id: 4
-  },
-  {
-    name: 'ガス****',
-    id: 4
-  },
-  {
-    name: 'ガス****',
-    id: 4
-  },
-  {
-    name: 'ガス****',
-    id: 4
-  },
-  {
-    name: 'ガス****',
-    id: 4
-  },
-  {
-    name: 'ガス****',
-    id: 4
-  },
-  {
-    name: 'ガス****',
-    id: 4
-  },
-  {
-    name: 'ガス****',
-    id: 4
-  },
-  {
-    name: 'ガス****',
-    id: 4
-  },
-  {
-    name: 'ガス****',
-    id: 4
-  },
-  {
-    name: 'ガス****',
-    id: 4
-  },
-  {
-    name: 'ガス****',
-    id: 4
-  },
-  {
-    name: 'ガス****',
-    id: 4
-  },
-  {
-    name: 'ガス****',
-    id: 4
-  },
-  {
-    name: 'ガス****',
-    id: 4
-  },
-  {
-    name: 'ガス****',
-    id: 4
-  },
-  {
-    name: 'ガス****',
-    id: 4
-  },
-  {
-    name: 'ガス****',
-    id: 4
-  },
-  {
-    name: 'ガス****',
-    id: 4
-  }
-]
+const datas = reactive<Device>({
+  device: []
+})
 
 const clickNewBtn = () => {
   router.push(
@@ -109,8 +25,18 @@ const clickNewBtn = () => {
   )
 }
 
+const handleClickDevice = () => {
+  router.push(
+    props.mode
+      ? '/user-setting/electric-equipment/edit-electric'
+      : '/user-setting/list-gas/edit-gas'
+  )
+}
+
 onMounted(async () => {
-  await getList()
+  const response: { [key: string]: any } = await getListDevice()
+  console.log(response)
+  datas.device = response.devices.data
 })
 </script>
 
@@ -122,19 +48,12 @@ onMounted(async () => {
     <div class="view-list">
       <div class="list-container">
         <div
-          class="row-list"
+          @click="handleClickDevice"
+          class="row-list item-company"
           :class="index % 2 === 0 ? 'bg-line' : ''"
-          v-for="(company, index) in companies"
+          v-for="(device, index) in datas.device"
         >
-          <a
-            class="item-company"
-            :href="
-              props.mode
-                ? '/user-setting/electric-equipment/edit-electric'
-                : '/user-setting/list-gas/edit-gas'
-            "
-            >{{ company.name }}</a
-          >
+          {{ device.device_name }}
         </div>
       </div>
       <div class="text-center mt-50">

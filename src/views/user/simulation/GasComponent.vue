@@ -1,11 +1,18 @@
 <script setup lang="ts">
-import { useAuthStore } from '@/stores/auth'
 import { reactive, ref } from 'vue'
+import { useStore } from '@/stores/perist'
+
+import { isNumber } from '@/constants/utils'
+
+const { someState } = useStore()
 
 type Data = {
   price: Number | null
   m3: any | null
 }
+// const props = defineProps<{
+//   validateGasBasic: Function
+// }>()
 
 const datas = reactive<Data[]>([
   {
@@ -22,16 +29,67 @@ const datas = reactive<Data[]>([
   }
 ])
 const handleAdd = () => {
-  datas.push({
-    price: null,
-    m3: null
+  someState.datas.push({
+    price: datas[datas.length - 1].price,
+    m3: 0
   })
+  console.log(someState.datas)
 }
 const handleDelete = () => {
-  if (datas.length > 1) {
-    datas.pop()
+  if (someState.datas.length > 1) {
+    someState.datas.pop()
   }
-  console.log(datas)
+  console.log(someState.datas)
+}
+
+const nameItemRefs = ref<any[]>([])
+const valueItemRefs = ref<any[]>([])
+const garBasicChargeRef = ref<any>(null)
+
+const getItemRef = (index: number, suffix: string) => {
+  return (el: any) => {
+    if (suffix === 'name') {
+      nameItemRefs.value[index] = el
+    } else {
+      valueItemRefs.value[index] = el
+    }
+  }
+}
+
+const checkValidValue = (item: any, prefix: string, index?: number) => {
+  if (index != null) {
+    clearValidation(prefix, index)
+    if (index === 0 && !isValidNumber(item[prefix])) {
+      item[prefix] = 0
+    }
+    if (index > 0) {
+      const befVal = someState.datas[index - 1][prefix]
+      if (!isNumber(item[prefix]) || Number(item[prefix]) < Number(befVal)) {
+        item[prefix] = befVal
+      }
+    }
+  } else {
+    if (prefix === 'garBasicCharge') {
+      clearValidation(prefix)
+    }
+    if (!isValidNumber(item[prefix])) {
+      item[prefix] = 0
+    }
+  }
+}
+const isValidNumber = (number: number) => {
+  return number && isNumber(number) && Number(number) > 0
+}
+
+const clearValidation = (suffix: string, index?: number) => {
+  if (index != null) {
+    const itemRef = suffix === 'name' ? nameItemRefs.value[index] : valueItemRefs.value[index]
+    if (itemRef) {
+      itemRef.clearValidate()
+    }
+  } else {
+    garBasicChargeRef.value.clearValidate()
+  }
 }
 </script>
 
@@ -39,32 +97,48 @@ const handleDelete = () => {
   <div class="gas-content">
     <div class="gas-bg-content">
       <div class="font-weight-bold">標準料金</div>
-      <div class="flex-space-between mt-10">
-        <span class="w-30-percent">ガス基本料金</span>
-        <div class="w-55-percent text-right">
-          <el-input class="w-200" placeholder="入ってください" />
+      <div class="price mt-10">
+        <div class="price-element">
+          <span> ガス基本料金</span>
         </div>
-        <span class="w-15-percent">円</span>
+        <div class="price-element-right">
+          <el-form-item prop="input9">
+            <el-input v-model="someState.input9" placeholder="入ってください" class="w-200" />
+          </el-form-item>
+          <span class="w-160"> 円 </span>
+          <div></div>
+        </div>
       </div>
       <br />
       <hr />
       <div>従量単価</div>
 
-      <div v-for="(data, index) in datas" :key="index" class="price mt-10">
+      <div v-for="(data, index) in someState.datas" :key="index" class="price mt-10">
         <div class="price-element">
-          <span class="w-300">{{ index === 0 ? 0 : datas[index - 1].price }} .0~ </span>
-          <el-input
-            :disabled="!(index === datas.length - 1)"
-            type="number"
-            v-model="data.price"
-            class="w-200"
-          />
+          <span class="w-300">{{ index === 0 ? 0 : someState.datas[index - 1].price }} .0~ </span>
+          <el-form-item :prop="'datas.' + index + '.price'" :ref="getItemRef(index, 'price')">
+            <!-- :disabled="!(index === datas.length - 1)" -->
+            <el-input
+              type="number"
+              v-model="data.price"
+              class="w-200"
+              @blur="checkValidValue(data, 'price', index)"
+            />
+          </el-form-item>
           <span> m3 </span>
         </div>
         <div class="price-element-right">
-          <el-input v-model="data.m3" :disabled="!(index === datas.length - 1)" class="w-200" />
-          <span> 円/m3 </span>
-          <span class="w-80"></span>
+          <el-form-item :prop="'datas.' + index + '.m3'" :ref="getItemRef(index, 'm3')">
+            <!-- :disabled="!(index === datas.length - 1)" -->
+            <el-input
+              v-model="data.m3"
+              class="w-200"
+              type="number"
+              @blur="checkValidValue(data, 'm3', index)"
+            />
+          </el-form-item>
+          <span class="w-70"> 円/m3 </span>
+          <span class="w-90"></span>
         </div>
       </div>
 
@@ -73,38 +147,53 @@ const handleDelete = () => {
           <span> {{ datas[datas.length - 1].price }}.0 m3以上</span>
         </div>
         <div class="price-element-right">
-          <el-input class="w-200" />
-          <span> 円/m3 </span>
-          <el-button :disabled="datas.length <= 1" class="btn-gas w-80" @click="handleDelete"
+          <el-form-item>
+            <el-input class="w-200" />
+          </el-form-item>
+          <span class="w-70"> 円/m3 </span>
+          <el-button :disabled="datas.length <= 1" class="btn-gas w-90" @click="handleDelete"
             >削除
           </el-button>
         </div>
       </div>
       <div class="mt-10 text-center mb-10">
-        <el-button class="w-180 btn-gas" @click="handleAdd">料金段階追加 </el-button>
+        <el-button class="w-190 btn-gas" @click="handleAdd">料金段階追加 </el-button>
       </div>
     </div>
     <div class="gas-bg-content mt-10">
       <div class="mt-10 title-type">新・料金メニュー</div>
-      <div class="d-flex-gap20 mt-10">
-        <span class="w-30-percent">ガス基本料金</span>
-        <div class="w-55-percent text-right">
-          <el-input class="w-200" placeholder="入ってください" />
+      <div class="price mt-10">
+        <div class="price-element">
+          <span> ガス基本料金</span>
         </div>
-        <span class="w-15-percent">円</span>
+        <div class="price-element-right">
+          <el-form-item prop="input10">
+            <el-input v-model="someState.input10" placeholder="入ってください" class="w-200" />
+          </el-form-item>
+          <span class="w-160"> 円 </span>
+          <div></div>
+        </div>
       </div>
-      <div class="d-flex-gap20 mt-10 mb-10">
-        <span class="w-30-percent">プラン利用料</span>
-        <div class="w-55-percent text-right">
-          <el-input class="w-200" placeholder="入ってください" />
+      <div class="price mt-10 mb-10">
+        <div class="price-element">
+          <span> プラン利用料</span>
         </div>
-        <span class="w-15-percent">円</span>
+        <div class="price-element-right">
+          <el-form-item prop="input11">
+            <el-input v-model="someState.input11" placeholder="入ってください" class="w-200" />
+          </el-form-item>
+          <span class="w-160"> 円 </span>
+          <div></div>
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <style lang="scss" scoped>
+.input-item :deep(.el-form-item__content) {
+  display: block !important;
+}
 .title-type {
   font-size: 20px;
   font-weight: 700;
@@ -121,9 +210,13 @@ const handleDelete = () => {
   width: 100%;
   border-radius: 5px;
 
+  .w-160 {
+    width: 160px !important;
+  }
+
   .price {
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
   }
   .price-element {
     display: flex;
@@ -136,8 +229,11 @@ const handleDelete = () => {
     gap: 20px;
     width: 48%;
   }
-  .w-80 {
-    width: 80px !important;
+  .w-70 {
+    width: 70px !important;
+  }
+  .w-90 {
+    width: 90px !important;
   }
   .btn-gas {
     background-image: linear-gradient(#e6ebf7, #b6c8e8, #e6ebf7);

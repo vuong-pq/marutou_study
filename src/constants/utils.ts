@@ -1,6 +1,13 @@
-import lodash from 'lodash'
+import { FORMAT } from '@/constants'
 
-const { isEmpty } = lodash
+/**
+ * 空のチェック
+ * @param {String} valueToCheck
+ * @returns {boolean} true if value is empty
+ */
+export function isEmpty(valueToCheck: any) {
+  return valueToCheck === null || valueToCheck === undefined || valueToCheck === ''
+}
 
 export const getDisplayItems = (arrayItem: any[]) => {}
 
@@ -38,4 +45,29 @@ export const replaceUrl = (url: string, params: any) => {
   const queryString = queryParams.length > 0 ? `?${queryParams}` : ''
 
   return `${url}${queryString}`
+}
+
+/**
+ * @param {long} date
+ * @return {Boolean}
+ */
+export function formatDate(date: any, type: string) {
+  if (isEmpty(date)) {
+    return date
+  }
+  let d
+  d = new Date(date)
+  let month = '' + (d.getMonth() + 1)
+  let day = '' + d.getDate()
+  const year = d.getFullYear()
+
+  let result = ''
+  if (type === FORMAT.YYYY_MM_DD) {
+    result += [year, month, day].join('-')
+  }
+  if (type === FORMAT.YYYY_MM_DD_JP) {
+    result = year + '年' + month + '月' + day + '日'
+  }
+
+  return result
 }

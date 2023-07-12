@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import router from '@/router'
 import { ref, reactive } from 'vue'
-
-import { ElMessageBox } from 'element-plus/lib/components/index.js'
+import type { FormInstance, FormRules } from 'element-plus/lib/components/index.js'
+import { ElMessageBox, ElMessage } from 'element-plus/lib/components/index.js'
 
 const props = withDefaults(
   defineProps<{
@@ -42,7 +42,7 @@ const options = [
 
 const handleDelete = () => {
   ElMessageBox.confirm('You sure Delete!', 'Confirm', { confirmButtonText: 'Delete' })
-    .then(({ value }) => {
+    .then(({}) => {
       router.go(-1)
     })
     .catch(() => {

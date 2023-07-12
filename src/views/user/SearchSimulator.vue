@@ -2,22 +2,20 @@
 import router from '@/router'
 import { ref, computed, reactive } from 'vue'
 import { getListSimulator } from '@/services/simulator'
-
-import lodash from 'lodash'
-
-const { isEmpty } = lodash
+import type { FormInstance, FormRules } from 'element-plus/lib/components/index.js'
+import { FORMAT } from '@/constants'
+import { isEmpty, formatDate } from '@/constants/utils'
 
 interface DataEx {
-  email: string
-  password: string
   tableData: any
   from: any
   to: any
+  showSearch: boolean
 }
 
 const dataDefault = reactive<DataEx>({
-  from: '',
-  to: '',
+  from: null,
+  to: null,
   showSearch: false,
   tableData: []
 })
@@ -34,15 +32,7 @@ const getCurrentPageData = (tableData: any) => {
     currentPage.value * pageSize.value
   )
 }
-// const tableData = ref<any>(
-//   new Array(30).fill(0).map((item, index) => {
-//     return {
-//       id: index,
-//       date: '2023年6月2日',
-//       company_name: 'Company ABC'
-//     }
-//   })
-// )
+
 let currentPageData = computed(() => {
   return getCurrentPageData(dataDefault.tableData)
 })
@@ -52,10 +42,24 @@ const handleCurrentChange = (val: number) => {
 }
 
 const handleSearch = async () => {
-  const response = await getListSimulator()
+  const params = {
+    from: null,
+    to: null
+  }
+  if (!isEmpty(dataDefault.from)) {
+    params.from = formatDate(dataDefault.from, FORMAT.YYYY_MM_DD)
+  }
+  if (!isEmpty(dataDefault.to)) {
+    params.to = formatDate(dataDefault.to, FORMAT.YYYY_MM_DD)
+  }
+  const response: { [key: string]: any } = await getListSimulator(params)
   dataDefault.showSearch = true
-  console.log('123', response.simulationHistorys.data)
+
+  console.log(formatDate(response?.simulationHistorys?.data[0].created_at, FORMAT.YYYY_MM_DD_JP))
   dataDefault.tableData = response.simulationHistorys.data
+  dataDefault.tableData.forEach((element: any) => {
+    element.date_time_create = formatDate(element.created_at, FORMAT.YYYY_MM_DD_JP)
+  })
 }
 const handleClickOpen = (val: any) => {
   window.open(val)
@@ -63,25 +67,35 @@ const handleClickOpen = (val: any) => {
 
 const ruleFormRef = ref<FormInstance>()
 const validateFrom = (rule: any, value: any, callback: any) => {
-  if (value === '') {
-    callback(new Error('Please input the id again'))
+  const date = new Date()
+  date.setHours(0, 0, 0, 0)
+  if (isEmpty(value)) {
+    callback(new Error('Please input the from again'))
+  } else if (value.getTime() < date.getTime()) {
+    callback(new Error('date cannot be greater than current date'))
   } else {
     callback()
   }
 }
 const validateTo = (rule: any, value: any, callback: any) => {
-  console.log(dataDefault.from)
-
-  if (value === '' && !isEmpty(dataDefault.from)) {
-    callback(new Error('Please input the password'))
+  const date = new Date()
+  date.setHours(0, 0, 0, 0)
+  if (!isEmpty(dataDefault.from)) {
+    if (!isEmpty(value) && value.getTime() <= dataDefault.from.getTime()) {
+      callback(new Error(' date to cannot be less than from '))
+    } else {
+      callback()
+    }
+  } else if (!isEmpty(value) && value.getTime() < date.getTime()) {
+    callback(new Error('date cannot be greater than current date'))
   } else {
     callback()
   }
 }
 
 const rules = reactive<FormRules<typeof dataDefault>>({
-  from: [{ validator: validateFrom, trigger: 'blur' }],
-  to: [{ validator: validateTo, trigger: 'blur' }]
+  from: [{ validator: validateFrom, trigger: 'none' }],
+  to: [{ validator: validateTo, trigger: 'none' }]
 })
 
 const submitForm = (formEl: FormInstance | undefined) => {
@@ -129,7 +143,7 @@ const submitForm = (formEl: FormInstance | undefined) => {
         <div class="content-table" v-if="dataDefault.showSearch">
           <div class="d-flex mt-10" v-for="data in currentPageData">
             <div class="w-15-percent font-weight-bold">{{ data.id }}</div>
-            <div class="w-30-percent font-weight-bold">{{ data.created_at }}</div>
+            <div class="w-30-percent font-weight-bold">{{ data.date_time_create }}</div>
             <div class="w-30-percent font-weight-bold">{{ data.customer_name }}</div>
             <div class="w-25-percent">
               <el-button class="btn-browse" @click="handleClickOpen(data.result_pdf_url)"
