@@ -32,3 +32,10 @@ export function getSessionStorageByItem(name: any) {
 export const isNumber = (value: any) => {
   return typeof Number(value) === 'number' && !isNaN(Number(value))
 }
+
+export const replaceUrl = (url: string, params: any) => {
+  const queryParams = new URLSearchParams(params).toString()
+  const queryString = queryParams.length > 0 ? `?${queryParams}` : ''
+
+  return `${url}${queryString}`
+}

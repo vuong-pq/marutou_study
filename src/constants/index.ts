@@ -262,9 +262,23 @@ export const LIST_POWER_COMPANIES = [
   '九州'
 ]
 
+export const LIST_CHECKBOXES_COMPANY = [
+  '北海道電力',
+  '東北電力',
+  '東京電力',
+  '中部電力',
+  '北陸電力',
+  '関西電力',
+  '中国電力',
+  '四国電力',
+  '九州電力'
+]
+
 export const MODAL_TYPE = {
   INFO: 'info',
-  ERROR: 'error'
+  ERROR: 'error',
+  WARNING: 'warning',
+  SUCCESS: 'success'
 }
 
 export const REGISTRATION_STATUS = {

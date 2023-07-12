@@ -13,6 +13,12 @@ const onOk = () => {
   }
   closeModal()
 }
+const onCancel = () => {
+  if (modalData.value?.onCancel && typeof modalData.value?.onCancel === 'function') {
+    modalData.value.onCancel()
+  }
+  closeModal()
+}
 </script>
 
 <template>
@@ -24,20 +30,24 @@ const onOk = () => {
         class="header-popup no-select"
         :class="{
           error: modalData.type === MODAL_TYPE.ERROR,
-          info: modalData.type === MODAL_TYPE.INFO
+          info: modalData.type === MODAL_TYPE.INFO,
+          warning: modalData.type === MODAL_TYPE.WARNING,
+          success: modalData.type === MODAL_TYPE.SUCCESS
         }"
       >
         {{ modalData.title || 'Error' }}
       </div>
 
-      <div class="content-popup">{{ modalData.content }}</div>
+      <div class="content-popup custom-scroll-bar">{{ modalData.content }}</div>
 
-      <div class="text-center">
+      <div class="btn-actions">
         <el-button
           class="btn"
           :class="{
             error: modalData.type === MODAL_TYPE.ERROR,
-            info: modalData.type === MODAL_TYPE.INFO
+            info: modalData.type === MODAL_TYPE.INFO,
+            warning: modalData.type === MODAL_TYPE.WARNING,
+            success: modalData.type === MODAL_TYPE.SUCCESS
           }"
           type="primary"
           @click.prevent="onOk"
@@ -48,9 +58,11 @@ const onOk = () => {
           class="btn-cancel"
           :class="{
             error: modalData.type === MODAL_TYPE.ERROR,
-            info: modalData.type === MODAL_TYPE.INFO
+            info: modalData.type === MODAL_TYPE.INFO,
+            warning: modalData.type === MODAL_TYPE.WARNING,
+            success: modalData.type === MODAL_TYPE.SUCCESS
           }"
-          @click.prevent="closeModal"
+          @click.prevent="onCancel"
           >{{ modalData?.cancelText }}</el-button
         >
       </div>
@@ -77,6 +89,8 @@ const onOk = () => {
 .popup {
   --error-background-color: #9d0208;
   --info-background-color: #00296b;
+  --warning-background-color: #f4a261;
+  --success-background-color: #588157;
   position: absolute;
   top: 20%;
   left: 50%;
@@ -87,6 +101,11 @@ const onOk = () => {
   min-height: 200px;
   border-radius: 10px;
   animation: fadeIn forwards 0.5s ease-in-out;
+
+  .btn-actions {
+    text-align: center;
+    padding: 12px;
+  }
 
   .header-popup {
     min-height: 50px;
@@ -104,11 +123,20 @@ const onOk = () => {
     &.info {
       background-color: var(--info-background-color);
     }
+
+    &.warning {
+      background-color: var(--warning-background-color);
+    }
+
+    &.success {
+      background-color: var(--success-background-color);
+    }
   }
 
   .content-popup {
-    min-height: 100px;
     padding: 10px;
+    height: 130px;
+    overflow-y: auto;
   }
 
   .btn {
@@ -123,6 +151,14 @@ const onOk = () => {
 
     &.info {
       background-color: var(--info-background-color);
+    }
+
+    &.warning {
+      background-color: var(--warning-background-color);
+    }
+
+    &.success {
+      background-color: var(--success-background-color);
     }
 
     &:hover {
@@ -140,6 +176,16 @@ const onOk = () => {
       color: var(--info-background-color);
       border: 1px solid var(--info-background-color);
     }
+
+    &.warning {
+      color: var(--error-background-color);
+      border: 1px solid var(--warning-background-color);
+    }
+
+    &.success {
+      color: var(--info-background-color);
+      border: 1px solid var(--success-background-color);
+    }
   }
 }
 
@@ -148,6 +194,7 @@ const onOk = () => {
     transform: translate(-50%, calc(-50% + 50px));
     opacity: 0;
   }
+
   to {
     transform: translate(-50%, -50%);
     opacity: 1;
@@ -158,6 +205,7 @@ const onOk = () => {
   from {
     opacity: 0;
   }
+
   to {
     opacity: 1;
   }

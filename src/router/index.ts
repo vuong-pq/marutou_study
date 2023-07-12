@@ -78,8 +78,7 @@ const router = createRouter({
         {
           path: ROUTER_PATH.USER_REGISTER,
           name: ROUTER_NAME.USER_REGISTER,
-          component: UserInfoForm,
-          props: { isAdminMode: true }
+          component: UserInfoForm
         },
         {
           path: ROUTER_PATH.USER_ADMIN_REGISTER,

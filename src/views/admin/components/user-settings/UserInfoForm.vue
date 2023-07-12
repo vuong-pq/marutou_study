@@ -5,7 +5,7 @@ import { reactive, ref } from 'vue'
 import { useUserAdminStore } from '@/stores/user_admin'
 import { storeToRefs } from 'pinia'
 import { useModalStore } from '@/stores/modal'
-import { MODAL_TYPE, ROUTER_NAME } from '@/constants'
+import { LIST_CHECKBOXES_COMPANY, MODAL_TYPE, ROUTER_NAME } from '@/constants'
 
 const modalStore = useModalStore()
 const userAdminStore = useUserAdminStore()
@@ -14,17 +14,7 @@ const { openModal } = modalStore
 const { userAdminData } = storeToRefs(userAdminStore)
 const ruleFormRef = ref<FormInstance>()
 const showNewPassField = ref<Boolean>(false)
-
-const listCompanies = reactive<any>([
-  {
-    label: 'Company 1',
-    value: 'company 1'
-  },
-  {
-    label: 'Company 2',
-    value: 'company 2'
-  }
-])
+const checkboxSize = ref<string>('large')
 
 const props = defineProps<{
   isModeEdit?: boolean
@@ -67,8 +57,24 @@ const submitForm = (formEl: FormInstance | undefined) => {
   formEl.validate((valid) => {
     if (valid) {
       console.log('submit!', formEl)
+      if (userAdminData.value.isBan) {
+        openModal({
+          open: true,
+          type: MODAL_TYPE.WARNING,
+          title: 'Warning',
+          content: 'このユーザーは一時的に使用できません。',
+          okText: 'Yes',
+          cancelText: 'No',
+          onOk: () => {
+            console.log('call api edit')
+          },
+          onCancel: () => {
+            userAdminData.value.isBan = false
+          }
+        })
+      }
       //show popup then go back
-      router.go(-1)
+      // router.go(-1)
     } else {
       console.log('error submit!')
       return false
@@ -81,19 +87,19 @@ const deleteUser = () => {
   router.push({ name: props.isAdminMode ? ROUTER_NAME.USER_ADMIN_DELETE : ROUTER_NAME.USER_DELETE })
 }
 
-const addNewPass = () => {
-  openModal({
-    open: true,
-    type: MODAL_TYPE.INFO,
-    title: 'Confirm',
-    content: 'Are you sure to add new password?',
-    okText: 'Yes',
-    cancelText: 'No',
-    onOk: () => {
-      showNewPassField.value = true
-    }
-  })
-}
+// const addNewPass = () => {
+//   openModal({
+//     open: true,
+//     type: MODAL_TYPE.INFO,
+//     title: 'Confirm',
+//     content: 'Are you sure to add new password?',
+//     okText: 'Yes',
+//     cancelText: 'No',
+//     onOk: () => {
+//       showNewPassField.value = true
+//     }
+//   })
+// }
 
 const cancelDelete = () => {
   router.go(-1)
@@ -113,25 +119,28 @@ const submitDelete = () => {
             ref="ruleFormRef"
             :model="userAdminData"
             :rules="rules"
-            label-width="180px"
+            label-width="170px"
             class="demo-ruleForm"
           >
-            <el-form-item label="販売店名" prop="company" v-if="!props.isAdminMode">
-              <el-input v-model="userAdminData.company" type="text" />
+            <el-form-item label="販売店名" prop="dealer" v-if="!props.isAdminMode">
+              <el-input v-model="userAdminData.dealer" type="text" />
             </el-form-item>
             <el-form-item
               label="電力会社"
-              v-if="!props.isModeEdit && !props.isModeDelete && !props.isAdminMode"
+              prop="company"
+              v-if="!props.isAdminMode && !props.isModeEdit && !props.isModeDelete"
             >
-              <el-select v-model="userAdminData.company" placeholder="Select company name">
-                <el-option
-                  v-for="company in listCompanies"
-                  :key="company.name"
-                  :label="company.label"
-                  :value="company.value"
+              <el-checkbox-group v-model="userAdminData.company" :size="checkboxSize">
+                <el-checkbox
+                  class="checkbox-item"
+                  v-for="company in LIST_CHECKBOXES_COMPANY"
+                  :key="company"
+                  :label="company"
+                  :size="checkboxSize"
                 />
-              </el-select>
+              </el-checkbox-group>
             </el-form-item>
+
             <el-form-item
               :label="props.isAdminMode ? 'AdminユーザーID' : 'ユーザーID'"
               prop="userId"
@@ -140,17 +149,20 @@ const submitDelete = () => {
             </el-form-item>
             <el-form-item
               class="new-pass"
-              :class="{ active: showNewPassField || (!props.isModeDelete && !props.isModeEdit) }"
               label="パスワード"
               prop="pass"
+              v-if="!props.isModeDelete"
             >
               <el-input v-model="userAdminData.pass" type="text" />
+            </el-form-item>
+            <el-form-item v-if="props.isModeEdit" prop="isBan">
+              <el-checkbox v-model="userAdminData.isBan" class="checkbox-item" label="使用不可" />
             </el-form-item>
             <el-form-item v-if="props.isModeDelete" label="削除理由" prop="deleteMess">
               <el-input
                 class="custom-scroll-bar"
                 v-model="userAdminData.deleteMess"
-                :rows="4"
+                :rows="6"
                 resize="none"
                 type="textarea"
                 placeholder="Please input"
@@ -160,23 +172,21 @@ const submitDelete = () => {
               <el-button
                 v-if="!props.isModeEdit && !props.isModeDelete"
                 type="default"
+                class="custom-button-type"
                 @click="submitForm(ruleFormRef)"
                 >登録</el-button
               >
+
               <div v-if="props.isModeEdit" class="edit-actions">
-                <el-button class="btn btn-update" @click="submitForm(ruleFormRef)">保存</el-button>
-                <el-button
-                  class="btn btn-new-pass"
-                  :class="{ disabled: showNewPassField }"
-                  @click="addNewPass"
-                  :disabled="showNewPassField"
-                  >Add new password</el-button
+                <el-button class="custom-button-type" @click="submitForm(ruleFormRef)"
+                  >保存</el-button
                 >
-                <el-button class="btn btn-delete" @click="deleteUser">削除</el-button>
+                <el-button class="custom-button-type" @click="deleteUser">削除</el-button>
               </div>
+
               <div v-if="props.isModeDelete" class="edit-actions">
-                <el-button class="btn btn-update" @click="submitDelete()">キャンセル</el-button>
-                <el-button class="btn btn-delete" @click="cancelDelete">削除</el-button>
+                <el-button class="custom-button-type" @click="submitDelete()">キャンセル</el-button>
+                <el-button class="custom-button-type" @click="cancelDelete">削除</el-button>
               </div>
             </el-form-item>
           </el-form>
@@ -195,12 +205,28 @@ const submitDelete = () => {
   width: 100%;
 }
 
-.new-pass {
-  max-height: 0;
-  overflow: hidden;
+:deep(.el-checkbox-group) {
+  display: flex;
+  flex-direction: column;
+}
 
-  &.active {
-    animation: changeMaxHeight 1s forwards ease-in;
+:deep(.el-input__wrapper) {
+  border-radius: unset;
+  border: 1px solid #000;
+  height: 48px;
+  width: 400px;
+}
+
+:deep(.el-checkbox__input.is-checked + .el-checkbox__label) {
+  color: #000;
+  font-size: 20px;
+}
+
+:deep(.el-checkbox__input) {
+  font-size: 20px;
+  & + .el-checkbox__label {
+    color: #000;
+    font-size: 20px;
   }
 }
 
@@ -226,7 +252,7 @@ const submitDelete = () => {
     min-height: 500px;
     display: flex;
     align-items: center;
-    padding: 150px 100px;
+    padding: 20px 100px;
     background: aliceblue;
     border-radius: 12px;
 
@@ -245,17 +271,16 @@ const submitDelete = () => {
     background-color: #000;
   }
   :deep(.el-form-item) {
-    margin-top: 30px;
     display: flex;
     align-items: center;
 
     &:has(.el-textarea) {
       align-items: flex-start;
     }
-  }
-  :deep(.el-input__wrapper) {
-    min-width: 600px !important;
-    height: 40px;
+
+    &:has(.el-checkbox-group) {
+      align-items: flex-start;
+    }
   }
 
   :deep(.el-form-item__content:has(.el-button)) {
@@ -286,16 +311,6 @@ const submitDelete = () => {
   .edit-actions {
     display: flex;
     gap: 24px;
-
-    .el-button.btn-delete {
-      background-color: #fff;
-      border: 1px solid var(--button-background);
-      color: var(--button-background);
-
-      &:active {
-        opacity: 0.6;
-      }
-    }
   }
 }
 
@@ -319,12 +334,6 @@ const submitDelete = () => {
 
   &::-webkit-scrollbar-corner {
     background-color: #f1f1f1;
-  }
-}
-@keyframes changeMaxHeight {
-  to {
-    max-height: 300px;
-    overflow: unset;
   }
 }
 </style>

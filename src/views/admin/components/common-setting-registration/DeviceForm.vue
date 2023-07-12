@@ -80,11 +80,15 @@ const showDelConfirm = () => {
         </el-form-item>
 
         <el-form-item>
-          <el-button type="primary" @click="submitForm(ruleFormRef)">{{
+          <el-button class="custom-button-type" type="primary" @click="submitForm(ruleFormRef)">{{
             !isNewForm ? '保存' : '登録'
           }}</el-button>
-          <el-button class="btn-cancel" v-if="!isNewForm" @click="showDelConfirm">削除</el-button>
-          <el-button @click="cancelForm" class="btn-cancel">キャンセル</el-button>
+
+          <el-button class="custom-button-type" v-if="!isNewForm" @click="showDelConfirm"
+            >削除</el-button
+          >
+
+          <el-button @click="cancelForm" class="custom-button-type">キャンセル</el-button>
         </el-form-item>
       </el-form>
     </div>
@@ -106,16 +110,6 @@ const showDelConfirm = () => {
     &:active {
       opacity: 0.7;
     }
-
-    &.btn-cancel {
-      background-color: #fff;
-      border: 1px solid var(--button-background);
-      color: var(--button-background);
-
-      &:active {
-        opacity: 0.6;
-      }
-    }
   }
 
   :deep(.el-input__wrapper) {
@@ -125,13 +119,14 @@ const showDelConfirm = () => {
   }
 
   :deep(.el-form-item__label) {
+    font-size: 20px;
     min-width: 120px;
     text-align: left;
     display: inline-block;
   }
 
   :deep(.el-form-item:nth-child(2)) {
-    margin-bottom: 64px;
+    margin-bottom: 100px;
   }
 }
 </style>

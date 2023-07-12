@@ -4,13 +4,15 @@ import type { UserAdmin } from '@/constants/types'
 import router from '@/router'
 import { useUserAdminStore } from '@/stores/user_admin'
 import { storeToRefs } from 'pinia'
-import { ref, computed } from 'vue'
+import { ref, onMounted, computed } from 'vue'
+// import { getUser } from '@/services/user'
 
 const pageSize = ref(10)
 const currentPage = ref(1)
 const small = ref(false)
 const background = ref(true)
 const disabled = ref(false)
+// const dataApi = ref<any>()
 
 const userAdminStore = useUserAdminStore()
 const { userAdminData } = storeToRefs(userAdminStore)
@@ -24,11 +26,12 @@ const listUser = ref<UserAdmin[]>(
   new Array(20).fill(0).map((item, index) => {
     return {
       userId: 'user id' + index,
-      company: 'company ' + index,
+      company: [],
       availability: index % 2 === 0 ? true : false
     }
   })
 )
+
 const getCurrentPageData = (listUser: any) => {
   return listUser.slice(
     (currentPage.value - 1) * pageSize.value,
@@ -39,9 +42,13 @@ const getCurrentPageData = (listUser: any) => {
 const currentPageData = computed(() => {
   return getCurrentPageData(listUser.value)
 })
+// const currentPageData = ref<number>(1)
 
-const handleCurrentChange = (val: number) => {
-  currentPage.value = val
+const handleCurrentChange = async (val: number) => {
+  // call api with the current page
+  // currentPage.value = val
+  // const params = { page: val }
+  // // await getListUser(params)
 }
 
 const goBack = () => {
@@ -50,12 +57,25 @@ const goBack = () => {
 }
 
 const rowClick = (user: UserAdmin) => {
-  userAdminStore.setUserAdminData(user)
+  // userAdminStore.setUserAdminData(user)
   console.log('row clicked', userAdminData)
   router.push({
     name: props.isAdminMode ? ROUTER_NAME.USER_ADMIN_EDIT : ROUTER_NAME.USER_EDIT
   })
 }
+
+// const getListUser = async (params?: any) => {
+//   try {
+//     const res: any = await getUser(params)
+//     dataApi.value = [...res.users.data]
+//     currentPageData.value = res.users.current_page
+//   } catch (error) {
+//     console.error(error)
+//   }
+// }
+onMounted(async () => {
+  // await getListUser()
+})
 </script>
 
 <template>
@@ -63,6 +83,25 @@ const rowClick = (user: UserAdmin) => {
     <div class="data">
       <div class="body">
         <el-table
+          v-loading="!currentPageData?.length"
+          element-loading-background="rgba(122, 122, 122, 0.4)"
+          table-layout="fixed"
+          ref="singleTableRef"
+          :data="currentPageData"
+          highlight-current-row
+          @row-click="rowClick"
+          class="user-list-table"
+          row-class-name="user-row"
+        >
+          <el-table-column prop="user_id" label="ユーザーID" />
+          <el-table-column prop="company" label="販売店様名" v-if="!props.isAdminMode" />
+          <el-table-column label="使用可否">
+            <template #default="scope">
+              <div v-if="scope.row.availability" class="user-status">使用不可</div>
+            </template>
+          </el-table-column>
+        </el-table>
+        <!-- <el-table
           v-loading="!listUser?.length"
           element-loading-background="rgba(122, 122, 122, 0.4)"
           table-layout="fixed"
@@ -76,7 +115,7 @@ const rowClick = (user: UserAdmin) => {
           <el-table-column prop="userId" label="ユーザーID" />
           <el-table-column prop="company" label="販売店様名" v-if="!props.isAdminMode" />
           <el-table-column prop="availability" label="使用可否" />
-        </el-table>
+        </el-table> -->
         <div class="pagination">
           <el-pagination
             v-model:current-page="currentPageData"
@@ -86,7 +125,7 @@ const rowClick = (user: UserAdmin) => {
             :disabled="disabled"
             :background="background"
             layout="prev, pager, next"
-            :total="listUser.length"
+            :total="20"
             @current-change="handleCurrentChange"
           />
         </div>
@@ -127,6 +166,16 @@ const rowClick = (user: UserAdmin) => {
     flex-direction: column;
     max-height: 600px;
     border-bottom: 1px solid #000;
+
+    .user-status {
+      color: red;
+      font-weight: bold;
+      width: fit-content;
+      padding: 1px 12px;
+      border-radius: 4px;
+      border: 1px solid red;
+      cursor: default;
+    }
   }
 
   :deep(.el-table tr.user-row) {
