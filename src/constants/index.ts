@@ -285,3 +285,9 @@ export const REGISTRATION_STATUS = {
   IN_USE: 1,
   DELETED: 2
 }
+
+export const FORMAT = {
+  YYYY_MM_DD: 'yyyy-mm-dd',
+  YYYY_MM_DD_JP: 'yyyy-mm-dd_jp',
+  YY_MM: 'yyyy-mm'
+}

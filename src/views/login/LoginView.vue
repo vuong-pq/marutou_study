@@ -7,7 +7,7 @@ import { MODAL_TYPE } from '@/constants'
 
 const modalStore = useModalStore()
 const { openModal } = modalStore
-const { login } = useAuthStore()
+const { login, state } = useAuthStore()
 
 interface UserLogin {
   email: string
@@ -22,7 +22,7 @@ const ruleFormRef = ref<FormInstance>()
 const validateId = (rule: any, value: any, callback: any) => {
   if (value === '') {
     callback(new Error('Please input the id again'))
-  } else if (value !== ruleForm.email) {
+  } else if (value !== state.email) {
     callback(new Error("Two inputs don't match!"))
   } else {
     callback()
@@ -36,7 +36,7 @@ const validatePassword = (rule: any, value: any, callback: any) => {
   }
 }
 
-const rules = reactive<FormRules<typeof ruleForm>>({
+const rules = reactive<FormRules<typeof state>>({
   email: [{ validator: validateId, trigger: 'blur' }],
   password: [{ validator: validatePassword, trigger: 'blur' }]
 })
@@ -46,7 +46,11 @@ const submitForm = (formEl: FormInstance | undefined) => {
 
   formEl.validate((valid) => {
     if (valid) {
-      login(ruleForm)
+      const params = {
+        email: state.email,
+        password: state.password
+      }
+      login(params)
       console.log('submit!')
     } else {
       console.log('error submit!')
@@ -69,12 +73,12 @@ const submitForm = (formEl: FormInstance | undefined) => {
       <div class="login-form">
         <div class="login-title">ログイン</div>
 
-        <el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" class="detail-form">
+        <el-form ref="ruleFormRef" :model="state" :rules="rules" class="detail-form">
           <div class="d-flex">
             <span class="label-login"><span class="required">*</span>ID</span>
 
             <el-form-item prop="email">
-              <el-input class="input-login" name="userName" v-model="ruleForm.email" type="text" />
+              <el-input class="input-login" name="userName" v-model="state.email" type="text" />
             </el-form-item>
           </div>
 
@@ -87,7 +91,7 @@ const submitForm = (formEl: FormInstance | undefined) => {
               <el-input
                 class="input-login"
                 name="password"
-                v-model="ruleForm.password"
+                v-model="state.password"
                 type="password"
               />
             </el-form-item>

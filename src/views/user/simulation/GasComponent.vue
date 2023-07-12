@@ -2,12 +2,17 @@
 import { reactive, ref } from 'vue'
 import { useStore } from '@/stores/perist'
 
+import { isNumber } from '@/constants/utils'
+
 const { someState } = useStore()
 
 type Data = {
   price: Number | null
   m3: any | null
 }
+// const props = defineProps<{
+//   validateGasBasic: Function
+// }>()
 
 const datas = reactive<Data[]>([
   {
@@ -24,16 +29,67 @@ const datas = reactive<Data[]>([
   }
 ])
 const handleAdd = () => {
-  datas.push({
+  someState.datas.push({
     price: datas[datas.length - 1].price,
-    m3: null
+    m3: 0
   })
+  console.log(someState.datas)
 }
 const handleDelete = () => {
-  if (datas.length > 1) {
-    datas.pop()
+  if (someState.datas.length > 1) {
+    someState.datas.pop()
   }
-  console.log(datas)
+  console.log(someState.datas)
+}
+
+const nameItemRefs = ref<any[]>([])
+const valueItemRefs = ref<any[]>([])
+const garBasicChargeRef = ref<any>(null)
+
+const getItemRef = (index: number, suffix: string) => {
+  return (el: any) => {
+    if (suffix === 'name') {
+      nameItemRefs.value[index] = el
+    } else {
+      valueItemRefs.value[index] = el
+    }
+  }
+}
+
+const checkValidValue = (item: any, prefix: string, index?: number) => {
+  if (index != null) {
+    clearValidation(prefix, index)
+    if (index === 0 && !isValidNumber(item[prefix])) {
+      item[prefix] = 0
+    }
+    if (index > 0) {
+      const befVal = someState.datas[index - 1][prefix]
+      if (!isNumber(item[prefix]) || Number(item[prefix]) < Number(befVal)) {
+        item[prefix] = befVal
+      }
+    }
+  } else {
+    if (prefix === 'garBasicCharge') {
+      clearValidation(prefix)
+    }
+    if (!isValidNumber(item[prefix])) {
+      item[prefix] = 0
+    }
+  }
+}
+const isValidNumber = (number: number) => {
+  return number && isNumber(number) && Number(number) > 0
+}
+
+const clearValidation = (suffix: string, index?: number) => {
+  if (index != null) {
+    const itemRef = suffix === 'name' ? nameItemRefs.value[index] : valueItemRefs.value[index]
+    if (itemRef) {
+      itemRef.clearValidate()
+    }
+  } else {
+    garBasicChargeRef.value.clearValidate()
+  }
 }
 </script>
 
@@ -57,22 +113,29 @@ const handleDelete = () => {
       <hr />
       <div>従量単価</div>
 
-      <div v-for="(data, index) in datas" :key="index" class="price mt-10">
+      <div v-for="(data, index) in someState.datas" :key="index" class="price mt-10">
         <div class="price-element">
-          <span class="w-300">{{ index === 0 ? 0 : datas[index - 1].price }} .0~ </span>
-          <el-form-item>
+          <span class="w-300">{{ index === 0 ? 0 : someState.datas[index - 1].price }} .0~ </span>
+          <el-form-item :prop="'datas.' + index + '.price'" :ref="getItemRef(index, 'price')">
+            <!-- :disabled="!(index === datas.length - 1)" -->
             <el-input
-              :disabled="!(index === datas.length - 1)"
               type="number"
               v-model="data.price"
               class="w-200"
+              @blur="checkValidValue(data, 'price', index)"
             />
           </el-form-item>
           <span> m3 </span>
         </div>
         <div class="price-element-right">
-          <el-form-item>
-            <el-input v-model="data.m3" :disabled="!(index === datas.length - 1)" class="w-200" />
+          <el-form-item :prop="'datas.' + index + '.m3'" :ref="getItemRef(index, 'm3')">
+            <!-- :disabled="!(index === datas.length - 1)" -->
+            <el-input
+              v-model="data.m3"
+              class="w-200"
+              type="number"
+              @blur="checkValidValue(data, 'm3', index)"
+            />
           </el-form-item>
           <span class="w-70"> 円/m3 </span>
           <span class="w-90"></span>
@@ -94,7 +157,7 @@ const handleDelete = () => {
         </div>
       </div>
       <div class="mt-10 text-center mb-10">
-        <el-button class="w-190btn-gas" @click="handleAdd">料金段階追加 </el-button>
+        <el-button class="w-190 btn-gas" @click="handleAdd">料金段階追加 </el-button>
       </div>
     </div>
     <div class="gas-bg-content mt-10">

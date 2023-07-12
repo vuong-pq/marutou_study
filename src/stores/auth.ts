@@ -11,12 +11,16 @@ type UserState = {
   roleUser: Number
   json: any
   data: any
+  email: string | null
+  password: string | null
 }
 
 const defaultState = {
   roleUser: 2,
   json: null,
-  data: null
+  data: null,
+  email: null,
+  password: null
 }
 
 export const useAuthStore = defineStore(
@@ -32,6 +36,7 @@ export const useAuthStore = defineStore(
       const response: { [key: string]: any } = await loginAPI(params)
       console.log(response)
       if (response?.success === false) {
+        state.password = null
         alert(response.message)
       } else {
         if (response) {
@@ -52,6 +57,8 @@ export const useAuthStore = defineStore(
           } else {
             router.replace('/')
           }
+        } else {
+          state.password = null
         }
       }
     }
@@ -66,10 +73,9 @@ export const useAuthStore = defineStore(
     return { state, loggedIn, login, logout }
   },
   {
-    persist: true
-    // {
-    //   paths: ['state.roleUser'],
-    //   storage: sessionStorage
-    // }
+    persist: {
+      paths: ['state.roleUser', 'state.data'],
+      storage: localStorage
+    }
   }
 )

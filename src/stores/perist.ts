@@ -14,6 +14,7 @@ type SomeState = {
   input9: string
   input10: string
   input11: string
+  datas: any
 }
 
 const defaultState = {
@@ -27,7 +28,18 @@ const defaultState = {
   input8: '',
   input9: '',
   input10: '',
-  input11: ''
+  input11: '',
+  input12: '',
+  datas: [
+    {
+      price: 0,
+      m3: 0
+    },
+    {
+      price: 5,
+      m3: 1
+    }
+  ]
 }
 
 export const useStore = defineStore(
@@ -37,8 +49,8 @@ export const useStore = defineStore(
       ..._.cloneDeep(defaultState)
     })
     return { someState }
-  },
-  {
-    persist: true
   }
+  // {
+  //   persist: true
+  // }
 )
