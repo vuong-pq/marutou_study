@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import type { FormInstance } from 'element-plus/lib/components/index.js'
 import { isNumber } from '@/constants/utils'
+import type { FormInstance } from 'element-plus/lib/components/index.js'
 import { ref, computed } from 'vue'
 
 const gasForm = ref<any>({
@@ -14,17 +14,31 @@ const gasForm = ref<any>({
   lastValue: 0
 })
 
-const checkValidateItems = ref<boolean>(true)
 const ruleFormRef = ref<FormInstance>()
+const nameItemRefs = ref<any[]>([])
+const valueItemRefs = ref<any[]>([])
+const garBasicChargeRef = ref<any>(null)
 
-const objectRules: any = {}
-gasForm.value.dataDemo.forEach((item: any) => {
-  if (item.name !== null && item.name !== undefined) {
-    objectRules[item.name] = [
-      { required: true, message: 'Please input activity form', trigger: 'blur' }
-    ]
+const getItemRef = (index: number, suffix: string) => {
+  return (el: any) => {
+    if (suffix === 'name') {
+      nameItemRefs.value[index] = el
+    } else {
+      valueItemRefs.value[index] = el
+    }
   }
-})
+}
+
+const clearValidation = (suffix: string, index?: number) => {
+  if (index != null) {
+    const itemRef = suffix === 'name' ? nameItemRefs.value[index] : valueItemRefs.value[index]
+    if (itemRef) {
+      itemRef.clearValidate()
+    }
+  } else {
+    garBasicChargeRef.value.clearValidate()
+  }
+}
 
 const addItem = () => {
   gasForm.value.dataDemo.push({
@@ -50,44 +64,113 @@ const submitForm = (formEl: FormInstance | undefined) => {
   })
 }
 
-const allowAddItem = computed(() => {
-  //check all number format
-  if (!checkValidateItems.value) return true
-  if (gasForm.value.lastValue < 0) return true
-  if (gasForm.value.dataDemo[gasForm.value.dataDemo.length - 1].value <= 0) return true
-  if (gasForm.value.dataDemo.length <= 1) {
-    if (gasForm.value.dataDemo[0].name <= 0) return true
-  } else {
-    if (
-      gasForm.value.dataDemo[gasForm.value.dataDemo.length - 1].name <=
-      gasForm.value.dataDemo[gasForm.value.dataDemo.length - 2].name
-    )
-      return true
+const getIndexField = (field: string) => {
+  const regex = /\.(0|[1-9]\d*)\./
+  const match = field.match(regex)
+  if (match) {
+    return Number(match[1])
   }
-  return false
-})
+  return -1
+}
+
+const getSuffix = (text: string) => {
+  if (!text) return
+  const regex = /[^.]+$/
+  const result = text.match(regex)
+  return result && result[0]
+}
 
 const validateGasBasic = (rule: any, value: any, callback: any) => {
-  if (value === '') {
-    callback(new Error('Please input the password'))
-    checkValidateItems.value = false
-  } else if (!isNumber(value)) {
-    checkValidateItems.value = false
-    callback('value must be a number')
+  const indexItem = getIndexField(rule.field)
+  if (indexItem !== -1) {
+    const suffix = getSuffix(rule.field)
+    if (indexItem === 0) {
+      if (Number(value) <= 0) {
+        return callback(new Error('invalid value'))
+      }
+    } else {
+      if (suffix) {
+        if (suffix === 'name') {
+          if (
+            Number(gasForm.value.dataDemo[indexItem][suffix]) <=
+            Number(gasForm.value.dataDemo[indexItem - 1][suffix])
+          ) {
+            return callback(new Error('invalid value'))
+          }
+        } else {
+          if (Number(gasForm.value.dataDemo[indexItem][suffix]) <= 0) {
+            return callback(new Error('invalid value'))
+          }
+        }
+      }
+    }
   } else {
-    checkValidateItems.value = true
-    callback()
+    if (Number(value) <= 0 && rule.field === 'garBasicCharge') {
+      return callback(new Error('invalid value'))
+    }
+  }
+  return callback()
+}
+
+const rules = computed(() => {
+  const listData = [...gasForm.value.dataDemo]
+  const rulesObject: { [key: string]: any } = {}
+  listData.forEach((item, index) => {
+    rulesObject['dataDemo.' + index + '.name'] = [
+      { validator: validateGasBasic, trigger: ['none'] }
+    ]
+    rulesObject['dataDemo.' + index + '.value'] = [
+      { validator: validateGasBasic, trigger: ['none'] }
+    ]
+  })
+  return {
+    ...rulesObject,
+    garBasicCharge: [{ validator: validateGasBasic, trigger: ['none'] }],
+    lastValue: [{ validator: validateGasBasic, trigger: ['none'] }]
+  }
+})
+
+const isValidNumber = (number: number) => {
+  return number && isNumber(number) && Number(number) > 0
+}
+
+const checkValidValue = (item: any, prefix: string, index?: number) => {
+  if (index != null) {
+    clearValidation(prefix, index)
+    if (index === 0 && !isValidNumber(item[prefix])) {
+      item[prefix] = 0
+    }
+    if (index > 0) {
+      const befVal = gasForm.value.dataDemo[index - 1][prefix]
+      if (!isNumber(item[prefix]) || Number(item[prefix]) < Number(befVal)) {
+        item[prefix] = befVal
+      }
+    }
+  } else {
+    if (prefix === 'garBasicCharge') {
+      clearValidation(prefix)
+    }
+    if (!isValidNumber(item[prefix])) {
+      item[prefix] = 0
+    }
   }
 }
 </script>
 
 <template>
-  <div class="gas-price">
+  <div class="gas-price custom-scroll-bar">
     <div class="wrapper">
       <div class="header">標準料金</div>
 
       <div class="content">
-        <el-form ref="ruleFormRef" :model="gasForm" label-width="120px" class="gas-price-form">
+        <el-form
+          ref="ruleFormRef"
+          :rules="rules"
+          :model="gasForm"
+          label-width="120px"
+          class="gas-price-form"
+          :validate-on-rule-change="false"
+        >
           <div class="item">
             <div class="item-row item-row-first">
               <div class="left">
@@ -96,79 +179,62 @@ const validateGasBasic = (rule: any, value: any, callback: any) => {
 
               <div class="right">
                 <div class="input">
-                  <el-form-item
-                    prop="garBasicCharge"
-                    :rules="[
-                      {
-                        required: true,
-                        message: 'Please input activity form',
-                        trigger: ['blur', 'change']
-                      },
-                      { validator: validateGasBasic, trigger: ['blur', 'change'] }
-                    ]"
-                  >
-                    <el-input v-model="gasForm.garBasicCharge" type="text" />
+                  <el-form-item prop="garBasicCharge" ref="garBasicChargeRef">
+                    <el-input
+                      v-model="gasForm.garBasicCharge"
+                      type="text"
+                      @blur="checkValidValue(gasForm, 'garBasicCharge')"
+                    />
                   </el-form-item>
                 </div>
 
-                <div class="unit">円/m3</div>
+                <div class="unit">円</div>
               </div>
             </div>
           </div>
 
-          <div class="item">
+          <div class="item item-content">
             <div class="item-header">従量単価</div>
+            <div class="item-row-wrapper">
+              <div class="item-row" v-for="(item, index) in gasForm.dataDemo" :key="index">
+                <div class="left">
+                  <div class="input">
+                    <el-form-item
+                      :label="`${
+                        gasForm.dataDemo[index - 1]
+                          ? Number(gasForm.dataDemo[index - 1].name).toFixed(1)
+                          : '0.0'
+                      } ~ `"
+                      :prop="'dataDemo.' + index + '.name'"
+                      :ref="getItemRef(index, 'name')"
+                    >
+                      <el-input
+                        v-model="item.name"
+                        type="text"
+                        @blur="checkValidValue(item, 'name', index)"
+                      />
+                    </el-form-item>
+                  </div>
 
-            <div class="item-row" v-for="(item, index) in gasForm.dataDemo" :key="index">
-              <div class="left">
-                <div class="input">
-                  <el-form-item
-                    :label="`${
-                      gasForm.dataDemo[index - 1] ? gasForm.dataDemo[index - 1].name : '0.0'
-                    } ~ `"
-                    :prop="'dataDemo.' + index + '.name'"
-                    :rules="[
-                      {
-                        required: true,
-                        message: 'domain can not be null',
-                        trigger: ['blur', 'change']
-                      },
-                      { validator: validateGasBasic, trigger: ['blur', 'change'] }
-                    ]"
-                  >
-                    <el-input
-                      v-model="item.name"
-                      type="text"
-                      :disabled="index !== gasForm.dataDemo.length - 1"
-                    />
-                  </el-form-item>
+                  <div class="unit">m3</div>
                 </div>
 
-                <div class="unit">m3</div>
-              </div>
+                <div class="right">
+                  <div class="input">
+                    <el-form-item
+                      :prop="'dataDemo.' + index + '.value'"
+                      :ref="getItemRef(index, 'value')"
+                    >
+                      <el-input
+                        v-model="item.value"
+                        type="text"
+                        @blur="checkValidValue(item, 'value', index)"
+                      />
+                    </el-form-item>
+                  </div>
 
-              <div class="right">
-                <div class="input">
-                  <el-form-item
-                    :prop="'dataDemo.' + index + '.value'"
-                    :rules="[
-                      {
-                        required: true,
-                        message: 'domain can not be null',
-                        trigger: 'blur'
-                      },
-                      { validator: validateGasBasic, trigger: ['blur', 'change'] }
-                    ]"
-                  >
-                    <el-input
-                      v-model="item.value"
-                      type="text"
-                      :disabled="index !== gasForm.dataDemo.length - 1"
-                    />
-                  </el-form-item>
+                  <div class="unit">円/m3</div>
                 </div>
-
-                <div class="unit">円/m3</div>
               </div>
             </div>
 
@@ -186,11 +252,12 @@ const validateGasBasic = (rule: any, value: any, callback: any) => {
 
                 <div class="right">
                   <div class="input">
-                    <el-form-item
-                      prop="lastValue"
-                      :rules="[{ validator: validateGasBasic, trigger: ['blur', 'change'] }]"
-                    >
-                      <el-input v-model="gasForm.lastValue" type="text" />
+                    <el-form-item prop="lastValue">
+                      <el-input
+                        v-model="gasForm.lastValue"
+                        type="text"
+                        @blur="checkValidValue(gasForm, 'lastValue')"
+                      />
                     </el-form-item>
                   </div>
                   <div class="unit">円/m3</div>
@@ -198,7 +265,7 @@ const validateGasBasic = (rule: any, value: any, callback: any) => {
               </div>
 
               <el-button
-                class="del-btn"
+                class="del-btn custom-button-type"
                 @click="deleteItem"
                 :disabled="gasForm.dataDemo.length <= 1"
                 >削除</el-button
@@ -207,13 +274,15 @@ const validateGasBasic = (rule: any, value: any, callback: any) => {
           </div>
 
           <div class="item add-item">
-            <el-button type="primary" @click="addItem" :disabled="allowAddItem"
+            <el-button class="custom-button-type" type="primary" @click="addItem"
               >料金段階追加</el-button
             >
           </div>
 
           <el-form-item>
-            <el-button type="primary" @click="submitForm(ruleFormRef)">保存</el-button>
+            <el-button class="custom-button-type" type="primary" @click="submitForm(ruleFormRef)"
+              >保存</el-button
+            >
           </el-form-item>
         </el-form>
       </div>
@@ -227,6 +296,12 @@ const validateGasBasic = (rule: any, value: any, callback: any) => {
   display: flex;
   align-items: center;
   justify-content: center;
+  // overflow-y: auto;
+  // max-height: calc(100vh - 200px);
+
+  &-form {
+    height: 100%;
+  }
 
   .last-item {
     display: flex;
@@ -246,11 +321,39 @@ const validateGasBasic = (rule: any, value: any, callback: any) => {
   .item-row-first {
     width: 100%;
     justify-content: space-between;
+    position: relative;
+    align-items: center;
+
+    .left {
+      margin-bottom: 18px;
+    }
+
+    &::before {
+      content: '';
+      width: 94%;
+      height: 1px;
+      background-color: #000;
+      position: absolute;
+      bottom: 0;
+      left: 3%;
+    }
   }
 
   .item-row {
     display: flex;
     gap: 12px;
+    min-width: 600px;
+    justify-content: space-between;
+
+    .solid-line {
+      width: 100%;
+      height: 1px;
+      background-color: #000;
+    }
+
+    .right {
+      min-width: 200px;
+    }
   }
 
   .left,
@@ -272,14 +375,19 @@ const validateGasBasic = (rule: any, value: any, callback: any) => {
   .first-item-title,
   .item-header {
     font-size: 20px;
-    width: 150px;
   }
 
-  .last-item-title,
-  .first-item-title {
-    text-align: right;
-    padding-right: 20px;
+  .item-header {
+    margin-top: 16px;
   }
+
+  .wrapper {
+    .header {
+      font-weight: bold;
+      margin-bottom: 18px;
+    }
+  }
+
   .last-item-title {
     width: 200px;
     text-align: left;
@@ -293,7 +401,6 @@ const validateGasBasic = (rule: any, value: any, callback: any) => {
   }
 
   :deep(.el-form-item:last-child .el-form-item__content) {
-    justify-content: center;
     margin-left: 0 !important;
 
     button {
@@ -306,11 +413,14 @@ const validateGasBasic = (rule: any, value: any, callback: any) => {
       }
     }
   }
+  :deep(.el-form-item .el-form-item__content) {
+    width: 150px;
+  }
 
   :deep(.el-input__wrapper) {
-    height: 48px;
     border: 1px solid #000;
     border-radius: unset;
+    width: 100px;
   }
 }
 </style>

@@ -183,6 +183,26 @@
   }
 }
 
+.custom-button-type {
+  background-image: linear-gradient(#e4eaf6, #aec2e6, #c0cfeb);
+  border: solid 1px #000 !important;
+  width: max-content;
+  color: #000 !important;
+  transition: 0.3s !important;
+  cursor: pointer !important;
+  padding: 12px 16px !important;
+  min-height: 32px;
+
+  span {
+    font-size: 20px;
+    font-weight: bold;
+  }
+
+  &:active {
+    opacity: 0.7 !important;
+  }
+}
+
 @media (hover: hover) {
   a:hover {
     background-color: hsla(160, 100%, 37%, 0.2);

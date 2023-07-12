@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import HeaderComponents from './views/user/components/HeaderComponents.vue'
-import ErrorAPI from '@/components/ErrorAPI.vue'
+import BaseModal from '@/components/BaseModal.vue'
 import router from '@/router'
 import { ROUTER_PATH } from '@/constants'
 </script>
@@ -12,7 +12,7 @@ import { ROUTER_PATH } from '@/constants'
       <RouterView />
     </el-main>
 
-    <ErrorAPI />
+    <BaseModal />
   </el-container>
 </template>
 

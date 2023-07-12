@@ -43,12 +43,12 @@ const submitForm = (formEl: FormInstance | undefined) => {
   formEl.validate((valid) => {
     if (valid) {
       console.log('submit!')
-      setUserAdminData({
-        userId: userAdminData.value.userId,
-        company: userAdminData.value.company,
-        availability: userAdminData.value.availability,
-        registration_status: userAdminData.value.registration_status
-      })
+      // setUserAdminData({
+      //   userId: userAdminData.value.userId,
+      //   company: userAdminData.value.company,
+      //   availability: userAdminData.value.availability,
+      //   registration_status: userAdminData.value.registration_status
+      // })
       router.push({ name: props.isAdminMode ? ROUTER_NAME.USER_ADMIN_LIST : ROUTER_NAME.USER_LIST })
     } else {
       console.log('error submit!')
@@ -64,13 +64,13 @@ const submitForm = (formEl: FormInstance | undefined) => {
       ref="ruleFormRef"
       :model="userAdminData"
       :rules="rules"
-      label-width="120px"
+      label-width="170px"
       class="user-search-form"
     >
-      <el-form-item label="ユーザーID" prop="userId">
+      <el-form-item :label="props.isAdminMode ? 'AdminユーザーID' : 'ユーザーID'" prop="userId">
         <el-input v-model="userAdminData.userId" type="text" />
       </el-form-item>
-      <el-form-item label="電力会社" v-if="!props.isAdminMode">
+      <el-form-item label="電力会社" v-if="!props.isAdminMode" class="select-company">
         <el-select v-model="userAdminData.company" placeholder="Select company name">
           <el-option
             v-for="company in listCompanies"
@@ -96,7 +96,9 @@ const submitForm = (formEl: FormInstance | undefined) => {
       </el-form-item>
 
       <el-form-item>
-        <el-button class="btn" @click.enter="submitForm(ruleFormRef)">検索</el-button>
+        <el-button class="custom-button-type" @click.enter="submitForm(ruleFormRef)"
+          >検索</el-button
+        >
       </el-form-item>
     </el-form>
   </div>
@@ -109,7 +111,7 @@ const submitForm = (formEl: FormInstance | undefined) => {
   align-items: center;
   justify-content: center;
   height: 100%;
-  padding: 200px 150px;
+  padding: 100px 150px;
   background: aliceblue;
   border-radius: 12px;
 
@@ -124,6 +126,12 @@ const submitForm = (formEl: FormInstance | undefined) => {
     height: 48px;
     border: 1px solid #000;
     border-radius: unset;
+  }
+
+  .select-company {
+    :deep(.el-input__wrapper) {
+      border-radius: 4px;
+    }
   }
 
   :deep(.el-form-item) {
@@ -147,6 +155,10 @@ const submitForm = (formEl: FormInstance | undefined) => {
     .el-radio-group {
       .el-radio {
         min-width: 60px;
+
+        .el-radio__label {
+          font-size: 20px;
+        }
       }
     }
   }
