@@ -18,6 +18,7 @@ const ruleFormRef = ref<FormInstance>()
 const nameItemRefs = ref<any[]>([])
 const valueItemRefs = ref<any[]>([])
 const garBasicChargeRef = ref<any>(null)
+const lastValueRef = ref<any>(null)
 
 const getItemRef = (index: number, suffix: string) => {
   return (el: any) => {
@@ -36,7 +37,11 @@ const clearValidation = (suffix: string, index?: number) => {
       itemRef.clearValidate()
     }
   } else {
-    garBasicChargeRef.value.clearValidate()
+    if (suffix === 'garBasicCharge') {
+      garBasicChargeRef.value.clearValidate()
+    } else {
+      lastValueRef.value.clearValidate()
+    }
   }
 }
 
@@ -104,9 +109,15 @@ const validateGasBasic = (rule: any, value: any, callback: any) => {
         }
       }
     }
+    if (suffix === 'value' && !Number.isInteger(Number(value))) {
+      return callback(new Error('value must be integer'))
+    }
   } else {
     if (Number(value) <= 0 && rule.field === 'garBasicCharge') {
       return callback(new Error('invalid value'))
+    }
+    if (!Number.isInteger(Number(value))) {
+      return callback(new Error('value must be integer'))
     }
   }
   return callback()
@@ -134,24 +145,22 @@ const isValidNumber = (number: number) => {
   return number && isNumber(number) && Number(number) > 0
 }
 
-const checkValidValue = (item: any, prefix: string, index?: number) => {
+const checkValidValue = (item: any, suffix: string, index?: number) => {
   if (index != null) {
-    clearValidation(prefix, index)
-    if (index === 0 && !isValidNumber(item[prefix])) {
-      item[prefix] = 0
+    clearValidation(suffix, index)
+    if (index === 0 && !isValidNumber(item[suffix])) {
+      item[suffix] = 0
     }
     if (index > 0) {
-      const befVal = gasForm.value.dataDemo[index - 1][prefix]
-      if (!isNumber(item[prefix]) || Number(item[prefix]) < Number(befVal)) {
-        item[prefix] = befVal
+      const befVal = gasForm.value.dataDemo[index - 1][suffix]
+      if (!isNumber(item[suffix]) || Number(item[suffix]) < Number(befVal)) {
+        item[suffix] = befVal
       }
     }
   } else {
-    if (prefix === 'garBasicCharge') {
-      clearValidation(prefix)
-    }
-    if (!isValidNumber(item[prefix])) {
-      item[prefix] = 0
+    clearValidation(suffix)
+    if (!isValidNumber(item[suffix])) {
+      item[suffix] = 0
     }
   }
 }
@@ -252,7 +261,7 @@ const checkValidValue = (item: any, prefix: string, index?: number) => {
 
                 <div class="right">
                   <div class="input">
-                    <el-form-item prop="lastValue">
+                    <el-form-item prop="lastValue" ref="lastValueRef">
                       <el-input
                         v-model="gasForm.lastValue"
                         type="text"
@@ -260,6 +269,7 @@ const checkValidValue = (item: any, prefix: string, index?: number) => {
                       />
                     </el-form-item>
                   </div>
+
                   <div class="unit">円/m3</div>
                 </div>
               </div>
@@ -296,8 +306,6 @@ const checkValidValue = (item: any, prefix: string, index?: number) => {
   display: flex;
   align-items: center;
   justify-content: center;
-  // overflow-y: auto;
-  // max-height: calc(100vh - 200px);
 
   &-form {
     height: 100%;
@@ -311,6 +319,11 @@ const checkValidValue = (item: any, prefix: string, index?: number) => {
     .del-btn {
       position: absolute;
       right: -100px;
+
+      &.is-disabled {
+        opacity: 0.6;
+        cursor: not-allowed !important;
+      }
     }
 
     .item-row {
@@ -402,6 +415,8 @@ const checkValidValue = (item: any, prefix: string, index?: number) => {
 
   :deep(.el-form-item:last-child .el-form-item__content) {
     margin-left: 0 !important;
+    display: flex;
+    justify-content: center;
 
     button {
       width: 200px;

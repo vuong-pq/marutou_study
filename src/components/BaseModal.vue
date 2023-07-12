@@ -23,7 +23,7 @@ const onCancel = () => {
 
 <template>
   <div class="popup-wrapper" v-if="modalData.open">
-    <div class="popup-overlay" id="popup-overlay" @click="closeModal" />
+    <div class="popup-overlay" id="popup-overlay" @click="onCancel" />
 
     <div class="popup">
       <div

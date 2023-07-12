@@ -6,6 +6,7 @@ import UserRegistrationIcon from './UserRegistrationIcon.vue'
 import ArrowRightIcon from './ArrowRightIcon.vue'
 import GasIcon from './GasIcon.vue'
 import SadIcon from './SadIcon.vue'
+import CheckedIcon from './CheckedIcon.vue'
 
 export {
   PlusIcon,
@@ -15,5 +16,6 @@ export {
   CommonSettingIcon,
   ArrowRightIcon,
   GasIcon,
-  SadIcon
+  SadIcon,
+  CheckedIcon
 }
