@@ -268,7 +268,9 @@ const submitForm = (formEl: FormInstance | undefined) => {
         </div>
 
         <el-form-item>
-          <el-button type="primary" @click="submitForm(ruleFormRef)">保存</el-button>
+          <el-button type="primary" class="custom-button-type" @click="submitForm(ruleFormRef)"
+            >保存</el-button
+          >
         </el-form-item>
       </el-form>
     </div>
@@ -286,10 +288,11 @@ const submitForm = (formEl: FormInstance | undefined) => {
 
   .form-wrapper {
     border-radius: 20px;
-    padding: 24px;
+    padding: 0 24px 24px;
     text-align: center;
     max-height: calc(100vh - 200px);
     overflow-y: auto;
+    margin-top: 24px;
 
     &::-webkit-scrollbar {
       width: 4px;
@@ -315,7 +318,6 @@ const submitForm = (formEl: FormInstance | undefined) => {
     .detail-form {
       --item-gap: 8px;
       --min-width-label: 350px;
-      margin-top: 24px;
       display: flex;
       flex-direction: column;
       border-radius: inherit;
@@ -333,8 +335,11 @@ const submitForm = (formEl: FormInstance | undefined) => {
         border-radius: inherit;
         padding: inherit;
         position: relative;
-        padding: 12px;
+        padding: 12px 24px;
         width: max-content;
+        background: var(--form-background);
+        border-radius: 12px;
+        margin-bottom: 12px;
       }
 
       .header {
@@ -367,6 +372,7 @@ const submitForm = (formEl: FormInstance | undefined) => {
         height: 1px;
         background-color: #000;
         left: 6px;
+        bottom: -6px;
       }
 
       :deep(.el-form-item) {
@@ -384,19 +390,12 @@ const submitForm = (formEl: FormInstance | undefined) => {
         margin-left: 0 !important;
         justify-content: center;
         button {
-          background: #0077b6;
           width: 200px;
-          border: 1px solid #0077b6;
-          border-radius: 40px;
-          font-size: 16px;
+          height: 40px;
           transition: 0.3s;
 
           &:hover {
-            letter-spacing: 2px;
-          }
-
-          &:active {
-            opacity: 0.5;
+            opacity: 0.7;
           }
         }
       }
