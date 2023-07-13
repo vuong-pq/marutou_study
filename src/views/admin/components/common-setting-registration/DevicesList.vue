@@ -82,7 +82,7 @@ const rowClick = (device: Device) => {
     cursor: pointer;
 
     &:nth-child(odd) {
-      background-color: #ebf1ff;
+      background-color: var(--form-background);
     }
   }
 
