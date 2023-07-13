@@ -155,7 +155,11 @@ const submitDelete = () => {
                 prop="pass"
                 v-if="!props.isModeDelete"
               >
-                <el-input v-model="userAdminData.pass" type="text" :disabled="!showNewPassField" />
+                <el-input
+                  v-model="userAdminData.pass"
+                  type="text"
+                  :disabled="!showNewPassField && props.isModeEdit"
+                />
               </el-form-item>
 
               <CustomCheckbox
@@ -265,12 +269,11 @@ const submitDelete = () => {
     border-radius: inherit;
     padding: inherit;
     position: relative;
-    padding: 12px;
     min-height: 500px;
     display: flex;
     align-items: center;
-    padding: 20px 100px;
-    background: aliceblue;
+    padding: 40px 100px 20px;
+    background: var(--form-background);
     border-radius: 12px;
 
     &.change-padding {

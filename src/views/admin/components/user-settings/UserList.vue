@@ -131,7 +131,7 @@ onMounted(async () => {
         </div>
       </div>
     </div>
-    <el-button class="submit" @click="goBack">戻る</el-button>
+    <el-button class="submit custom-button-type" @click="goBack">戻る</el-button>
   </div>
 </template>
 
@@ -183,8 +183,12 @@ onMounted(async () => {
     cursor: pointer;
 
     &:nth-child(odd) {
-      background-color: #ebf1ff;
+      background-color: var(--form-background);
     }
+  }
+
+  :deep(.el-pagination.is-background .el-pager li.is-active) {
+    background-color: var(--pagination-background);
   }
 
   .data {

@@ -7,6 +7,7 @@ import ArrowRightIcon from './ArrowRightIcon.vue'
 import GasIcon from './GasIcon.vue'
 import SadIcon from './SadIcon.vue'
 import CheckedIcon from './CheckedIcon.vue'
+import PowerPolesIcon from './PowerPolesIcon.vue'
 
 export {
   PlusIcon,
@@ -17,5 +18,6 @@ export {
   ArrowRightIcon,
   GasIcon,
   SadIcon,
-  CheckedIcon
+  CheckedIcon,
+  PowerPolesIcon
 }

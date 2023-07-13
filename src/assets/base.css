@@ -36,6 +36,9 @@
   --color-text: var(--vt-c-text-light-1);
 
   --section-gap: 160px;
+  --form-background: #d5dbe5;
+  --pagination-background: #b0c4e7;
+  --gradient-bg-btn: linear-gradient(#e6ebf7, #b6c8e8, #e6ebf7);
 }
 
 @media (prefers-color-scheme: dark) {

@@ -155,7 +155,7 @@ const getToPath = (item: string) => {
   align-items: center;
   padding: 12px;
   gap: 4px;
-  background-color: #ebf1ff;
+  background-color: var(--form-background);
 
   .item-breadcrumb {
     cursor: pointer;

@@ -111,13 +111,12 @@ const submitForm = (formEl: FormInstance | undefined) => {
   align-items: center;
   justify-content: center;
   height: 100%;
-  padding: 100px 150px;
-  background: aliceblue;
+  padding: 100px 150px 50px;
+  background: var(--form-background);
   border-radius: 12px;
 
   .user-search-form {
     display: flex;
-    gap: 60px;
     flex-direction: column;
     align-items: center;
   }
@@ -137,6 +136,10 @@ const submitForm = (formEl: FormInstance | undefined) => {
   :deep(.el-form-item) {
     align-items: center;
     width: 100%;
+
+    &:last-child {
+      margin-top: 40px;
+    }
 
     .el-form-item__content {
       min-width: 300px;
