@@ -13,21 +13,27 @@ const dataMenu = reactive<MenuDetailAdmin[]>([
     to: props?.isAdminMode
       ? MENU_ITEMS_PATH.ADMIN_USER_REGISTER
       : MENU_ITEMS_PATH.NEW_USER_REGISTRATION,
-    icon: 'UserRegistrationIcon',
+    icon: props?.isAdminMode ? 'UserAdminAdd' : 'UserRegistrationIcon',
     name: props?.isAdminMode
       ? MENU_ITEMS_NAME.ADMIN_USER_REGISTER
       : MENU_ITEMS_NAME.NEW_USER_REGISTRATION
   },
   {
     to: props?.isAdminMode ? MENU_ITEMS_PATH.USER_ADMIN_SEARCH : MENU_ITEMS_PATH.USER_SEARCH,
-    icon: 'CommonSettingIcon',
+    icon: props?.isAdminMode ? 'UserAdminSearchIcon' : 'UserSearchIcon',
     name: props?.isAdminMode ? MENU_ITEMS_NAME.USER_ADMIN_SEARCH : MENU_ITEMS_NAME.USER_SEARCH
   }
 ])
 </script>
 
 <template>
-  <DetailAdminMenu :dataMenu="dataMenu" />
+  <DetailAdminMenu :dataMenu="dataMenu" customClass="setting-user" />
 </template>
 
-<style lang="scss" scoped></style>
+<style lang="scss">
+.setting-user.menu-container {
+  .menu-item {
+    min-width: 400px !important;
+  }
+}
+</style>

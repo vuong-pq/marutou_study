@@ -323,6 +323,7 @@ const checkValidValue = (item: any, suffix: string, index?: number) => {
       &.is-disabled {
         opacity: 0.6;
         cursor: not-allowed !important;
+        background: var(--gradient-bg-btn);
       }
     }
 

@@ -132,7 +132,7 @@ const clickCompany = (company: PowerCompany) => {
       height: 60px;
       background: var(--gradient-bg-btn);
       border-radius: 12px;
-      border: 1px solid #000;
+      border: 1px solid #868686;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -141,6 +141,7 @@ const clickCompany = (company: PowerCompany) => {
       font-size: 24px;
       gap: 12px;
       padding: 0 50px 0 30px;
+      min-width: 210px;
 
       .icon {
         display: flex;
@@ -157,7 +158,8 @@ const clickCompany = (company: PowerCompany) => {
       }
 
       &:hover {
-        background-color: #8aaebb;
+        opacity: 0.8;
+        outline: 1px solid #868686;
       }
     }
   }

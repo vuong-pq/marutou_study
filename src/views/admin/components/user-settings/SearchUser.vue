@@ -5,6 +5,7 @@ import { reactive, ref } from 'vue'
 import { useUserAdminStore } from '@/stores/user_admin'
 import type { FormInstance, FormRules } from 'element-plus/lib/components/index.js'
 import { storeToRefs } from 'pinia'
+import CustomGroupSelect from '@/components/CustomGroupSelect.vue'
 
 const props = defineProps<{
   isAdminMode: boolean
@@ -56,6 +57,8 @@ const submitForm = (formEl: FormInstance | undefined) => {
     }
   })
 }
+const listRadio1 = ['可', '不可']
+const listRadio2 = ['利用中', '削除済']
 </script>
 
 <template>
@@ -82,17 +85,21 @@ const submitForm = (formEl: FormInstance | undefined) => {
       </el-form-item>
 
       <el-form-item label="使用可否">
-        <el-radio-group v-model="userAdminData.availability">
-          <el-radio label="可" />
-          <el-radio label="不可" />
-        </el-radio-group>
+        <CustomGroupSelect
+          v-model:dataVModal="userAdminData.availability"
+          :data="listRadio1"
+          :config="{ class: 'checkbox-items' }"
+          type="radio"
+        />
       </el-form-item>
 
       <el-form-item label="登録状況">
-        <el-radio-group v-model="userAdminData.registration_status">
-          <el-radio label="利用中" />
-          <el-radio label="削除済" />
-        </el-radio-group>
+        <CustomGroupSelect
+          v-model:dataVModal="userAdminData.registration_status"
+          :data="listRadio2"
+          :config="{ class: 'checkbox-items' }"
+          type="radio"
+        />
       </el-form-item>
 
       <el-form-item>
@@ -187,6 +194,16 @@ const submitForm = (formEl: FormInstance | undefined) => {
 
     &:active {
       opacity: 0.7;
+    }
+  }
+}
+</style>
+
+<style lang="scss">
+.block-element {
+  .checkbox-items {
+    .custom-checkbox {
+      min-width: 100px;
     }
   }
 }
