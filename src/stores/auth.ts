@@ -16,7 +16,7 @@ type UserState = {
 }
 
 const defaultState = {
-  roleUser: 2,
+  roleUser: 1,
   json: null,
   data: null,
   email: null,
@@ -26,8 +26,6 @@ const defaultState = {
 export const useAuthStore = defineStore(
   'auth',
   () => {
-    const loggedIn = ref(false)
-
     const state = reactive<UserState>({
       ..._.cloneDeep(defaultState)
     })
@@ -70,7 +68,7 @@ export const useAuthStore = defineStore(
       localStorage.removeItem('USER_LOGIN')
       router.push('/login')
     }
-    return { state, loggedIn, login, logout }
+    return { state, login, logout }
   },
   {
     persist: {

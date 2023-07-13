@@ -37,6 +37,17 @@ onMounted(async () => {
   const response: { [key: string]: any } = await getListDevice()
   console.log(response)
   datas.device = response.devices.data
+  // datas.device = [
+  //   {
+  //     device_name: 123
+  //   },
+  //   {
+  //     device_name: 123
+  //   },
+  //   {
+  //     device_name: 123
+  //   }
+  // ]
 })
 </script>
 
@@ -88,10 +99,10 @@ onMounted(async () => {
 }
 
 .bg-line {
-  background-color: #b6c8e8;
+  background-color: var(--form-background);
 }
 .row-list {
-  padding: 5px 10px;
+  padding: 20px 10px;
 }
 .view-layout {
   flex: 1;
@@ -109,14 +120,15 @@ onMounted(async () => {
   }
 }
 .list-container {
-  min-width: 600px;
+  min-width: 80vw;
   min-height: 400px;
   max-height: 700px;
   max-width: 600px;
   overflow: auto;
-  border: 1px solid #000;
+  // border: 1px solid #000;
   padding-bottom: 10px;
-  border-radius: 5px;
+  margin-top: 40px;
+  // border-radius: 5px;
 
   .item-company {
     font-weight: bold;

@@ -71,7 +71,7 @@ const validateFrom = (rule: any, value: any, callback: any) => {
   date.setHours(0, 0, 0, 0)
   if (isEmpty(value)) {
     callback(new Error('Please input the from again'))
-  } else if (value.getTime() < date.getTime()) {
+  } else if (value.getTime() > date.getTime()) {
     callback(new Error('date cannot be greater than current date'))
   } else {
     callback()
@@ -80,14 +80,14 @@ const validateFrom = (rule: any, value: any, callback: any) => {
 const validateTo = (rule: any, value: any, callback: any) => {
   const date = new Date()
   date.setHours(0, 0, 0, 0)
-  if (!isEmpty(dataDefault.from)) {
+  if (!isEmpty(value) && value.getTime() > date.getTime()) {
+    callback(new Error('date cannot be greater than current date'))
+  } else if (!isEmpty(dataDefault.from)) {
     if (!isEmpty(value) && value.getTime() <= dataDefault.from.getTime()) {
       callback(new Error(' date to cannot be less than from '))
     } else {
       callback()
     }
-  } else if (!isEmpty(value) && value.getTime() < date.getTime()) {
-    callback(new Error('date cannot be greater than current date'))
   } else {
     callback()
   }
