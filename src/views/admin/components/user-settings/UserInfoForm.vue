@@ -6,7 +6,7 @@ import { useUserAdminStore } from '@/stores/user_admin'
 import { storeToRefs } from 'pinia'
 import { useModalStore } from '@/stores/modal'
 import CustomCheckbox from '@/components/CustomCheckbox.vue'
-import CustomGroupCheckboxes from '@/components/CustomGroupCheckboxes.vue'
+import CustomGroupSelect from '@/components/CustomGroupSelect.vue'
 import { LIST_CHECKBOXES_COMPANY, MODAL_TYPE, ROUTER_NAME } from '@/constants'
 
 const modalStore = useModalStore()
@@ -111,6 +111,11 @@ const cancelDelete = () => {
 const submitDelete = () => {
   router.push({ name: props.isAdminMode ? ROUTER_NAME.USER_ADMIN_LIST : ROUTER_NAME.USER_LIST })
 }
+const cloneObj = {
+  name: [],
+  age: 18
+}
+localStorage.setItem('vuong', JSON.stringify(cloneObj))
 </script>
 
 <template>
@@ -134,10 +139,11 @@ const submitDelete = () => {
               prop="company"
               v-if="!props.isAdminMode && !props.isModeEdit && !props.isModeDelete"
             >
-              <CustomGroupCheckboxes
+              <CustomGroupSelect
                 v-model:dataVModal="userAdminData.company"
                 :data="LIST_CHECKBOXES_COMPANY"
                 :config="{ class: 'checkbox-item' }"
+                type="checkbox"
               />
             </el-form-item>
 
@@ -206,8 +212,8 @@ const submitDelete = () => {
               </div>
 
               <div v-if="props.isModeDelete" class="edit-actions">
-                <el-button class="custom-button-type" @click="submitDelete()">キャンセル</el-button>
-                <el-button class="custom-button-type" @click="cancelDelete">削除</el-button>
+                <el-button class="custom-button-type" @click="submitDelete()">削除</el-button>
+                <el-button class="custom-button-type" @click="cancelDelete">キャンセル</el-button>
               </div>
             </el-form-item>
           </el-form>

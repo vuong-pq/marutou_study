@@ -7,12 +7,12 @@ import type { MenuDetailAdmin } from '@/constants/types'
 const dataMenu = reactive<MenuDetailAdmin[]>([
   {
     to: MENU_ITEMS_PATH.USER_SETTINGS,
-    icon: 'UserRegistrationIcon',
+    icon: 'UserSetting',
     name: MENU_ITEMS_NAME.USER_SETTINGS
   },
   {
     to: MENU_ITEMS_PATH.SETTING_ADMIN_USER,
-    icon: 'UserRegistrationIcon',
+    icon: 'UserAdminSetting',
     name: MENU_ITEMS_NAME.SETTING_ADMIN_USER
   },
   {

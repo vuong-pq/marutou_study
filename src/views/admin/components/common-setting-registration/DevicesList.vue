@@ -57,7 +57,7 @@ const rowClick = (device: Device) => {
         </el-table>
       </div>
     </div>
-    <el-button class="submit" @click="submit">追加</el-button>
+    <el-button class="submit custom-button-type" @click="submit">追加</el-button>
   </div>
 </template>
 
@@ -119,15 +119,13 @@ const rowClick = (device: Device) => {
     padding: 12px;
     height: 48px;
     margin-bottom: 24px;
-    background-color: var(--button-background);
-    color: var(--button-color);
 
     span {
       letter-spacing: 2px;
     }
 
-    &:active {
-      opacity: 0.7;
+    &:hover {
+      opacity: 0.8;
     }
   }
 }

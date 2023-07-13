@@ -141,7 +141,7 @@ const submitForm = (formEl: FormInstance | undefined) => {
         </div>
         <hr />
         <div class="content-table" v-if="dataDefault.showSearch">
-          <div class="d-flex mt-10" v-for="data in currentPageData">
+          <div class="d-flex mt-10" v-for="data in currentPageData" :key="data.id">
             <div class="w-15-percent font-weight-bold">{{ data.id }}</div>
             <div class="w-30-percent font-weight-bold">{{ data.date_time_create }}</div>
             <div class="w-30-percent font-weight-bold">{{ data.customer_name }}</div>

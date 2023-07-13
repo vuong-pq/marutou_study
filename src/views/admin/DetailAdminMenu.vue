@@ -5,6 +5,7 @@ import { defineAsyncComponent } from 'vue'
 
 defineProps<{
   dataMenu: MenuDetailAdmin[]
+  customClass?: string
 }>()
 
 const getCurrentComponent = (componentName?: string) => {
@@ -13,9 +14,14 @@ const getCurrentComponent = (componentName?: string) => {
 </script>
 
 <template>
-  <div class="menu-container">
+  <div class="menu-container" :class="customClass">
     <div class="wrapper">
-      <RouterLink v-for="item in dataMenu" :key="item.name" class="menu-item" :to="item.to">
+      <RouterLink
+        v-for="item in dataMenu"
+        :key="item.name"
+        class="menu-item custom-button-type"
+        :to="item.to"
+      >
         <div class="icon">
           <component :is="getCurrentComponent(item.icon)" />
         </div>
@@ -61,12 +67,6 @@ const getCurrentComponent = (componentName?: string) => {
       display: flex;
       min-width: 100px;
       align-items: center;
-      svg {
-        fill: aquamarine;
-      }
-      path {
-        stroke: green !important;
-      }
     }
   }
 }

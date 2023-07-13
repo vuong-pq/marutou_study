@@ -7,29 +7,35 @@ import { MENU_ITEMS_PATH, MENU_ITEMS_NAME } from '@/constants'
 const dataMenu = reactive<MenuDetailAdmin[]>([
   {
     to: MENU_ITEMS_PATH.LIST_POWER_COMPANIES,
-    icon: 'UserRegistrationIcon',
+    icon: 'ListCompaniesIcon',
     name: MENU_ITEMS_NAME.LIST_POWER_COMPANIES
   },
   {
     to: MENU_ITEMS_PATH.GAS_PRICE,
-    icon: 'UserRegistrationIcon',
+    icon: 'GasIcon',
     name: MENU_ITEMS_NAME.GAS_PRICE
   },
   {
     to: MENU_ITEMS_PATH.ELECTRICAL_EQUIPMENT,
-    icon: 'CommonSettingIcon',
+    icon: 'ElectronicDevicesIcon',
     name: MENU_ITEMS_NAME.ELECTRICAL_EQUIPMENT
   },
   {
     to: MENU_ITEMS_PATH.GAS_APPLIANCES,
-    icon: 'CommonSettingIcon',
+    icon: 'GasAppliancesIcon',
     name: MENU_ITEMS_NAME.GAS_APPLIANCES
   }
 ])
 </script>
 
 <template>
-  <DetailAdminMenu :dataMenu="dataMenu" />
+  <DetailAdminMenu :dataMenu="dataMenu" customClass="common-setting-registration" />
 </template>
 
-<style lang="scss" scoped></style>
+<style lang="scss">
+.common-setting-registration.menu-container {
+  .menu-item {
+    min-width: 350px !important;
+  }
+}
+</style>
